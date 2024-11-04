@@ -9,6 +9,17 @@ const Page = async () => {
   }
   return (
     <div>
+      <form action="/api/auth/signin/credentials" method="POST">
+        <input name="email" type="email" placeholder="Email" required />
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Sign in with Email</button>
+      </form>
+
       <form
         action={async () => {
           "use server";
