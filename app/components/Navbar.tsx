@@ -20,7 +20,7 @@ async function Navbar() {
             <form
               action={async () => {
                 "use server";
-                signOut({ redirectTo: "/" });
+                await signOut({ redirectTo: "/" });
               }}
             >
               <button type="submit">Logout</button>
