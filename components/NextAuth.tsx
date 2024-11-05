@@ -15,6 +15,7 @@ const NextAuth = async () => {
         <div className="flex justify-center gap-5">
           <form
             action={async () => {
+              "use server";
               await signInWithProvider("github");
             }}
           >
@@ -29,6 +30,7 @@ const NextAuth = async () => {
 
           <form
             action={async () => {
+              "use server";
               await signInWithProvider("google");
             }}
           >
