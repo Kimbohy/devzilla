@@ -46,7 +46,7 @@ const SingUp = () => {
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
         />
       </div>
-      <motion.div layoutId="bottom" className="flex flex-col gap-3 mt-3">
+      <motion.div layoutId="bottom" className="flex flex-col gap-3 my-3">
         <input
           type="submit"
           value="Join Now"

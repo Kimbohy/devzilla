@@ -1,63 +1,57 @@
-import { auth, signIn } from "@/auth";
+"use client";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { redirect } from "next/navigation";
-import Session from "../components/Session";
+import SingUp from "../../components/SingUp";
+import SingIn from "../../components/SingIn";
+import NextAuth from "@/components/NextAuth";
 
-const Page = async () => {
-  const session = await auth();
-  if (session && session?.user) {
-    redirect("/");
-  }
+const Session = () => {
+  const [page, setPage] = useState(false);
   return (
-    <div>
-      <Session>
-        <div className="flex flex-col items-center gap-3">
-          <span>Sing in with</span>
-          <div className="flex justify-center gap-5">
-            <form
-              action={async () => {
-                "use server";
-                await signIn("github");
-              }}
-            >
-              <button
-                type="submit"
-                className="flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary focus:border-primary hover:bg-gray-100"
-              >
-                <Image
-                  src={"/Github.svg"}
-                  alt="github"
-                  width={20}
-                  height={20}
-                />
-                <span>Github</span>
-              </button>
-            </form>
+    <div className="flex items-center justify-center h-screen bg-gray-50">
+      <AnimatePresence initial={false}>
+        <div className="flex flex-col w-full h-screen max-w-md p-10 bg-white rounded-lg shadow-md">
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            width={100}
+            height={100}
+            className=" mx-auto mb-5"
+          />
 
-            <form
-              action={async () => {
-                "use server";
-                await signIn("google");
-              }}
+          <div className="flex justify-start gap-3 mb-5 border-b-2 border-gray-600">
+            <button
+              onClick={() => setPage(false)}
+              className={` rounded-lg ${page && "text-gray-600"}`}
             >
-              <button
-                type="submit"
-                className="flex items-center justify-center gap-2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary focus:border-primary hover:bg-gray-100"
-              >
-                <Image
-                  src={"/Google.svg"}
-                  alt="google"
-                  width={20}
-                  height={20}
+              <span>Sign in</span>
+              {!page && (
+                <motion.div
+                  layoutId="underLine"
+                  className="relative top-[2px] w-full h-[2px] bg-accent"
                 />
-                <span>Google</span>
-              </button>
-            </form>
+              )}
+            </button>
+
+            <button
+              onClick={() => setPage(true)}
+              className={` rounded-lg ${!page && "text-gray-600"}`}
+            >
+              <span>Sign up</span>
+              {page && (
+                <motion.div
+                  layoutId="underLine"
+                  className="relative top-[2px] w-full h-[2px] bg-accent"
+                />
+              )}
+            </button>
           </div>
+          {page ? <SingUp /> : <SingIn />}
+          <NextAuth />
         </div>
-      </Session>
+      </AnimatePresence>
     </div>
   );
 };
-
-export default Page;
+export default Session;
