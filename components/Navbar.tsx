@@ -6,7 +6,7 @@ async function Navbar() {
   const session = await auth();
 
   return (
-    <header className="bg-white shadow">
+    <header className="bg-white shadow w-full">
       <div className="flex justify-between items-center p-2">
         <div className="flex items-center gap-5"></div>
         {session && session?.user ? (

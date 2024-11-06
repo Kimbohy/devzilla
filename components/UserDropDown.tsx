@@ -20,7 +20,7 @@ export default function UserDropDown({ session }: { session: Session }) {
         />
       )}
       {isOpen && (
-        <div className=" absolute bg-neutral-300 py-4 m-2 right-1 shadow-2xl rounded-lg">
+        <div className=" absolute bg-neutral-300 py-4 m-2 right-1 shadow rounded-lg">
           <button className=" hover:bg-slate-500 px-4 w-full">Profile</button>
           <button className=" hover:bg-slate-500 px-4 w-full">Settings</button>
           <button className=" hover:bg-slate-500 px-4 w-full">Logout</button>

@@ -4,16 +4,12 @@ import Domain from "./Domain";
 
 export default function SideBar() {
   return (
-    <div className="sidebar h-screen relative bg-neutral-700 py-3 flex flex-col gap-3">
-      <Link href="/">
-        <Image
-          src="/logo-whit.svg"
-          alt="logo"
-          width={60}
-          height={60}
-          className="mx-3"
-        />
-      </Link>
+    <div className="sidebar h-screen relative bg-neutral-700 py-3 flex flex-col gap-3 md:px-6">
+      <div className="px-3">
+        <Link href="/">
+          <Image src="/logo-whit.svg" alt="logo" width={80} height={80} />
+        </Link>
+      </div>
       <Domain name="Musique" icon="/domain/musique.svg" />
       <Domain name="Mathematiques" icon="/domain/mathematiques.svg" />
       <Domain name="Chant" icon="/domain/chant.svg" />

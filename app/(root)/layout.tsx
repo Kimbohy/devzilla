@@ -5,9 +5,9 @@ export default function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <main className="font-work-sans flex">
+    <main className="font-work-sans flex relative w-screen">
       <SideBar />
-      <div className="">
+      <div className=" flex-grow">
         <Navbar />
         {children}
       </div>
