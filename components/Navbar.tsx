@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { auth } from "@/auth";
 import UserDropDown from "./UserDropDown";
 
@@ -10,9 +11,10 @@ async function Navbar() {
       <div className="flex justify-between items-center p-2">
         <div className="flex items-center gap-5"></div>
         {session && session?.user ? (
-          <>
+          <div className="flex gap-3 items-center">
+            <Image src={"/bell.svg"} alt="bell" width={40} height={24} />
             <UserDropDown session={session} />
-          </>
+          </div>
         ) : (
           <Link
             href="/session"
