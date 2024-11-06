@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { auth, signOut } from "@/auth";
 
 async function Navbar() {
@@ -8,9 +7,6 @@ async function Navbar() {
   return (
     <header className="bg-white shadow">
       <div className="flex justify-between items-center p-2">
-        <Link href="/">
-          <Image src="/logo.svg" alt="logo" width={60} height={60} />
-        </Link>
         <div className="flex items-center gap-5"></div>
         {session && session?.user ? (
           <>
