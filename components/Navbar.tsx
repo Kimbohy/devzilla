@@ -7,9 +7,9 @@ async function Navbar() {
 
   return (
     <header className="bg-white shadow">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center p-2">
         <Link href="/">
-          <Image src="/logo.svg" alt="logo" width={150} height={33} />
+          <Image src="/logo.svg" alt="logo" width={60} height={60} />
         </Link>
         <div className="flex items-center gap-5"></div>
         {session && session?.user ? (
@@ -30,11 +30,12 @@ async function Navbar() {
             </Link>
           </>
         ) : (
-          <div>
-            <Link href="/session">
-              <span>Login</span>
-            </Link>
-          </div>
+          <Link
+            href="/session"
+            className="bg-primary hover:bg-primary-dark py-2 px-4 rounded-xl"
+          >
+            <span className="text-white text-lg">Login</span>
+          </Link>
         )}
       </div>
     </header>
