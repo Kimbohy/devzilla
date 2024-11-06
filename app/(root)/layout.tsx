@@ -1,3 +1,4 @@
+import SideBar from "@/components/SideBar";
 import Navbar from "../../components/Navbar";
 
 export default function Layout({
@@ -6,7 +7,10 @@ export default function Layout({
   return (
     <main className="font-work-sans">
       <Navbar />
-      {children}
+      <div className="flex">
+        <SideBar />
+        {children}
+      </div>
     </main>
   );
 }
