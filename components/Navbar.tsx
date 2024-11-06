@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import UserDropDown from "./UserDropDown";
 
 async function Navbar() {
@@ -11,14 +11,6 @@ async function Navbar() {
         <div className="flex items-center gap-5"></div>
         {session && session?.user ? (
           <>
-            <form
-              action={async () => {
-                "use server";
-                await signOut({ redirectTo: "/" });
-              }}
-            >
-              <button type="submit">Logout</button>
-            </form>
             <UserDropDown session={session} />
           </>
         ) : (
