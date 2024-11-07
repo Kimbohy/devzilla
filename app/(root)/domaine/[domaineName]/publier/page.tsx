@@ -1,12 +1,19 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
+import axios from "axios";
 
 export default function Publier() {
   const pathname = usePathname();
   const domaineName = decodeURIComponent(pathname?.split("/")[2] || "");
+
   const [selectedType, setSelectedType] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
   const publicationTypes = [
     "Projets en cours",
@@ -16,11 +23,98 @@ export default function Publier() {
     "Event",
   ];
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Validation
+    if (!selectedType) {
+      setError("Veuillez sélectionner un type de publication");
+      return;
+    }
+
+    if (!content.trim()) {
+      setError("Le contenu de la publication ne peut pas être vide");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      // Prepare form data
+      const formData = new FormData();
+      formData.append("type", selectedType);
+      formData.append("content", content);
+      formData.append("domain", domaineName);
+
+      if (image) {
+        formData.append("image", image);
+      }
+
+      // Send publication to backend
+      const response = await axios.post("/api/publications", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Reset form
+      setSelectedType("");
+      setContent("");
+      setImage(null);
+      setSuccess(true);
+
+      // Optional: Clear file input
+      const fileInput = document.getElementById("file") as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = "";
+      }
+    } catch (err) {
+      console.error("Publication submission error:", err);
+      setError(
+        axios.isAxiosError(err)
+          ? err.response?.data?.message || "Erreur lors de la publication"
+          : "Une erreur est survenue"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-8">
       <h1 className="text-2xl font-bold text-gray-800 mb-6 capitalize">
         Publier dans {domaineName}
       </h1>
+
+      {/* Error Message */}
+      {error && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+          role="alert"
+        >
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
+
+      {/* Success Message */}
+      {success && (
+        <div
+          className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+          role="alert"
+        >
+          <span className="block sm:inline">
+            Publication créée avec succès!
+          </span>
+        </div>
+      )}
 
       <div className="flex items-center gap-3 mb-6 p-3 bg-gray-50 rounded-lg">
         <Image
@@ -35,7 +129,7 @@ export default function Publier() {
         </span>
       </div>
 
-      <form className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div id="type-de-publication" className="space-y-2">
           <label className="text-sm text-gray-600 font-medium">
             Type de publication
@@ -62,6 +156,8 @@ export default function Publier() {
         <textarea
           name="content"
           id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           cols={30}
           rows={10}
           placeholder="Que voulez-vous partager?"
@@ -75,6 +171,8 @@ export default function Publier() {
           <input
             type="file"
             id="file"
+            accept="image/*"
+            onChange={handleImageChange}
             className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
             file:rounded-full file:border-0
@@ -83,13 +181,24 @@ export default function Publier() {
             hover:file:bg-primary-dark
             cursor-pointer"
           />
+          {image && (
+            <div className="mt-2 text-sm text-gray-600">
+              Fichier sélectionné: {image.name}
+            </div>
+          )}
         </div>
 
         <button
           type="submit"
-          className="w-full bg-primary text-white py-3 px-6 rounded-lg hover:bg-primary-dark transition-colors duration-200 font-medium"
+          disabled={isSubmitting}
+          className={`w-full text-white py-3 px-6 rounded-lg transition-colors duration-200 font-medium
+            ${
+              isSubmitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-primary hover:bg-primary-dark"
+            }`}
         >
-          Publier
+          {isSubmitting ? "Publication en cours..." : "Publier"}
         </button>
       </form>
     </div>
