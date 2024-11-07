@@ -23,10 +23,10 @@ const SingIn = () => {
       if (result?.error) {
         setError("Invalid email or password");
       } else {
-        router.refresh(); // test
+        router.refresh();
       }
-    } catch (error) {
-      console.error("An error occurred during sign in:", error);
+    } catch /*(error)*/ {
+      // console.error("An error occurred during sign in:", error);
       setError("An error occurred. Please try again.");
     }
   };
