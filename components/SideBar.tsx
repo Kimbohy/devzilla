@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Domain from "./Domain";
-import { toCapitalize } from "@/app/Utils";
+import { toCapitalize } from "@/app/utils";
 
 export default function SideBar() {
   const pathname = usePathname();
