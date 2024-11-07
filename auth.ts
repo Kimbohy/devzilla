@@ -76,12 +76,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 14; // Set expiration to 2 weeks
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
         session.id = token.id as string;
+        if (token.exp) {
+          session.expires = new Date(token.exp * 1000).toISOString(); // Set session expiration
+        }
       }
       return session;
     },
