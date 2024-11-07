@@ -3,8 +3,8 @@ import { getCollection } from '../tools/function.js'
 
 export async function create(userData) {
     const newUser = {
-        nom: userData.name,
-        email: userData.mail,
+        nom: userData.nom,
+        email: userData.email,
         password: userData.password,
         type: 'Talent',
         photoProfil: '',
@@ -45,5 +45,10 @@ export async function update(id, userData) {
         }
     });
 
+    return await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
+}
+
+export async function getOne(id) {
+    const collection = await getCollection('Utilisateurs')
     return await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
 }

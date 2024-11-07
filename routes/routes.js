@@ -1,4 +1,4 @@
-import {createUser, authenticateUser, updateUser} from '../controllers/userController.js'
+import {createUser, authenticateUser, updateUser, getOneUser} from '../controllers/userController.js'
 import {createPublication, commentPublication} from '../controllers/publicationController.js'
 
 export async function userRoute(req, res, url) {
@@ -8,8 +8,9 @@ export async function userRoute(req, res, url) {
         await authenticateUser(req, res)
     } else if (url.pathname === '/users/update' && req.method === 'PUT') {
         await updateUser(req, res, url)
-    } 
-    else {
+    } else if (url.pathname === '/users' && req.method === 'GET') {
+        await getOneUser(req, res, url)
+    } else {
         res.end()
     }
 }

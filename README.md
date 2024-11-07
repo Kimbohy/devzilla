@@ -15,7 +15,6 @@
 - **Output**
 
 ``` js
-{
     {
         success: true,
         message: 'Inscription réussie',
@@ -26,7 +25,6 @@
             type:  'talent'
         }
     }
-}
 ```
 
 ## authenticateUser

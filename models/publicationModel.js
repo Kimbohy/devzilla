@@ -39,3 +39,15 @@ export async function comment(publicationId, commentaire) {
     await collection.updateOne({_id: new ObjectId(publicationId)}, { $push: { commentaires: newCommentaire } })
     return await collection.findOne({_id: new ObjectId(publicationId)})
 }
+
+export async function react(publicationId, reaction) {
+    const collection = await getCollection('Publications')
+    const newReaction = {
+        _id: new ObjectId(),
+        utilisateurId: new ObjectId(reaction.utilisateurId),
+        type: reaction.type,
+        date: new Date()
+    }
+    await collection.updateOne({_id: new ObjectId(publicationId)}, { $push: { reactions: newReaction } })
+    return await collection.findOne({_id: new ObjectId(publicationId)})
+}
