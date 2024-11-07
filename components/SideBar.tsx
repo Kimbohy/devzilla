@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Domain from "./Domain";
-import { toCapitalize } from "@/app/Utils";
+import { toCapitalize } from "@/app/utils";
 
 export default function SideBar() {
   const pathname = usePathname();
@@ -16,7 +16,7 @@ export default function SideBar() {
   ];
 
   return (
-    <div className="sidebar h-screen relative bg-neutral-700 py-3 flex flex-col gap-3 md:px-6 w-1/4">
+    <div className="sidebar h-screen relative bg-neutral-700 py-3 flex flex-col gap-3 md:px-6">
       <div className="px-3">
         <Link href="/">
           <Image src="/logo-whit.svg" alt="logo" width={80} height={80} />
@@ -27,12 +27,21 @@ export default function SideBar() {
         const isActive =
           pathname === `/domaine/${toCapitalize(encodedDomainName)}`;
         return (
-          <Domain
-            key={domain.name}
-            name={domain.name}
-            icon={domain.icon}
-            className={isActive ? "bg-neutral-500" : ""}
-          />
+          <>
+            <Domain
+              key={domain.name}
+              name={domain.name}
+              icon={domain.icon}
+              className={isActive ? "bg-accent-dark" : " hover:bg-accent"}
+            />
+            {isActive && (
+              <div className="flex flex-col pl-9 text-white gap-2 text-lg">
+                <span>Annonce</span>
+                <span>Publier</span>
+                <span>Mentors</span>
+              </div>
+            )}
+          </>
         );
       })}
       <div className="mx-3 border-4 rounded-3xl flex items-center justify-center">
