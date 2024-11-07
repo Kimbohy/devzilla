@@ -60,7 +60,12 @@ const publications: PublicationProps[] = [
     },
   },
 ];
-export default function Home() {
+
+export default async function Home() {
+  if (session && session.user) {
+    console.log(session);
+  }
+
   return (
     <>
       <div className="flex flex-col gap-2 p-4 items-center ">
