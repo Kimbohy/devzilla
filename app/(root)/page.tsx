@@ -65,7 +65,7 @@ export default async function Home() {
   // test
   return (
     <>
-      <div className="flex flex-col gap-2 p-4 items-center ">
+      <div className="flex flex-col gap-2 p-4 items-center">
         {publications.map((publication) => (
           <Publication key={publication.data.id} pub={publication} />
         ))}
