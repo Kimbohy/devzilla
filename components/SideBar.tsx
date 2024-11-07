@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import Domain from "./Domain";
 import { usePathname } from "next/navigation";
-import { toCapitalize } from "@/app/utils";
+import Domain from "./Domain";
+import { toCapitalize } from "@/app/Utils";
 
 export default function SideBar() {
   const pathname = usePathname();
@@ -16,7 +16,7 @@ export default function SideBar() {
   ];
 
   return (
-    <div className="sidebar h-screen relative bg-neutral-700 py-3 flex flex-col gap-3 md:px-6">
+    <div className="sidebar h-screen relative bg-neutral-700 py-3 flex flex-col gap-3 md:px-6 w-1/4">
       <div className="px-3">
         <Link href="/">
           <Image src="/logo-whit.svg" alt="logo" width={80} height={80} />
