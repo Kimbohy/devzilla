@@ -1,3 +1,5 @@
+"use client"; // Add this line to indicate that this is a Client Component
+
 import Image from "next/image";
 import React from "react";
 import logo from "../public/talent.png";
@@ -7,6 +9,10 @@ import instagram from "../public/insta.svg";
 import linkedin from "../public/linkedin.svg";
 
 const Footer = () => {
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="flex flex-col bg-slate-950 text-gray-100">
       <div className="flex flex-col gap-3 pb-5 md:flex-row md:justify-between md:px-14 md:items-center md:pt-11 pt-10">
@@ -62,13 +68,19 @@ const Footer = () => {
           </p>
         </div>
         <div className="flex gap-3 pb-6 justify-end items-center md:gap-6">
-          <p className="font-medium text-xl md:font-normal">Back to top</p>
+          <p
+            className="font-medium text-xl cursor-pointer"
+            onClick={handleScrollToTop}
+          >
+            Back to top
+          </p>
           <Image
             src={top}
-            alt="top"
-            width={20}
-            height={20}
+            alt="Back to top"
+            width={24}
+            height={24}
             className="cursor-pointer"
+            onClick={handleScrollToTop}
           />
         </div>
       </div>
