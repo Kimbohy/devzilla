@@ -37,7 +37,11 @@ export default function SideBar() {
             {isActive && (
               <div className="flex flex-col pl-9 text-white gap-2 text-lg cursor-pointer">
                 <span className=" hover:text-slate-200">Annonce</span>
-                <span className=" hover:text-slate-200">Publier</span>
+                <Link
+                  href={`/domaine/${toCapitalize(encodedDomainName)}/publier`}
+                >
+                  <span className="hover:text-slate-200">Publier</span>
+                </Link>
                 <span className=" hover:text-slate-200">Mentors</span>
               </div>
             )}
