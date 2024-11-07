@@ -8,11 +8,11 @@ async function Navbar() {
 
   return (
     <header className="bg-white shadow w-full">
-      <div className="flex justify-between items-center p-2">
+      <div className="flex justify-between items-center px-2 py-1">
         <div className="flex items-center gap-5"></div>
         {session && session?.user ? (
           <div className="flex gap-3 items-center">
-            <Image src={"/bell.svg"} alt="bell" width={40} height={24} />
+            <Image src={"/bell.svg"} alt="bell" width={35} height={24} />
             <UserDropDown session={session} />
           </div>
         ) : (

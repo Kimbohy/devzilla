@@ -16,7 +16,7 @@ export default function SideBar() {
   ];
 
   return (
-    <div className="sidebar h-screen relative bg-neutral-700 py-3 flex flex-col gap-3 md:px-6">
+    <div className="sidebar h-screen sticky top-0 bg-neutral-700 py-3 flex flex-col gap-3 md:px-6">
       <div className="px-3">
         <Link href="/">
           <Image src="/logo-whit.svg" alt="logo" width={80} height={80} />

@@ -184,3 +184,22 @@ const EditProfileUser = () => {
 };
 
 export default EditProfileUser;
+/*
+only field updated will be sent to the server
+
+const data = [
+  {
+    key: "nom",
+    value: "John Doe",
+  },
+  { key: "photoProfil", value: "https://example.com/profile.jpg" },
+  { key: "competence", value: "React" },
+  { key: "competence", value: "Node.js" },
+  {
+    key: "reseauxSociaux",
+    value: { lien: "https://linkedin.com/johndoe", nom: "LinkedIn" },
+  },
+  { key: "domaines", value: "Web Development" },
+  { key: "domaines", value: "Mobile Development" },
+];
+*/
