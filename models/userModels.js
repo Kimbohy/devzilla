@@ -1,14 +1,5 @@
-import {MongoClient, ObjectId} from 'mongodb'
-
-const url = 'mongodb://127.0.0.1:27017'
-const dbName = 'devzilla'
-
-async function getCollection(collectionName) {
-    const client = new MongoClient(url);
-    await client.connect();
-    const db = client.db(dbName);
-    return db.collection(collectionName);
-}
+import { ObjectId } from 'mongodb'
+import { getCollection } from '../tools/function.js'
 
 export async function create(userData) {
     const newUser = {
@@ -37,7 +28,7 @@ export async function create(userData) {
 // fonction pour l'authentification de l'utilisateur
 export async function authenticate(userData) {
     const collection = await getCollection('Utilisateurs')
-    return await collection.findOne(userData, {projection: {nom: 1, email: 1}})
+    return await collection.findOne(userData, {projection: {nom: 1, email: 1, photoProfil: 1}})
 }
 
 // fonction pour mettre à jour les données de l'utilisateur
