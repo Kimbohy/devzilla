@@ -27,7 +27,7 @@ export default function SideBar() {
   return (
     <aside
       className={`h-screen sticky top-0 bg-slate-900 transition-all duration-300 ease-in-out flex flex-col
-         "w-[280px]"}`}
+         "md:w-[280px]"}`}
     >
       <div className="flex items-center justify-between px-6 py-5 border-b border-slate-700">
         <Link href="/" className="block">
@@ -54,7 +54,6 @@ export default function SideBar() {
               <Domain
                 name={domain.name}
                 icon={domain.icon}
-                // isCollapsed={isCollapsed}
                 className={`transition-all duration-200 rounded-sm ${
                   isActive
                     ? "bg-primary/20 text-primary"

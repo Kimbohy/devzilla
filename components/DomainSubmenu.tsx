@@ -53,7 +53,7 @@ const menuItems = [
 
 export function DomainSubmenu({ domainPath, currentPath }: DomainSubmenuProps) {
   return (
-    <div className="ml-6 md:ml-12 mt-2 space-y-3 border-l-2 border-primary/30 pl-4">
+    <div className=" md:ml-12 mt-2 space-y-3 border-l-2 border-primary/30 pl-4">
       {menuItems.map((item) => (
         <SidebarSubMenuItem
           key={item.href}

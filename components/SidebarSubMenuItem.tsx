@@ -29,7 +29,6 @@ export function SidebarSubMenuItem({
         <div className="w-5 h-5">{icon}</div>
         <span className={`text-sm ${isActive ? "font-medium" : ""}`}>
           <span className="hidden md:inline">{label}</span>
-          <span className="md:hidden">{label.slice(0, 3)}.</span>
         </span>
       </div>
     </Link>
