@@ -1,22 +1,48 @@
 import Image from "next/image";
-export default function Publication() {
+
+interface PublicationProps {
+  data: {
+    id: string;
+    content: string;
+    image: string;
+    user: {
+      id: string;
+      name: string;
+      avatar: string;
+    };
+    createdAt: string;
+  };
+}
+
+export default function Publication({
+  pub,
+}: // key,
+{
+  pub: PublicationProps;
+  // key: string;
+}) {
   return (
     <div className="max-w-[550px]">
       <div className=" bg-secondary p-2 flex">
-        <Image src="/avatar.svg" alt="publication" width={60} height={60} />
+        <Image
+          src={pub.data.user.avatar}
+          alt="publication"
+          width={60}
+          height={60}
+        />
         <div>
-          <h1>Kimbohy Marisika</h1>
-          <span>2j</span>
+          <h1>{pub.data.user.name}</h1>
+          <span>{pub.data.createdAt}</span>
         </div>
       </div>
       <div className="flex flex-col items-center gap-2">
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti
-          nesciunt reprehenderit dolore. Non debitis modi, at eaque fugiat,
-          nobis sequi quae dignissimos autem ipsum esse enim. Quaerat
-          praesentium magnam quae.
-        </p>
-        <Image src="/hanina.jpg" alt="image content" width={400} height={400} />
+        <p>{pub.data.content}</p>
+        <Image
+          src={pub.data.image}
+          alt="image content"
+          width={400}
+          height={400}
+        />
       </div>
       <div className="flex gap-2 p-2 items-center">
         <Image src="/sad.svg" alt="like" width={40} height={40} />

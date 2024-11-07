@@ -1,11 +1,65 @@
 "use client";
+import Publication from "@/components/Publication";
 import { useEffect, useState, use } from "react";
 
+interface PublicationProps {
+  data: {
+    id: string;
+    content: string;
+    image: string;
+    user: {
+      id: string;
+      name: string;
+      avatar: string;
+    };
+    createdAt: string;
+  };
+}
+
 // fake data:
-const _publications = [
-  { id: 1, title: "Publication 1" },
-  { id: 2, title: "Publication 2" },
-  { id: 3, title: "Publication 3" },
+const _publications: PublicationProps[] = [
+  {
+    data: {
+      id: "1",
+      content:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti nesciunt reprehenderit dolore. Non debitis modi, at eaque fugiat, nobis sequi quae dignissimos autem ipsum esse enim. Quaerat praesentium magnam quae.",
+      image: "/hanina.jpg",
+      user: {
+        id: "1",
+        name: "Kimbohy Marisika",
+        avatar: "/avatar.svg",
+      },
+      createdAt: "2j",
+    },
+  },
+  {
+    data: {
+      id: "2",
+      content:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti nesciunt reprehenderit dolore. Non debitis modi, at eaque fugiat, nobis sequi quae dignissimos autem ipsum esse enim. Quaerat praesentium magnam quae.",
+      image: "/hanina.jpg",
+      user: {
+        id: "2",
+        name: "Kimbohy Marisika",
+        avatar: "/avatar.svg",
+      },
+      createdAt: "2j",
+    },
+  },
+  {
+    data: {
+      id: "3",
+      content:
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti nesciunt reprehenderit dolore. Non debitis modi, at eaque fugiat, nobis sequi quae dignissimos autem ipsum esse enim. Quaerat praesentium magnam quae.",
+      image: "/hanina.jpg",
+      user: {
+        id: "3",
+        name: "Kimbohy Marisika",
+        avatar: "/avatar.svg",
+      },
+      createdAt: "2j",
+    },
+  },
 ];
 
 export default function Page({
@@ -14,9 +68,7 @@ export default function Page({
   params: Promise<{ domaineName: string }>;
 }) {
   const resolvedParams = use(params);
-  const [publications, setPublications] = useState<
-    { id: number; title: string }[]
-  >([]);
+  const [publications, setPublications] = useState<PublicationProps[]>([]);
 
   // Decode the URL-encoded domaineName
   const decodedDomaineName = decodeURIComponent(resolvedParams.domaineName);
@@ -35,7 +87,7 @@ export default function Page({
       <h1 className="capitalize">{decodedDomaineName}</h1>
       <ul>
         {publications.map((publication) => (
-          <li key={publication.id}>{publication.title}</li>
+          <Publication key={publication.data.id} pub={publication} />
         ))}
       </ul>
     </div>
