@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Image from "next/image";
+import arrowleft from "@/public/angle-left-solid.svg";
+import Link from "next/link";
 
 const EditProfileUser = () => {
   const [formData, setFormData] = useState<{
@@ -119,7 +122,12 @@ const EditProfileUser = () => {
 
   return (
     <div>
-      <p>Profile</p>
+      <div className="flex gap-5 items-center pl-3 pt-4">
+        <Link href="/profile">
+          <Image src={arrowleft} alt="arrow" width={"15"} height={"15"} />
+        </Link>
+        <p className="font-semibold text-lg">Edit profile</p>
+      </div>
       <form onSubmit={handleSubmit}>
         <label htmlFor="nom">Changer de nom</label>
         <input
