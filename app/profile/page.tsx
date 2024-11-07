@@ -1,12 +1,12 @@
-import ProfileUser from "@/components/ProfileUser";
+import EditProfileUser from "@/app/profile/EditProfileUser";
 import SideBar from "@/components/SideBar";
 import React from "react";
 
 const Page = () => {
   return (
-    <div>
+    <div className="flex">
       <SideBar />
-      <ProfileUser />
+      <EditProfileUser />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { motion } from "framer-motion";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 const SingUp = () => {
@@ -41,6 +42,7 @@ const SingUp = () => {
         password: formData.passwordOne,
       });
       console.log(response.data);
+      redirect("/Profile");
     } catch (error) {
       console.error("There was an error signing up!", error);
     }
