@@ -1,6 +1,7 @@
+"use client";
 import Publication from "@/components/Publication";
+import { useEffect, useState, use } from "react";
 
-// fake data
 interface PublicationProps {
   data: {
     id: string;
@@ -16,7 +17,7 @@ interface PublicationProps {
 }
 
 // fake data:
-const publications: PublicationProps[] = [
+const _publications: PublicationProps[] = [
   {
     data: {
       id: "1",
@@ -60,14 +61,35 @@ const publications: PublicationProps[] = [
     },
   },
 ];
-export default function Home() {
+
+export default function Page({
+  params,
+}: {
+  params: Promise<{ domaineName: string }>;
+}) {
+  const resolvedParams = use(params);
+  const [publications, setPublications] = useState<PublicationProps[]>([]);
+
+  // Decode the URL-encoded domaineName
+  const decodedDomaineName = decodeURIComponent(resolvedParams.domaineName);
+
+  useEffect(() => {
+    if (decodedDomaineName) {
+      //   fetch(`/api/publications?domain=${decodedDomaineName}`)
+      //     .then((response) => response.json())
+      //     .then((data) => setPublications(data));
+      setPublications(_publications);
+    }
+  }, [decodedDomaineName]);
+
   return (
-    <>
-      <div className="flex flex-col gap-2 p-4 items-center ">
+    <div>
+      <h1 className="capitalize">{decodedDomaineName}</h1>
+      <ul>
         {publications.map((publication) => (
           <Publication key={publication.data.id} pub={publication} />
         ))}
-      </div>
-    </>
+      </ul>
+    </div>
   );
 }
