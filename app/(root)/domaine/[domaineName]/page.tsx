@@ -85,11 +85,11 @@ export default function Page({
   return (
     <div>
       <h1 className="capitalize">{decodedDomaineName}</h1>
-      <ul>
+      <div className="flex flex-col items-center gap-2">
         {publications.map((publication) => (
           <Publication key={publication.data.id} pub={publication} />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
