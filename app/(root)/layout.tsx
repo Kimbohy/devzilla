@@ -1,6 +1,6 @@
 import SideBar from "@/components/SideBar";
-import Navbar from "../../components/Navbar";
 import { goToLandingIfNotLoggedIn } from "@/app/utils";
+import Navbar from "@/components/Navbar";
 
 export default async function Layout({
   children,
