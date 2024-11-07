@@ -1,13 +1,35 @@
 import { motion } from "framer-motion";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 const SingIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  interface SignInCredentials {
+    email: string;
+    password: string;
+    callbackUrl: string;
+    [key: string]: string;
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const credentials: SignInCredentials = {
+      email,
+      password,
+      callbackUrl: "/dashboard", // Redirect after sign-in
+    };
+    await signIn("credentials", credentials);
+  };
+
   return (
     <motion.form
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.75 }}
-      action=""
+      onSubmit={handleSubmit}
       className="flex flex-col gap-3 "
     >
       <div className="flex flex-col gap-2">
@@ -16,6 +38,8 @@ const SingIn = () => {
           type="email"
           name="email"
           id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
         />
       </div>
@@ -25,6 +49,8 @@ const SingIn = () => {
           type="password"
           name="password"
           id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
         />
       </div>
