@@ -9,7 +9,7 @@ import linkedin from "../public/linkedin.svg";
 const Footer = () => {
   return (
     <div className="flex flex-col bg-slate-950 text-gray-100">
-      <div className="flex flex-col gap-3 pb-5 md:flex-row md:justify-between md:px-14 md:items-center md:pt-11">
+      <div className="flex flex-col gap-3 pb-5 md:flex-row md:justify-between md:px-14 md:items-center md:pt-11 pt-10">
         <div className="pl-5">
           <Image
             src={logo}

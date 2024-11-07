@@ -7,7 +7,7 @@ import science from "../public/science1.png";
 const DiscoverDomaine = () => {
   return (
     <div className="flex flex-col w-screen md:h-screen gap-5 items-center pt-4 md:gap-28 bg-slate-950 text-white">
-      <div className="flex pt-16">
+      <div className="flex pt-14">
         <p className="text-3xl md:text-5xl font-semibold pl-7">
           Decouvrez divers domaines qui pourra vous intéresser
         </p>

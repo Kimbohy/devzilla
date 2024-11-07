@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Invitation = () => {
   return (
-    <div className="flex w-screen h-screen flex-col justify-center items-center gap-8 md:flex-row md:justify-between">
+    <div className="flex w-screen md:h-screen flex-col justify-center items-center gap-8 md:flex-row md:justify-between">
       <div className="flex flex-col gap-4 md:w-1/2 md:h-full">
         <div className="flex flex-col justify-center items-center pt-14 gap-11 pl-6  md:pl-14">
           <p className="text-3xl font-semibold md:text-5xl md:pt-40">
