@@ -29,7 +29,7 @@ export default function UserDropDown({ session }: { session: Session }) {
     <div className="relative" ref={dropdownRef}>
       {session.user && (
         <Image
-          src={session.user.image || "/default-profile.png"}
+          src={session.user.image || "/default-profile.svg"}
           alt="profile picture"
           width={50}
           height={50}
