@@ -45,8 +45,8 @@ export default function Publication({
         />
       </div>
       <div className="flex gap-2 p-2 items-center">
-        <Image src="/sad.svg" alt="like" width={40} height={40} />
         <Image src="/smiley.svg" alt="smiley" width={40} height={40} />
+        <Image src="/sad.svg" alt="like" width={40} height={40} />
         <Image src="/comment.svg" alt="comment" width={40} height={40} />
       </div>
     </div>

@@ -36,9 +36,9 @@ export default function SideBar() {
             />
             {isActive && (
               <div className="flex flex-col pl-9 text-white gap-2 text-lg cursor-pointer">
-                <span>Annonce</span>
-                <span>Publier</span>
-                <span>Mentors</span>
+                <span className=" hover:text-slate-200">Annonce</span>
+                <span className=" hover:text-slate-200">Publier</span>
+                <span className=" hover:text-slate-200">Mentors</span>
               </div>
             )}
           </div>
