@@ -13,6 +13,12 @@ const server = createServer(async (req, res) => {
     // autoriser le cache
     res.setHeader('Cache-Control', 'no-store')
 
+    if (req.method === 'OPTIONS') {
+        res.writeHead(200)
+        res.end()
+        return
+    }
+
     const url = new URL(req.url, `http://${req.headers.host}`)
     await userRoute(req, res, url)
     // await publicationRoute(req, res, url)
