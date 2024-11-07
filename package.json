@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
     "@svgr/webpack": "^8.1.0",
     "axios": "^1.7.7",
     "framer-motion": "^11.11.11",
     "next": "15.0.2",
     "next-auth": "^5.0.0-beta.25",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",

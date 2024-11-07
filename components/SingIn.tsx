@@ -25,55 +25,74 @@ const SingIn = () => {
       } else {
         router.refresh();
       }
-    } catch /*(error)*/ {
-      // console.error("An error occurred during sign in:", error);
+    } catch {
       setError("An error occurred. Please try again.");
     }
   };
 
   return (
     <motion.form
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.75 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
       onSubmit={handleSubmit}
-      className="flex flex-col gap-3 "
+      className="space-y-4"
     >
-      {error && <p className="text-red-500">{error}</p>}
+      {error && (
+        <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-2 rounded-lg">
+          {error}
+        </div>
+      )}
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-600">E-mail/Phone</label>
+      <div>
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Email
+        </label>
         <input
           type="email"
-          name="email"
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          required
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Enter your email"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className="text-gray-600 text -sm">Password</label>
+
+      <div>
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Password
+        </label>
         <input
           type="password"
-          name="password"
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          required
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Enter your password"
         />
       </div>
-      <motion.div layoutId="bottom" className="flex flex-col gap-3">
-        <input
-          type="submit"
-          value="Sing in"
-          className="w-full p-2 mt-3 text-white rounded-lg h-11 bg-primary hover:bg-primary-dark"
-        />
-        <span className="text-sm text-gray-600 cursor-pointer">
+
+      <div className="flex items-center justify-between">
+        <a href="#" className="text-sm text-primary hover:underline">
           Forgot Password?
-        </span>
-      </motion.div>
+        </a>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark transition-colors"
+      >
+        Sign In
+      </button>
     </motion.form>
   );
 };

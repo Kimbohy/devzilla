@@ -1,6 +1,5 @@
 import axios from "axios";
 import { motion } from "framer-motion";
-import { redirect } from "next/navigation";
 import { useState } from "react";
 
 const SingUp = () => {
@@ -10,6 +9,8 @@ const SingUp = () => {
     passwordOne: "",
     passwordTwo: "",
   });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormData({
@@ -22,94 +23,132 @@ const SingUp = () => {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     e.preventDefault();
+    setError("");
+    setSuccess(false);
+
     if (formData.passwordOne !== formData.passwordTwo) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
+
     try {
-      const response = await axios.post<{
-        success: boolean;
-        message: string;
-        data: {
-          _id: string;
-          nom: string;
-          email: string;
-          type: string;
-        };
-      }>("http://localhost:8080/users/signup", {
+      await axios.post("http://localhost:8080/users/signup", {
         nom: formData.nom,
         email: formData.email,
         password: formData.passwordOne,
       });
-      console.log(response.data);
-      redirect("/Profile");
-    } catch (error) {
-      console.error("There was an error signing up!", error);
+
+      setSuccess(true);
+      // Optional: Reset form or redirect
+    } catch (error: any) {
+      setError(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   };
 
   return (
     <motion.form
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.75 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
       onSubmit={handleSubmit}
-      className="flex flex-col gap-3"
+      className="space-y-4"
     >
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-600">Nom</label>
+      {error && (
+        <div className="bg-red-50 border border-red-300 text-red-700 px-4 py-2 rounded-lg">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-green-50 border border-green-300 text-green-700 px-4 py-2 rounded-lg">
+          Registration successful! You can now sign in.
+        </div>
+      )}
+
+      <div>
+        <label
+          htmlFor="nom"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Name
+        </label>
         <input
           type="text"
-          name="nom"
           id="nom"
+          name="nom"
           value={formData.nom}
           onChange={handleChange}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          required
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Enter your name"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-600">Email</label>
+
+      <div>
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Email
+        </label>
         <input
           type="email"
-          name="email"
           id="email"
+          name="email"
           value={formData.email}
           onChange={handleChange}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          required
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Enter your email"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-600">Mot de passe</label>
-        <input
-          type="password"
-          name="passwordOne"
-          id="passwordOne"
-          value={formData.passwordOne}
-          onChange={handleChange}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-600">
-          Confirmer votre mot de passe
+
+      <div>
+        <label
+          htmlFor="passwordOne"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Password
         </label>
         <input
           type="password"
-          name="passwordTwo"
-          id="passwordTwo"
-          value={formData.passwordTwo}
+          id="passwordOne"
+          name="passwordOne"
+          value={formData.passwordOne}
           onChange={handleChange}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
+          required
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Enter your password"
         />
       </div>
-      <motion.div layoutId="bottom" className="flex flex-col gap-3 my-3">
+
+      <div>
+        <label
+          htmlFor="passwordTwo"
+          className="block text-sm font-medium text-gray-700 mb-2"
+        >
+          Confirm Password
+        </label>
         <input
-          type="submit"
-          value="Join Now"
-          className="w-full p-2 text-white rounded-lg bg-primary hover:bg-primary-dark h-11"
+          type="password"
+          id="passwordTwo"
+          name="passwordTwo"
+          value={formData.passwordTwo}
+          onChange={handleChange}
+          required
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+          placeholder="Confirm your password"
         />
-      </motion.div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark transition-colors"
+      >
+        Sign Up
+      </button>
     </motion.form>
   );
 };
