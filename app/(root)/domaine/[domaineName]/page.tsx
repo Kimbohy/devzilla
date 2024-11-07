@@ -1,5 +1,4 @@
 "use client";
-import { toUtf8 } from "@/app/utils";
 import { useEffect, useState, use } from "react";
 
 // fake data:
@@ -19,22 +18,21 @@ export default function Page({
     { id: number; title: string }[]
   >([]);
 
-  const [domaineName, setDomaineName] = useState<string>("");
+  // Decode the URL-encoded domaineName
+  const decodedDomaineName = decodeURIComponent(resolvedParams.domaineName);
 
   useEffect(() => {
-    if (resolvedParams.domaineName) {
-      const utf8DomaineName = toUtf8(resolvedParams.domaineName);
-      setDomaineName(utf8DomaineName);
-      //   fetch(`/api/publications?domain=${utf8DomaineName}`)
+    if (decodedDomaineName) {
+      //   fetch(`/api/publications?domain=${decodedDomaineName}`)
       //     .then((response) => response.json())
       //     .then((data) => setPublications(data));
       setPublications(_publications);
     }
-  }, [resolvedParams.domaineName]);
+  }, [decodedDomaineName]);
 
   return (
     <div>
-      <h1 className="capitalize">{domaineName}</h1>
+      <h1 className="capitalize">{decodedDomaineName}</h1>
       <ul>
         {publications.map((publication) => (
           <li key={publication.id}>{publication.title}</li>
