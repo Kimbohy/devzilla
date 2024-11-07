@@ -1,8 +1,13 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import Domain from "./Domain";
+import { usePathname } from "next/navigation";
 
 export default function SideBar() {
+  const pathname = usePathname();
+  const domaineName = pathname ? pathname.split("/").pop() : ""; // This will get the last segment of the URL path
+
   const domains = [
     { name: "Musique", icon: "/domain/musique.svg" },
     { name: "Mathematiques", icon: "/domain/mathematiques.svg" },
@@ -18,22 +23,17 @@ export default function SideBar() {
         </Link>
       </div>
       {domains.map((domain) => (
-        <Link key={domain.name} href={`/domaine/${domain.name.toLowerCase()}`}>
-          <a>
-            <Domain
-              name={domain.name}
-              icon={domain.icon}
-              className={
-                domaineName === domain.name.toLowerCase()
-                  ? "bg-neutral-500"
-                  : ""
-              }
-            />
-          </a>
-        </Link>
+        <Domain
+          key={domain.name}
+          name={domain.name}
+          icon={domain.icon}
+          className={
+            domaineName === domain.name.toLowerCase() ? "bg-neutral-500" : ""
+          }
+        />
       ))}
       <div className="mx-3 border-4 rounded-3xl flex items-center justify-center">
-        <span className=" text-white text-center text-4xl">+</span>
+        <span className="text-white text-center text-4xl">+</span>
       </div>
     </div>
   );
