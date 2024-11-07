@@ -27,21 +27,21 @@ export default function SideBar() {
         const isActive =
           pathname === `/domaine/${toCapitalize(encodedDomainName)}`;
         return (
-          <>
+          <div key={domain.name}>
             <Domain
               key={domain.name}
               name={domain.name}
               icon={domain.icon}
-              className={isActive ? "bg-accent-dark" : " hover:bg-accent"}
+              className={isActive ? "bg-accent-dark" : ""}
             />
             {isActive && (
-              <div className="flex flex-col pl-9 text-white gap-2 text-lg">
+              <div className="flex flex-col pl-9 text-white gap-2 text-lg cursor-pointer">
                 <span>Annonce</span>
                 <span>Publier</span>
                 <span>Mentors</span>
               </div>
             )}
-          </>
+          </div>
         );
       })}
       <div className="mx-3 border-4 rounded-3xl flex items-center justify-center">
