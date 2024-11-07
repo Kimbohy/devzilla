@@ -23,8 +23,11 @@ export default function JoinTheDomain({
   }, [ref]);
 
   return (
-    <div ref={ref} className="bg-slate-200 flex flex-col p-4 sticky bottom-0 ">
-      <div className="flex items-center justify-between">
+    <div
+      ref={ref}
+      className="bg-slate-200 flex flex-col p-4 sticky w-full bottom-0 "
+    >
+      <div className="flex items-center justify-between w-full">
         <div className="flex gap-3 items-center">
           <Image
             src={domain.icon}
