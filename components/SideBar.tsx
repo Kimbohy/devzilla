@@ -15,6 +15,14 @@ export default function SideBar() {
     { name: "Poésie", icon: "/domain/poesie.svg" },
   ];
 
+  // Helper function to check if current path is related to a domain
+  const isDomainActive = (domainName: string) => {
+    const encodedName = toCapitalize(
+      encodeURIComponent(domainName.toLowerCase())
+    );
+    return pathname?.startsWith(`/domaine/${encodedName}`) ?? false;
+  };
+
   return (
     <aside className="h-screen sticky top-0 bg-slate-900 w-[280px] transition-all duration-300 ease-in-out flex flex-col">
       {/* Logo Section */}
@@ -36,8 +44,8 @@ export default function SideBar() {
           const encodedDomainName = encodeURIComponent(
             domain.name.toLowerCase()
           );
-          const isActive =
-            pathname === `/domaine/${toCapitalize(encodedDomainName)}`;
+          const isActive = isDomainActive(domain.name);
+          const domainPath = `/domaine/${toCapitalize(encodedDomainName)}`;
 
           return (
             <div key={domain.name} className="group">
@@ -53,22 +61,38 @@ export default function SideBar() {
 
               {isActive && (
                 <div className="ml-12 mt-2 space-y-3 border-l-2 border-primary/30 pl-4">
-                  <Link href="#" className="block">
-                    <span className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  <Link href={`${domainPath}/annonces`} className="block">
+                    <span
+                      className={`text-sm transition-colors duration-200 ${
+                        pathname === `${domainPath}/annonces`
+                          ? "text-primary font-medium"
+                          : "text-slate-300 hover:text-primary"
+                      }`}
+                    >
                       Annonce
                     </span>
                   </Link>
 
-                  <Link
-                    href={`/domaine/${toCapitalize(encodedDomainName)}/publier`}
-                  >
-                    <span className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  <Link href={`${domainPath}/publier`}>
+                    <span
+                      className={`text-sm transition-colors duration-200 ${
+                        pathname === `${domainPath}/publier`
+                          ? "text-primary font-medium"
+                          : "text-slate-300 hover:text-primary"
+                      }`}
+                    >
                       Publier
                     </span>
                   </Link>
 
-                  <Link href="#" className="block">
-                    <span className="text-sm text-slate-300 hover:text-primary transition-colors duration-200">
+                  <Link href={`${domainPath}/mentors`} className="block">
+                    <span
+                      className={`text-sm transition-colors duration-200 ${
+                        pathname === `${domainPath}/mentors`
+                          ? "text-primary font-medium"
+                          : "text-slate-300 hover:text-primary"
+                      }`}
+                    >
                       Mentors
                     </span>
                   </Link>
