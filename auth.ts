@@ -1,3 +1,4 @@
+// auth.ts
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
@@ -28,30 +29,43 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch("http://localhost:8080/users/signin", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
-        });
-
-        const user = await res.json();
-
-        if (res.ok && user) {
-          const formattedUser = {
-            name: user.nom,
-            email: user.email,
-            image: user.photoProfil,
-          };
-
-          return formattedUser;
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Email and password are required");
         }
 
-        return null;
+        try {
+          const res = await fetch("http://localhost:8080/users/signin", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: credentials.email,
+              password: credentials.password,
+            }),
+          });
+
+          if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.message || "Invalid credentials");
+          }
+
+          const user = await res.json();
+
+          if (user) {
+            return {
+              id: user.id,
+              name: user.nom,
+              email: user.email,
+              image: user.photoProfil,
+            };
+          }
+
+          return null;
+        } catch (error) {
+          console.error("Authentication error:", error);
+          return null;
+        }
       },
     }),
   ],
