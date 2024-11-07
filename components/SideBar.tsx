@@ -3,10 +3,10 @@ import Link from "next/link";
 import Image from "next/image";
 import Domain from "./Domain";
 import { usePathname } from "next/navigation";
+import { toCapitalize } from "@/app/utils";
 
 export default function SideBar() {
   const pathname = usePathname();
-  const domaineName = pathname ? pathname.split("/").pop() : ""; // This will get the last segment of the URL path
 
   const domains = [
     { name: "Musique", icon: "/domain/musique.svg" },
@@ -22,16 +22,19 @@ export default function SideBar() {
           <Image src="/logo-whit.svg" alt="logo" width={80} height={80} />
         </Link>
       </div>
-      {domains.map((domain) => (
-        <Domain
-          key={domain.name}
-          name={domain.name}
-          icon={domain.icon}
-          className={
-            domaineName === domain.name.toLowerCase() ? "bg-neutral-500" : ""
-          }
-        />
-      ))}
+      {domains.map((domain) => {
+        const encodedDomainName = encodeURIComponent(domain.name.toLowerCase());
+        const isActive =
+          pathname === `/domaine/${toCapitalize(encodedDomainName)}`;
+        return (
+          <Domain
+            key={domain.name}
+            name={domain.name}
+            icon={domain.icon}
+            className={isActive ? "bg-neutral-500" : ""}
+          />
+        );
+      })}
       <div className="mx-3 border-4 rounded-3xl flex items-center justify-center">
         <span className="text-white text-center text-4xl">+</span>
       </div>
