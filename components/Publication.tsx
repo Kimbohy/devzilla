@@ -188,7 +188,7 @@ export default function Publication({ pub }: { pub: PublicationProps }) {
                 className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
               >
                 <Image
-                  src="/facebook.svg"
+                  src="/facebook2.svg"
                   alt="facebook"
                   width={16}
                   height={16}
@@ -200,19 +200,19 @@ export default function Publication({ pub }: { pub: PublicationProps }) {
                 className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
               >
                 <Image
-                  src="/twitter.svg"
+                  src="/x-twitter.svg"
                   alt="twitter"
                   width={16}
                   height={16}
                 />
-                <span>Share on Twitter</span>
+                <span>Share on X</span>
               </button>
               <button
                 onClick={() => handleShare("linkedin")}
                 className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
               >
                 <Image
-                  src="/linkedin.svg"
+                  src="/linkedin2.svg"
                   alt="linkedin"
                   width={16}
                   height={16}
