@@ -71,6 +71,27 @@ export default function SideBar() {
         })}
       </nav>
 
+      <div className="p-2 mx-2">
+        <Link
+          href="/search"
+          className="group flex items-center space-x-3 px-3 py-2 text-white bg-slate-800/50 transition-all duration-200 rounded-md hover:bg-slate-800"
+        >
+          <svg
+            className="w-6 h-6 text-gray-400 group-hover:text-primary"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <span className="hidden md:block">Search</span>
+        </Link>
+      </div>
       <div className="px-4 pb-6">
         <button className="w-full group px-4 py-3 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-200">
           <span className=" flex items-center justify-center">
