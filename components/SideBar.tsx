@@ -74,7 +74,7 @@ export default function SideBar() {
               <Domain
                 name={domain.name}
                 icon={domain.icon}
-                isCollapsed={isCollapsed}
+                // isCollapsed={isCollapsed}
                 className={`transition-all duration-200 ${
                   isActive
                     ? "bg-primary/20 text-primary"
