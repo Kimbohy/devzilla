@@ -12,6 +12,7 @@ interface PublicationProps {
       name: string;
       avatar: string;
     };
+    type: string;
     createdAt: string;
   };
 }
@@ -96,6 +97,11 @@ export default function Publication({ pub }: { pub: PublicationProps }) {
           <h1 className="font-semibold text-gray-900">{pub.data.user.name}</h1>
           <span className="text-sm text-gray-500">{pub.data.createdAt}</span>
         </div>
+        {pub.data.type && (
+          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full ml-2">
+            {pub.data.type}
+          </span>
+        )}
       </div>
 
       {/* Content */}

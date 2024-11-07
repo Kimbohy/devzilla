@@ -11,6 +11,7 @@ interface PublicationProps {
       name: string;
       avatar: string;
     };
+    type: string;
     createdAt: string;
   };
 }
@@ -28,6 +29,7 @@ const publications: PublicationProps[] = [
         name: "Kimbohy Marisika",
         avatar: "/avatar.svg",
       },
+      type: "Projets en cours",
       createdAt: "2j",
     },
   },
@@ -42,6 +44,7 @@ const publications: PublicationProps[] = [
         name: "Kimbohy Marisika",
         avatar: "/avatar.svg",
       },
+      type: "Résultats de projets",
       createdAt: "2j",
     },
   },
@@ -56,6 +59,7 @@ const publications: PublicationProps[] = [
         name: "Kimbohy Marisika",
         avatar: "/avatar.svg",
       },
+      type: "Challenge",
       createdAt: "2j",
     },
   },
