@@ -6,6 +6,10 @@ import arrowleft from "@/public/angle-left-solid.svg";
 import Link from "next/link";
 
 const EditProfileUser = () => {
+  const field =
+    "border-[1px] border-black px-2 py-1 rounded-lg mt-3 md:h-20 md:w-[800px] flex flex-col justify-center md:px-6";
+  const labelfield = "text-zinc-700 text-sm";
+
   const [formData, setFormData] = useState<{
     nom: string;
     photoProfil: string;
@@ -20,25 +24,26 @@ const EditProfileUser = () => {
     domaines: [],
   });
 
-  // Initial data for comparison (you might fetch this from an API)
   const [initialData, setInitialData] = useState(formData);
 
+  // State to hold new competencies and domains
+  // const [newCompetence, setNewCompetence] = useState("");
+  // const [newDomain, setNewDomain] = useState("");
+
+  // State to control visibility of the social media link input
+  // const [showSocialLinkInput, setShowSocialLinkInput] = useState(false);
+
   useEffect(() => {
-    // Simulate fetching initial data
-    const fetchInitialData = async () => {
-      try {
-        const userId = "someUserId"; // Replace with actual user ID logic
-        const response = await axios.get(
-          `http://localhost:8080/users?user-id=${userId}`
-        );
-        setInitialData(response.data);
-        setFormData(response.data);
-      } catch (error) {
-        console.error("Error fetching initial data:", error);
-      }
+    const fakeData = {
+      nom: "John Doe",
+      photoProfil: "https://example.com/profile.jpg",
+      competence: ["JavaScript", "React", "Node.js"],
+      reseauxSociaux: { lien: "https://twitter.com/johndoe", nom: "Twitter" },
+      domaines: ["Musique", "Chant"],
     };
 
-    fetchInitialData();
+    setInitialData(fakeData);
+    setFormData(fakeData);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +69,26 @@ const EditProfileUser = () => {
       });
     }
   };
+
+  // const handleAddCompetence = () => {
+  //   if (newCompetence) {
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       competence: [...prev.competence, newCompetence],
+  //     }));
+  //     setNewCompetence(""); // Clear the input after adding
+  //   }
+  // };
+
+  // const handleAddDomain = () => {
+  //   if (newDomain) {
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       domaines: [...prev.domaines, newDomain],
+  //     }));
+  //     setNewDomain(""); // Clear the input after adding
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,71 +146,133 @@ const EditProfileUser = () => {
   };
 
   return (
-    <div>
-      <div className="flex gap-5 items-center pl-3 pt-4">
+    <div className="md:ml-10">
+      <div className="flex gap-5 items-center pl-3 pt-4 md:my-9">
         <Link href="/profile">
           <Image src={arrowleft} alt="arrow" width={"15"} height={"15"} />
         </Link>
-        <p className="font-semibold text-lg">Edit profile</p>
+        <p className="font-semibold text-lg md:text-3xl">Edit profile</p>
       </div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="nom">Changer de nom</label>
-        <input
-          type="text"
-          name="nom"
-          id="nom"
-          value={formData.nom}
-          onChange={handleChange}
-        />
-        <label htmlFor="photoProfil">Changer votre photo de profile</label>
-        <input
-          type="text"
-          name="photoProfil"
-          id="photoProfil"
-          value={formData.photoProfil}
-          onChange={handleChange}
-        />
-        <label htmlFor="competence">
-          Changer votre compétence (separer par des virgules)
-        </label>
-        <input
-          type="text"
-          name="competence"
-          id="competence"
-          value={formData.competence.join(", ")}
-          onChange={handleChange}
-        />
-        <label htmlFor="reseauxSociauxLien">
-          Changer votre lien reseaux sociaux
-        </label>
-        <input
-          type="text"
-          name="reseauxSociaux.lien"
-          id="reseauxSociauxLien"
-          value={formData.reseauxSociaux.lien}
-          onChange={handleChange}
-        />
-        <label htmlFor="reseauxSociauxNom">
-          Changer le nom de votre reseaux sociaux
-        </label>
-        <input
-          type="text"
-          name="reseauxSociaux.nom"
-          id="reseauxSociauxNom"
-          value={formData.reseauxSociaux.nom}
-          onChange={handleChange}
-        />
-        <label htmlFor="domaines">
-          Changer vos domaines (separer par des virgules)
-        </label>
-        <input
-          type="text"
-          name="domaines"
-          id="domaines"
-          value={formData.domaines.join(", ")}
-          onChange={handleChange}
-        />
-        <button type="submit">Mettre à jour le profil</button>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col justify-center items-center px-2 md:gap-4 md:pl-7"
+      >
+        <div className={field}>
+          <label htmlFor="nom" className={labelfield}>
+            Changer de nom
+          </label>
+          <input
+            type="text"
+            name="nom"
+            id="nom"
+            value={formData.nom}
+            onChange={handleChange}
+            className="focus:text-lg"
+          />
+        </div>
+        <div className={field}>
+          <label htmlFor="photoProfil" className={labelfield}>
+            Changer votre photo de profile
+          </label>
+          <input
+            type="text"
+            name="photoProfil"
+            id="photoProfil"
+            value={formData.photoProfil}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={field}>
+          <label htmlFor="competence" className={labelfield}>
+            Changer votre compétence
+          </label>
+          <input
+            type="text"
+            name="competence"
+            id="competence"
+            value={formData.competence.join(". ")}
+            onChange={handleChange}
+          />
+          {/* <input
+            type="text"
+            value={newCompetence}
+            onChange={(e) => setNewCompetence(e.target.value)}
+            className="mt-2"
+          /> */}
+          {/* <button
+            type="button"
+            onClick={handleAddCompetence}
+            className="mt-2 bg-blue-500 text-white rounded px-2 md:hidden"
+          >
+            Ajouter
+          </button> */}
+        </div>
+        <div className={field}>
+          <label htmlFor="reseauxSociaux" className={labelfield}>
+            Changer votre reseaux sociaux
+          </label>
+          <input
+            type="text"
+            name="reseauxSociaux"
+            id="reseauxSociaux"
+            value={formData.reseauxSociaux.nom}
+            onChange={handleChange}
+          />
+          {/* <button
+            type="button"
+            onClick={() => setShowSocialLinkInput((prev) => !prev)}
+            className="mt-2 bg-blue-500 text-white rounded px-2 md:hidden"
+          >
+            {showSocialLinkInput ? "Masquer" : "Modifier"}
+          </button> */}
+          {/* {showSocialLinkInput && (
+            <div className={field}>
+              <label htmlFor="reseauxSociauxLien" className={labelfield}>
+                Changer votre lien reseaux sociaux
+              </label>
+              <input
+                type="text"
+                name="reseauxSociaux.lien"
+                id="reseauxSociauxLien"
+                value={formData.reseauxSociaux.lien}
+                onChange={handleChange}
+                className="md:focus:text-3xl"
+              />
+            </div>
+          )} */}
+        </div>
+
+        <div className={field}>
+          <label htmlFor="domaines" className={labelfield}>
+            Changer vos domaines
+          </label>
+          <input
+            type="text"
+            name="domaines"
+            id="domaines"
+            value={formData.domaines.join(". ")}
+            onChange={handleChange}
+          />
+          {/* <input
+            type="text"
+            value={newDomain}
+            onChange={(e) => setNewDomain(e.target.value)}
+            className="mt-2"
+          /> */}
+          {/* <button
+            type="button"
+            onClick={handleAddDomain}
+            className="mt-2 bg-blue-500 text-white rounded px-2 md:hidden"
+          >
+            Ajouter
+          </button> */}
+        </div>
+        <button
+          type="submit"
+          className="px-2 bg-primary rounded-md text-white my-10 w-[150px] flex justify-center items-end h-7 md:text-xl md:h-10 md:gap-2 fixed right-3 bottom-16 md:justify-center md:items-center md:w-[200px] md:right-20 md:bottom-8"
+        >
+          Mettre à jour
+        </button>
       </form>
     </div>
   );

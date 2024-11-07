@@ -42,7 +42,7 @@ const ProfileUser = ({ profile }: { profile: ProfileProps }) => {
 
   return (
     <div className="flex flex-col">
-      <div>
+      <div className="md:flex md:flex-col md:gap-10">
         <div className="flex pt-4 px-3 w-full justify-between">
           <div className="flex flex-col md:flex-row md:gap-6 md:items-center md:pl-9">
             <Image
