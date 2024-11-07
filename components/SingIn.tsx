@@ -95,7 +95,7 @@ const SingIn = () => {
       if (result?.error) {
         setError("Invalid email or password");
       } else {
-        router.push("/"); // Redirect to dashboard on successful login
+        router.refresh(); // test
       }
     } catch (error) {
       console.error("An error occurred during sign in:", error);
