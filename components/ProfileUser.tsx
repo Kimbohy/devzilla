@@ -4,7 +4,7 @@ import React from "react";
 const ProfileUser = () => {
   return (
     <div>
-      <Link href="/profile/edit">
+      <Link href="/">
         <button>Edit</button>
       </Link>
     </div>

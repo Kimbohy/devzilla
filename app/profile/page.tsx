@@ -1,4 +1,5 @@
-import EditProfileUser from "@/app/profile/EditProfileUser";
+// import EditProfileUser from "@/components/EditProfileUser";
+import ProfileUser from "@/components/ProfileUser";
 import SideBar from "@/components/SideBar";
 import React from "react";
 
@@ -6,7 +7,7 @@ const Page = () => {
   return (
     <div className="flex">
       <SideBar />
-      <EditProfileUser />
+      <ProfileUser />
     </div>
   );
 };
