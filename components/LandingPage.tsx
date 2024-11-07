@@ -1,31 +1,233 @@
+// components/LandingPage.tsx
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
 import Header from "@/components/Header";
+import { motion } from "framer-motion";
 
-const LandingPage = () => {
+// Feature data
+const features = [
+  {
+    icon: "/icons/collaborate.svg",
+    title: "Collaboration",
+    description: "Connectez-vous avec des créateurs de tous horizons.",
+  },
+  {
+    icon: "/icons/learn.svg",
+    title: "Apprentissage",
+    description: "Partagez et acquérez de nouvelles compétences.",
+  },
+  {
+    icon: "/icons/inspire.svg",
+    title: "Inspiration",
+    description: "Découvrez de nouveaux domaines et perspectives.",
+  },
+];
+
+const domains = [
+  {
+    name: "Entrepreneuriat",
+    icon: "/domains/business.png",
+    description: "Développez vos compétences entrepreneuriales",
+  },
+  {
+    name: "Science",
+    icon: "/domains/science.png",
+    description: "Explorez les horizons scientifiques",
+  },
+  {
+    name: "Art",
+    icon: "/domains/art.png",
+    description: "Libérez votre créativité artistique",
+  },
+];
+
+export default function LandingPage() {
   return (
-    <div className="flex flex-col w-screen md:h-screen md:gap-32 bg-[url('../public/bg2.jpg')] bg-cover bg-center">
-      <Header />
-      <div className="flex  justify-center md:items-center  ">
-        <div className="w-full md:w-4/5 flex flex-col gap-12 px-6 pt-32 md:pt-0">
-          <p className="text-5xl font-semibold text-white md:w-2/4">
-            Bienvenue sur notre plateforme
-          </p>
-          <p className="text-lg md:w-2/4 text-white">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-            voluptatum accusamus placeat maxime quidem nulla pariatur alias sint
-            quis. Sapiente, deserunt. Ut, optio ea fuga consectetur molestiae
-            numquam quasi nostrum.
-          </p>
-          <Link href="/session">
-            <button className=" bg-slate-500 px-4 py-3 text-white rounded-lg mt-20 text-xl hover:bg-slate-800 mb-10">
-              Commencer
-            </button>
-          </Link>
+    <div className="bg-white">
+      {/* Hero Section */}
+      <div className="relative bg-gradient-to-br from-primary/10 to-primary/5">
+        <Header />
+
+        <div className="container mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="h-1 w-12 bg-primary"></div>
+              <span className="text-primary font-medium">
+                Découvrez Devzilla
+              </span>
+            </div>
+
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+              Développez Votre <br />
+              <span className="text-primary">Potentiel</span> Créatif
+            </h1>
+
+            <p className="text-xl text-gray-600 leading-relaxed">
+              Une plateforme collaborative qui vous permet de partager,
+              apprendre et grandir dans divers domaines de création et
+              d&apos;innovation.
+            </p>
+
+            <div className="flex space-x-4 pt-6">
+              <Link href="/session">
+                <button className="bg-primary text-white px-8 py-3 rounded-lg shadow-lg hover:bg-primary-dark transition-colors text-lg font-semibold">
+                  Commencer
+                </button>
+              </Link>
+              <Link href="/about">
+                <button className="border-2 border-primary text-primary px-8 py-3 rounded-lg hover:bg-primary/10 transition-colors text-lg font-semibold">
+                  En savoir plus
+                </button>
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <Image
+              src="/hero-illustration.svg"
+              alt="Hero Illustration"
+              width={600}
+              height={600}
+              className="z-10 relative"
+            />
+          </motion.div>
         </div>
       </div>
+
+      {/* Features Section */}
+      <section className="container mx-auto px-4 py-16 md:py-24">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Pourquoi Devzilla ?
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Une plateforme conçue pour stimuler la créativité, le partage de
+            connaissances et la collaboration.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all text-center group"
+            >
+              <div className="flex justify-center mb-4">
+                <Image
+                  src={feature.icon}
+                  alt={feature.title}
+                  width={64}
+                  height={64}
+                  className="group-hover:scale-110 transition-transform"
+                />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+              <p className="text-gray-600">{feature.description}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Domains Section */}
+      <section className="bg-gray-50 py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Explorez Nos Domaines
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Découvrez une variété de domaines où vous pouvez développer vos
+              talents et passions.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {domains.map((domain, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group"
+              >
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={domain.icon}
+                    alt={domain.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold mb-2">{domain.name}</h3>
+                  <p className="text-gray-600">{domain.description}</p>
+                  <Link href={`/domaine/${domain.name.toLowerCase()}`}>
+                    <button className="mt-4 text-primary hover:underline">
+                      Explorer →
+                    </button>
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="bg-primary text-white py-16 md:py-24 text-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="container mx-auto px-4"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Prêt à commencer votre voyage ?
+          </h2>
+          <p className="text-lg mb-6">
+            Rejoignez notre communauté et commencez à développer vos compétences
+            dès aujourd&apos;hui.
+          </p>
+          <Link href="/session">
+            <button className="bg-white text-primary px-8 py-3 rounded-lg shadow-lg hover:bg-gray-200 transition-colors text-lg font-semibold">
+              Inscrivez-vous maintenant
+            </button>
+          </Link>
+        </motion.div>
+      </section>
+
+      {/* Footer Section */}
+      <footer className="bg-gray-800 text-white py-8">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm">
+            &copy; {new Date().getFullYear()} Devzilla. Tous droits réservés.
+          </p>
+          <div className="flex justify-center space-x-4 mt-4">
+            <Link href="/privacy" className="text-gray-400 hover:text-white">
+              Politique de confidentialité
+            </Link>
+            <Link href="/terms" className="text-gray-400 hover:text-white">
+              Conditions d&apos;utilisation
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
-};
-
-export default LandingPage;
+}
