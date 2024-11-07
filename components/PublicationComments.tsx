@@ -126,7 +126,7 @@ export default function PublicationComments({
       </form>
 
       {/* Comments List */}
-      <div className="space-y-4">
+      <div className="space-y-4 p-5">
         {comments.length === 0 ? (
           <p className="text-gray-500 text-center">Aucun commentaire</p>
         ) : (
