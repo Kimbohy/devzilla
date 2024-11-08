@@ -9,14 +9,24 @@ const nextConfig: NextConfig = {
     return config;
   },
   images: {
-    domains: [], // Add any external image domains if needed
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+    ],
+  },
+  experimental: {
+    turbo: {
+      rules: {
+        "*.svg": ["@svgr/webpack"],
+      },
+    },
   },
 };
 
 export default nextConfig;
-
-module.exports = {
-  images: {
-    domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],
-  },
-};
