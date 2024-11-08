@@ -1,4 +1,3 @@
-// components/SearchResults.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -59,15 +58,19 @@ export default function SearchResults({
             key={result.id}
             className="flex items-center space-x-4 p-4 hover:bg-gray-100 rounded-lg"
           >
-            <Image
-              src={result.avatar || "/avatar.svg"}
-              alt={result.name || "User"}
-              width={50}
-              height={50}
-              className="rounded-full"
-            />
-            <div>
-              <p className="font-semibold">{result.name}</p>
+            <div className="shrink-0">
+              <Image
+                src={result.avatar || "/avatar.svg"}
+                alt={result.name || "User"}
+                width={50}
+                height={50}
+                className="rounded-full w-12 h-12 object-cover"
+              />
+            </div>
+            <div className="flex-grow">
+              <p className="font-semibold text-sm md:text-base">
+                {result.name}
+              </p>
             </div>
           </Link>
         );
@@ -76,21 +79,23 @@ export default function SearchResults({
           <Link
             href={`/publication/${result.id}`}
             key={result.id}
-            className="p-4 hover:bg-gray-100 rounded-lg"
+            className="p-4 hover:bg-gray-100 rounded-lg flex space-x-4"
           >
-            <div className="flex items-start space-x-4">
-              {result.image && (
+            {result.image && (
+              <div className="shrink-0 hidden md:block">
                 <Image
                   src={result.image}
                   alt="Publication"
                   width={100}
                   height={100}
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-cover w-24 h-24"
                 />
-              )}
-              <div>
-                <p>{result.content}</p>
               </div>
+            )}
+            <div className="flex-grow">
+              <p className="text-sm md:text-base line-clamp-2">
+                {result.content}
+              </p>
             </div>
           </Link>
         );
@@ -101,28 +106,35 @@ export default function SearchResults({
             key={result.id}
             className="flex items-center space-x-4 p-4 hover:bg-gray-100 rounded-lg"
           >
-            <Image
-              src={`/domain/${result.name?.toLowerCase()}.svg`}
-              alt={result.name || "Domain"}
-              width={50}
-              height={50}
-            />
-            <p className="font-semibold">{result.name}</p>
+            <div className="shrink-0">
+              <Image
+                src={`/domain/${result.name?.toLowerCase()}.svg`}
+                alt={result.name || "Domain"}
+                width={50}
+                height={50}
+                className="w-12 h-12 object-contain"
+              />
+            </div>
+            <p className="font-semibold text-sm md:text-base">{result.name}</p>
           </Link>
         );
     }
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded- full h-10 w-10 border-t-2 border-primary border-solid"></div>
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4">
-      {results.length === 0 ? (
-        <p className="text-center text-gray-500">No results found</p>
-      ) : (
+      {results.length > 0 ? (
         results.map(renderResult)
+      ) : (
+        <p className="text-center text-gray-500">No results found.</p>
       )}
     </div>
   );
