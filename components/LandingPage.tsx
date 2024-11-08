@@ -10,17 +10,17 @@ import { motion } from "framer-motion";
 // Feature data
 const features = [
   {
-    icon: "/icons/collaborate.svg",
+    icon: "/World-cuate.svg",
     title: "Collaboration",
     description: "Connectez-vous avec des créateurs de tous horizons.",
   },
   {
-    icon: "/icons/learn.svg",
+    icon: "/World-rafiki.svg",
     title: "Apprentissage",
     description: "Partagez et acquérez de nouvelles compétences.",
   },
   {
-    icon: "/icons/inspire.svg",
+    icon: "/World-pana.svg",
     title: "Inspiration",
     description: "Découvrez de nouveaux domaines et perspectives.",
   },
@@ -29,17 +29,17 @@ const features = [
 const domains = [
   {
     name: "Entrepreneuriat",
-    icon: "/domains/business.png",
+    icon: "/International cooperation-bro.svg",
     description: "Développez vos compétences entrepreneuriales",
   },
   {
     name: "Science",
-    icon: "/domains/science.png",
+    icon: "Innovation-bro.svg",
     description: "Explorez les horizons scientifiques",
   },
   {
     name: "Art",
-    icon: "/domains/art.png",
+    icon: "/Creative thinking-bro.svg",
     description: "Libérez votre créativité artistique",
   },
 ];
@@ -97,7 +97,7 @@ export default function LandingPage() {
             className="relative"
           >
             <Image
-              src="/hero-illustration.svg"
+              src="/Superhero-bro.svg"
               alt="Hero Illustration"
               width={600}
               height={600}
@@ -132,8 +132,8 @@ export default function LandingPage() {
                 <Image
                   src={feature.icon}
                   alt={feature.title}
-                  width={64}
-                  height={64}
+                  width={120}
+                  height={120}
                   className="group-hover:scale-110 transition-transform"
                 />
               </div>

@@ -79,7 +79,7 @@ const Page = () => {
     if (session?.user?.id) {
       fetchProfile();
     }
-  }, [session]);
+  }, []);
 
   if (error) {
     return (
