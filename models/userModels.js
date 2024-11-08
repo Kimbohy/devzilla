@@ -1,5 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { getCollection } from '../tools/function.js'
+import { userError } from '../tools/error.js'
 
 // gerer les doublons
 // enregistrer les authentifications par github ou google et generer id
@@ -19,39 +20,57 @@ export async function create(userData) {
     };
 
     const collection = await getCollection('Utilisateurs')
-    await collection.insertOne(newUser)
-    return {
-        _id: newUser._id,
-        name: newUser.nom,
-        mail: newUser.email,
-        type: newUser.type
+
+    const check = await collection.findOne({email: userData.email})
+    if (check) {
+        throw userError.duplicateEmailError()
+    } else {
+
+        await collection.insertOne(newUser)
+        return {
+            _id: newUser._id,
+            name: newUser.nom,
+            mail: newUser.email,
+            type: newUser.type
+        }
     }
 }
 
 
 export async function authenticate(userData) {
     const collection = await getCollection('Utilisateurs')
-    return await collection.findOne(userData, {projection: {nom: 1, email: 1, photoProfil: 1}})
+    const check = await collection.findOne(userData, {projection: {nom: 1, email: 1, photoProfil: 1}})
+    if (check) {
+        return check
+    } else {
+        throw userError.wrongPasswordError()
+    }
 }
 
-// fonction pour mettre à jour les données de l'utilisateur
 export async function update(id, userData) {
     const collection = await getCollection('Utilisateurs')
-    const document = await collection.findOne({_id: new ObjectId(id)})
-    console.log(document)
+    const document = await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
+    if (document) {
+        userData.forEach(async element => {
+            if (Array.isArray(document[element.key])) {
+                await collection.updateOne({_id: new ObjectId(id)},{ $push: { [element.key]: element.value } });
+            } else {
+                await collection.updateOne({_id: new ObjectId(id)},{ $set: { [element.key]: element.value } });
+            }
+        })
 
-    userData.forEach(async element => {
-        if (Array.isArray(document[element.key])) {
-            await collection.updateOne({_id: new ObjectId(id)},{ $push: { [element.key]: element.value } });
-        } else {
-            await collection.updateOne({_id: new ObjectId(id)},{ $set: { [element.key]: element.value } });
-        }
-    });
-
-    return await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
+        return await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
+    } else {
+        throw userError.userNotFoundError()
+    }
 }
 
 export async function getOne(id) {
     const collection = await getCollection('Utilisateurs')
-    return await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
+    const user = await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
+    if (user) {
+        return user
+    } else {
+        throw userError.userNotFoundError()
+    }
 }
