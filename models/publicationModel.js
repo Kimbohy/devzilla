@@ -63,3 +63,8 @@ export async function getAllPub() {
     const collection = await getCollection('Publications')
     return await collection.find().toArray()
 }
+
+export async function getOneDomainePub(domaineId) {
+    const collection = await getCollection('Publications')
+    return await collection.find({domainesId: new ObjectId(domaineId)}).toArray()
+}

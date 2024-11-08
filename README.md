@@ -108,7 +108,8 @@
         "competences": [],
         "reseauxSociaux": [],
         "domaines": [],
-        "mentorDomaineId": []
+        "mentor": [],
+        "apprenti": []
     }
 }
 ```

@@ -1,5 +1,5 @@
 import {createUser, authenticateUser, updateUser, getOneUser} from '../controllers/userController.js'
-import {createPublication, commentPublication, reactPublication, getAllPublication, getOnePublication} from '../controllers/publicationController.js'
+import {createPublication, commentPublication, reactPublication, getAllPublication, getOnePublication, getOneDomainePublication} from '../controllers/publicationController.js'
 import {askMatch} from '../controllers/matchController.js'
 
 export async function userRoute(req, res, url) {
