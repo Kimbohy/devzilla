@@ -9,6 +9,7 @@ const SingUp = () => {
     passwordOne: "",
     passwordTwo: "",
   });
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 

@@ -71,7 +71,7 @@ export default function PublicationActions({
   };
 
   return (
-    <div className="relative px-3 md:px-4 py-2 border-t border-gray-100 flex items-center space-x-3 md:space-x-6">
+    <div className="relative px-3 md:px-4 md:py-3 py-2 border-t border-gray-100 flex items-center space-x-3 md:space-x-6">
       <div className="flex items-center space-x-3 md:space-x-6">
         {/* Happy Reaction */}
         <button className="flex items-center space-x-1 md:space-x-2 group">
@@ -83,7 +83,7 @@ export default function PublicationActions({
               className="object-contain"
             />
           </div>
-          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
+          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900 hidden md:block">
             Happy
           </span>
         </button>
@@ -93,7 +93,7 @@ export default function PublicationActions({
           <div className="relative w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform">
             <Image src="/sad.svg" alt="sad" fill className="object-contain" />
           </div>
-          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
+          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900 hidden md:block">
             Sad
           </span>
         </button>
@@ -111,7 +111,7 @@ export default function PublicationActions({
               className="object-contain"
             />
           </div>
-          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
+          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900 ">
             {showComments
               ? "Masquer les commentaires"
               : "Voir les commentaires"}
@@ -132,7 +132,7 @@ export default function PublicationActions({
                 className="object-contain"
               />
             </div>
-            <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
+            <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900 hidden md:block">
               Partager
             </span>
           </button>

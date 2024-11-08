@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import axios from "axios";
 
 export default function Publier() {
@@ -14,6 +14,33 @@ export default function Publier() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [userId, setUserId] = useState("");
+
+  // Fetch user ID when component mounts
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        // Assuming you store the email or username in localStorage after signup/login
+        const userEmail = localStorage.getItem("userEmail");
+
+        if (userEmail) {
+          // Fetch user details using the email
+          const response = await axios.get(
+            `http://localhost:8080/users/signup?email=${userEmail}`
+          );
+
+          // Set the user ID
+          setUserId(response.data.id);
+          console.log(response.data.id);
+        }
+      } catch (err) {
+        console.error("Error fetching user ID:", err);
+        setError("Impossible de récupérer l'identifiant utilisateur");
+      }
+    };
+
+    fetchUserId();
+  }, []);
 
   const publicationTypes = [
     "Projets en cours",
@@ -43,6 +70,12 @@ export default function Publier() {
       return;
     }
 
+    // Additional validation for user ID
+    if (!userId) {
+      setError("Identifiant utilisateur non disponible");
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
     setSuccess(false);
@@ -53,6 +86,7 @@ export default function Publier() {
       formData.append("type", selectedType);
       formData.append("content", content);
       formData.append("domain", domaineName);
+      formData.append("userId", userId); // Add user ID to form data
 
       if (image) {
         formData.append("image", image);
