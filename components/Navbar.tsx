@@ -6,6 +6,8 @@ import axios from "axios";
 
 async function Navbar() {
   const session = await auth();
+  // console.log("ssss", session);
+
   let unreadNotificationsCount = 0;
 
   if (session?.user) {

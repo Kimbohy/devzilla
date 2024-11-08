@@ -16,8 +16,32 @@ declare module "next-auth" {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    GitHub,
-    Google,
+    GitHub({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      async profile(profile) {
+        // Return the user profile
+        return {
+          id: profile.id.toString(),
+          name: profile.name,
+          email: profile.email,
+          image: profile.avatar_url,
+        };
+      },
+    }),
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      async profile(profile) {
+        // Return the user profile
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
+    }),
     Credentials({
       name: "Credentials",
       credentials: {
@@ -52,9 +76,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           const user = await res.json();
 
-          if (user) {
+          // Fetch the user ID from your server using the email
+          const userResponse = await fetch(
+            `http://localhost:8080/users?email=${credentials.email}`
+          );
+          const userData = await userResponse.json();
+
+          if (userData && userData.id) {
             return {
-              id: user.id,
+              id: userData.id, // Set the user ID here
               name: user.nom,
               email: user.email,
               image: user.photoProfil,
@@ -73,16 +103,34 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/session",
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
-        token.id = user.id;
-        token.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 14; // Set expiration to 2 weeks
+        token.id = user.id; // Set the user ID in the token
       }
+
+      // Fetch user ID for GitHub and Google sign-ins
+      if (account?.provider) {
+        const email = user?.email || token.email; // Get the email from the user or token
+        if (email) {
+          /*
+          const userResponse = await fetch(
+            `http://localhost:8080/users?email=${email}`
+          );
+          const userData = await userResponse.json();
+          */
+          const userData = { id: "51" }; // Mock user data
+          if (userData && userData.id) {
+            token.id = userData.id; // Set the user ID from the server
+          }
+        }
+      }
+
+      token.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 14; // Set expiration to 2 weeks
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.id = token.id as string;
+        session.user.id = token.id as string; // Set the user ID in the session
         if (token.exp) {
           session.expires = new Date(token.exp * 1000).toISOString(); // Set session expiration
         }
