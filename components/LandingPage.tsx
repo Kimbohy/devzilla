@@ -60,9 +60,7 @@ export default function LandingPage() {
           >
             <div className="flex items-center space-x-3 mb-4">
               <div className="h-1 w-12 bg-primary"></div>
-              <span className="text-primary font-medium">
-                Découvrez Ta Lenta
-              </span>
+              <span className="text-primary font-medium">Découvrez</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
