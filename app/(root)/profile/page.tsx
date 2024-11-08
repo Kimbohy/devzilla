@@ -1,7 +1,8 @@
 // app/(root)/profile/page.tsx
+"use client";
 import ProfileUser from "@/components/ProfileUser";
-import { auth } from "@/auth";
-// import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export interface SocialMedia {
   lien: string;
@@ -28,54 +29,59 @@ export interface ProfileProps {
   apprenti: MentorApprenticeRelation[];
 }
 
-const Page = async () => {
-  const session = await auth();
+const Page = () => {
+  const { data: session } = useSession();
+  const [user, setUser] = useState<ProfileProps | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
-  // If no session, redirect to login
-  if (!session?.user?.id) {
-    console.log("???", session);
-  }
+  const fetchProfile = async () => {
+    if (!session?.user?.id) {
+      throw new Error("User  is not authenticated.");
+    }
 
-  try {
-    // Fetch with error handling and timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
-    const response = await fetch(
-      `http://localhost:8080/users?userId=${session?.user?.id || ""}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        signal: controller.signal,
+      const response = await fetch(
+        `http://localhost:8080/users?userId=${session.user.id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          signal: controller.signal,
+        }
+      );
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    );
 
-    // Clear timeout
-    clearTimeout(timeoutId);
+      const userData: ProfileProps = await response.json();
 
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      if (!userData || !userData.id) {
+        throw new Error("Invalid user data received");
+      }
+
+      setUser(userData);
+    } catch (err) {
+      console.error("Profile fetch error:", err);
+      setError(
+        err instanceof Error ? err : new Error("An unexpected error occurred")
+      );
     }
+  };
 
-    const user: ProfileProps = await response.json();
-
-    // Additional validation
-    if (!user || !user.id) {
-      throw new Error("Invalid user data received");
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetchProfile();
     }
+  }, [session]);
 
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <ProfileUser profile={user} connectedUserId={session?.user?.id || ""} />
-      </div>
-    );
-  } catch (error) {
-    console.error("Profile fetch error:", error);
-
-    // Render error component
+  if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div
@@ -90,7 +96,7 @@ const Page = async () => {
             >
               <path
                 fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zm-2 5a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
                 clipRule="evenodd"
               />
             </svg>
@@ -98,11 +104,7 @@ const Page = async () => {
               <strong className="font-bold block mb-1">
                 Erreur de chargement du profil
               </strong>
-              <span className="block sm:inline">
-                {error instanceof Error
-                  ? error.message
-                  : "Une erreur inattendue s'est produite. Veuillez réessayer."}
-              </span>
+              <span className="block sm:inline">{error.message}</span>
             </div>
           </div>
           <div className="mt-4 flex space-x-4">
@@ -123,6 +125,16 @@ const Page = async () => {
       </div>
     );
   }
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <ProfileUser profile={user} connectedUserId={session?.user?.id || ""} />
+    </div>
+  );
 };
 
 export default Page;

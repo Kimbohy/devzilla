@@ -6,6 +6,7 @@ import QuickActionSection from "@/components/QuickActionSection";
 
 // fake data
 // New interfaces for additional features
+/*
 interface Challenge {
   id: string;
   title: string;
@@ -13,6 +14,7 @@ interface Challenge {
   participants: number;
   deadline: string;
 }
+  */
 
 interface Mentor {
   id: string;
@@ -21,7 +23,7 @@ interface Mentor {
   domain: string;
   expertise: string;
 }
-
+/*
 const challenges: Challenge[] = [
   {
     id: "1",
@@ -38,7 +40,7 @@ const challenges: Challenge[] = [
     deadline: "45 jours restants",
   },
 ];
-
+*/
 const mentors: Mentor[] = [
   {
     id: "1",

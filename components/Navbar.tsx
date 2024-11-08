@@ -10,7 +10,9 @@ async function Navbar() {
 
   if (session?.user) {
     try {
-      const response = await axios.get("/api/notifications/unread-count");
+      const response = await axios.get(
+        "http://localhost:8080/notifications/unread"
+      );
       unreadNotificationsCount = response.data.count;
     } catch (error) {
       console.error("Failed to fetch unread notifications", error);
