@@ -1,8 +1,6 @@
 "use client";
 import Publication from "@/components/Publication";
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import RightSideFeatures from "@/components/RightSideFeatures";
 
@@ -207,7 +205,7 @@ export default function Page() {
         </div>
 
         {/* Publications */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 items-center">
           {filteredPublications.length > 0 ? (
             filteredPublications.map((publication) => (
               <Publication key={publication.data.id} pub={publication} />
@@ -222,7 +220,12 @@ export default function Page() {
 
       {/* Right Part with Enhanced Features */}
       <RightSideFeatures
-        publications={publications}
+        publications={publications.map((pub) => ({
+          id: pub.data.id,
+          title: pub.data.content,
+          date: pub.data.createdAt,
+          content: pub.data.content,
+        }))}
         topContributors={topContributors}
         publicationTypes={publicationTypes}
         upcomingEvents={upcomingEvents}

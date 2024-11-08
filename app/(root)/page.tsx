@@ -1,4 +1,4 @@
-import Publication from "@/components/Publication";
+import Publication, { PublicationProps } from "@/components/Publication";
 import DomainQuickAccess from "../../components/DomainQuickAccess";
 import TrendingTopics from "../../components/TrendingTopics";
 import MentorsRecommended from "@/components/MentorsRecommended";
