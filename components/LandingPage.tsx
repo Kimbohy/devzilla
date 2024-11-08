@@ -61,7 +61,7 @@ export default function LandingPage() {
             <div className="flex items-center space-x-3 mb-4">
               <div className="h-1 w-12 bg-primary"></div>
               <span className="text-primary font-medium">
-                Découvrez Devzilla
+                Découvrez Ta Lenta
               </span>
             </div>
 
@@ -78,14 +78,22 @@ export default function LandingPage() {
 
             <div className="flex space-x-4 pt-6">
               <Link href="/session">
-                <button className="bg-primary text-white px-8 py-3 rounded-lg shadow-lg hover:bg-primary-dark transition-colors text-lg font-semibold">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-primary text-white px-8 py-3 rounded-lg shadow-lg hover:bg-primary-dark transition-colors text-lg font-semibold"
+                >
                   Commencer
-                </button>
+                </motion.button>
               </Link>
               <Link href="/about">
-                <button className="border-2 border-primary text-primary px-8 py-3 rounded-lg hover:bg-primary/10 transition-colors text-lg font-semibold">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="border-2 border-primary text-primary px-8 py-3 rounded-lg hover:bg-primary/10 transition-colors text-lg font-semibold"
+                >
                   En savoir plus
-                </button>
+                </motion.button>
               </Link>
             </div>
           </motion.div>
@@ -111,7 +119,7 @@ export default function LandingPage() {
       <section className="container mx-auto px-4 py-16 md:py-24">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Pourquoi Devzilla ?
+            Pourquoi Ta Lenta ?
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Une plateforme conçue pour stimuler la créativité, le partage de
@@ -129,12 +137,13 @@ export default function LandingPage() {
               className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all text-center group"
             >
               <div className="flex justify-center mb-4">
-                <Image
+                <motion.img
                   src={feature.icon}
                   alt={feature.title}
                   width={120}
                   height={120}
                   className="group-hover:scale-110 transition-transform"
+                  whileHover={{ scale: 1.1 }}
                 />
               </div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
@@ -178,9 +187,12 @@ export default function LandingPage() {
                   <h3 className="text-2xl font-bold mb-2">{domain.name}</h3>
                   <p className="text-gray-600">{domain.description}</p>
                   <Link href={`/domaine/${domain.name.toLowerCase()}`}>
-                    <button className="mt-4 text-primary hover:underline">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      className="mt-4 text-primary hover:underline"
+                    >
                       Explorer →
-                    </button>
+                    </motion.button>
                   </Link>
                 </div>
               </motion.div>
@@ -205,9 +217,12 @@ export default function LandingPage() {
             dès aujourd&apos;hui.
           </p>
           <Link href="/session">
-            <button className="bg-white text-primary px-8 py-3 rounded-lg shadow-lg hover:bg-gray-200 transition-colors text-lg font-semibold">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              className="bg-white text-primary px-8 py-3 rounded-lg shadow-lg hover:bg-gray-200 transition-colors text-lg font-semibold"
+            >
               Inscrivez-vous maintenant
-            </button>
+            </motion.button>
           </Link>
         </motion.div>
       </section>
@@ -216,14 +231,14 @@ export default function LandingPage() {
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm">
-            &copy; {new Date().getFullYear()} Devzilla. Tous droits réservés.
+            &copy; {new Date().getFullYear()} Ta Lenta. Tous droits réservés.
           </p>
           <div className="flex justify-center space-x-4 mt-4">
             <Link href="/privacy" className="text-gray-400 hover:text-white">
               Politique de confidentialité
             </Link>
             <Link href="/terms" className="text-gray-400 hover:text-white">
-              Conditions d&apos;utilisation
+              Conditions d&apos;util isation
             </Link>
           </div>
         </div>
