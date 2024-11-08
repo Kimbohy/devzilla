@@ -82,9 +82,9 @@ const SingIn = () => {
       </div>
 
       <div className="flex items-center justify-between">
-        <a href="#" className="text-sm text-primary hover:underline">
+        <span className="text-sm text-primary hover:underline">
           Forgot Password?
-        </a>
+        </span>
       </div>
 
       <button

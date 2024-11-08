@@ -59,7 +59,7 @@ export default function Publier() {
       }
 
       // Send publication to backend
-      const response = await axios.post("/api/publications", formData, {
+      await axios.post("http://localhost:8080/publications/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
