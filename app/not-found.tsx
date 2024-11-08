@@ -19,7 +19,7 @@ export default function NotFound() {
           />
         </div>
 
-        <h1 className="mb-4 text-6xl font-semibold text-slate-800">404</h1>
+        {/* <h1 className="mb-4 text-6xl font-semibold text-slate-800">404</h1> */}
 
         <h2 className="mb-4 text-2xl font-medium text-slate-700">
           Page non trouvée

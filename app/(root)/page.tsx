@@ -1,9 +1,8 @@
 import Publication from "@/components/Publication";
 import DomainQuickAccess from "../../components/DomainQuickAccess";
 import TrendingTopics from "../../components/TrendingTopics";
-import Link from "next/link";
-import Image from "next/image";
-import { FaFire, FaStar, FaRocket, FaUsers } from "react-icons/fa";
+import MentorsRecommended from "@/components/MentorsRecommended";
+import QuickActionSection from "@/components/QuickActionSection";
 
 // fake data
 // New interfaces for additional features
@@ -108,11 +107,13 @@ const publications: PublicationProps[] = [
 
 export default async function Home() {
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="grid md:grid-cols-3 gap-6">
+    <div className="container mx-auto px-4 py-1 h-[calc(100vh-64px)] overflow-y-auto">
+      <div className="grid md:grid-cols-3 gap-6 h-full">
         {/* Publications Column */}
-        <div className="md:col-span-2">
-          <h2 className="text-2xl font-bold mb-6">Dernières Publications</h2>
+        <div className="md:col-span-2 overflow-y-auto pr-4">
+          {/* <h2 className="text-2xl font-bold mb-6 sticky top-0 bg-white z-10">
+            Dernières Publications
+          </h2> */}
           <div className="flex flex-col gap-4 items-center">
             {publications.map((publication) => (
               <Publication key={publication.data.id} pub={publication} />
@@ -121,7 +122,7 @@ export default async function Home() {
         </div>
 
         {/* Sidebar */}
-        <div className="hidden md:block space-y-6">
+        <div className="hidden md:block space-y-6 overflow-y-auto">
           {/* Domains Quick Access */}
           <DomainQuickAccess />
 
@@ -129,54 +130,10 @@ export default async function Home() {
           <TrendingTopics />
 
           {/* Mentors Section */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <div className="flex items-center mb-4">
-              <FaStar className="mr-2 text-yellow-500" />
-              <h3 className="text-xl font-semibold">Mentors Recommandés</h3>
-            </div>
-            <div className="space-y-4">
-              {mentors.map((mentor) => (
-                <Link href={`/mentors/${mentor.id}`} key={mentor.id}>
-                  <div className="flex items-center space-x-3 hover:bg-gray-50 p-2 rounded-lg transition-colors">
-                    <Image
-                      src={mentor.avatar}
-                      alt={mentor.name}
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
-                    <div>
-                      <h4 className="font-medium">{mentor.name}</h4>
-                      <p className="text-sm text-gray-500">
-                        {mentor.domain} - {mentor.expertise}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
+          <MentorsRecommended mentors={mentors} />
 
           {/* Quick Action Section */}
-          <section className="mt-8 bg-primary/10 rounded-xl p-6">
-            <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                  Nouveau domaine à proposer ?
-                </h2>
-                <p className="text-gray-600">
-                  Vous pouvez demander à créer un nouveau domaine sur la
-                  plateforme.
-                </p>
-              </div>
-              <Link
-                href="/create"
-                className="mt-4 md:mt-0 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors"
-              >
-                Ajouter un Domaine
-              </Link>
-            </div>
-          </section>
+          <QuickActionSection />
         </div>
       </div>
     </div>
