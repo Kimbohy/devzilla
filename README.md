@@ -81,11 +81,11 @@ Project Structure
 
 ## Main Components
 
-🔐 Authentication (SignIn/SignUp)
-📝 Domain Creation
-🌐 Publication System
-👤 User Profile Management
-🔔 Notifications
+- 🔐 Authentication (SignIn/SignUp)
+- 📝 Domain Creation
+- 🌐 Publication System
+- 👤 User Profile Management
+- 🔔 Notifications
 
 ## Contributing
 
