@@ -4,7 +4,7 @@ import Link from "next/link";
 import Domain from "./Domain";
 import { toCapitalize } from "@/app/utils";
 import { FaEdit, FaShareAlt } from "react-icons/fa";
-import { ProfileProps } from "@/app/(root)/profile/page";
+import { ProfileProps } from "@/app/(root)/profile/[userId]/page";
 
 interface ProfileUserProps {
   profile: ProfileProps;
