@@ -113,7 +113,7 @@ export default async function Home() {
         {/* Publications Column */}
         <div className="md:col-span-2">
           <h2 className="text-2xl font-bold mb-6">Dernières Publications</h2>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 items-center">
             {publications.map((publication) => (
               <Publication key={publication.data.id} pub={publication} />
             ))}
