@@ -22,13 +22,13 @@ export function SidebarSubMenuItem({
         ${
           isActive
             ? "bg-primary/20 text-primary"
-            : "text-slate-300 hover:bg-slate-800/50 hover:text-primary"
+            : "text-slate-500 md:text-slate-300 hover:bg-slate-800/50 hover:text-primary"
         }`}
     >
       <div className="flex items-center space-x-3">
         <div className="w-5 h-5">{icon}</div>
         <span className={`text-sm ${isActive ? "font-medium" : ""}`}>
-          <span className="hidden md:inline">{label}</span>
+          <span className="inline">{label}</span>
         </span>
       </div>
     </Link>

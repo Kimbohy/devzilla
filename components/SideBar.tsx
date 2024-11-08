@@ -24,7 +24,7 @@ export default function SideBar() {
   };
 
   return (
-    <aside className="h-screen sticky top-0 bg-slate-900 transition-all duration-300 ease-in-out flex flex-col md:w-[280px] w-16">
+    <aside className="h-screen sticky top-0 bg-slate-900 transition-all duration-300 ease-in-out flex flex-col md:w-[280px] w-16 z-10">
       {/* Logo Section */}
       <div className="flex items-center justify-between px-3 md:px-6 py-5 border-b border-slate-700">
         <Link href="/" className="block">

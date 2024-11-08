@@ -1,5 +1,7 @@
-// components/DomainSubmenu.tsx
+"use client";
+import { useState } from "react";
 import { SidebarSubMenuItem } from "./SidebarSubMenuItem";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 interface DomainSubmenuProps {
   domainPath: string;
@@ -52,17 +54,63 @@ const menuItems = [
 ];
 
 export function DomainSubmenu({ domainPath, currentPath }: DomainSubmenuProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <div className=" md:ml-12 mt-2 space-y-3 border-l-2 border-primary/30 pl-4">
-      {menuItems.map((item) => (
-        <SidebarSubMenuItem
-          key={item.href}
-          href={`${domainPath}/${item.href}`}
-          currentPath={currentPath}
-          icon={item.icon}
-          label={item.label}
+    <div className="relative">
+      {/* Mobile Menu Toggle */}
+      <button
+        className="md:hidden fixed bottom-10 right-4 z-50 bg-primary text-white p-3 rounded-full shadow-lg"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+      >
+        {isMenuOpen ? <FaTimes /> : <FaBars />}
+      </button>
+
+      {/* Menu Container */}
+      <div
+        className={`
+          fixed md:static 
+          inset-x-0 bottom-0 
+          md:block 
+          transition-all duration-300 ease-in-out
+          ${
+            isMenuOpen
+              ? "translate-y-0 z-40"
+              : "translate-y-full md:translate-y-0"
+          }
+          bg-white md:bg-transparent 
+          shadow-lg md:shadow-none 
+          rounded-t-xl md:rounded-none
+        `}
+      >
+        <div
+          className={`
+          md:ml-12 mt-2 
+          space-y-3 
+          border-l-2 border-primary/30 
+          pl-4 
+          p-4 md:p-0
+        `}
+        >
+          {menuItems.map((item) => (
+            <SidebarSubMenuItem
+              key={item.href}
+              href={`${domainPath}/${item.href}`}
+              currentPath={currentPath}
+              icon={item.icon}
+              label={item.label}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Overlay for mobile menu */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          onClick={() => setIsMenuOpen(false)}
         />
-      ))}
+      )}
     </div>
   );
 }

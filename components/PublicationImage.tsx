@@ -7,6 +7,8 @@ export default function PublicationImage({ image }: { image: string }) {
         alt="publication content"
         fill
         className="object-cover"
+        layout="fill"
+        objectFit="cover"
       />
     </div>
   );

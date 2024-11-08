@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col">
       <div className="flex-grow">{children}</div>
       {currentDomain && <JoinTheDomain domain={currentDomain} />}
     </div>

@@ -17,6 +17,7 @@ export default function PublicationHeader({
           alt="avatar"
           fill
           className="rounded-full object-cover"
+          style={{ zIndex: 0 }}
         />
       </div>
       <div className="flex flex-col gap-1">
