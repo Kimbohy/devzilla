@@ -4,16 +4,7 @@ import Link from "next/link";
 import Domain from "./Domain";
 import { toCapitalize } from "@/app/utils";
 import { FaEdit, FaShareAlt } from "react-icons/fa";
-
-interface ProfileProps {
-  id: string;
-  nom: string;
-  photoProfil: string;
-  competence: string[];
-  reseauxSociaux: { lien: string; nom: string };
-  domaines: string[];
-  type: string;
-}
+import { ProfileProps } from "@/app/(root)/profile/page";
 
 interface ProfileUserProps {
   profile: ProfileProps;
@@ -57,21 +48,25 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
                 {profile.nom}
               </h1>
               <div className="flex justify-center md:justify-start space-x-3 mt-3">
-                {profile.reseauxSociaux.nom in socialMediaIcons && (
-                  <Link
-                    href={profile.reseauxSociaux.lien}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:scale-110 transition-transform"
-                  >
-                    <Image
-                      src={socialMediaIcons[profile.reseauxSociaux.nom]}
-                      alt={profile.reseauxSociaux.nom}
-                      width={30}
-                      height={30}
-                    />
-                  </Link>
-                )}
+                {profile.reseauxSociaux.map((socialMedia) => (
+                  <>
+                    {socialMedia.nom in socialMediaIcons && (
+                      <Link
+                        href={socialMedia.lien}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:scale-110 transition-transform"
+                      >
+                        <Image
+                          src={socialMediaIcons[socialMedia.nom]}
+                          alt={socialMedia.nom}
+                          width={30}
+                          height={30}
+                        />
+                      </Link>
+                    )}
+                  </>
+                ))}
               </div>
             </div>
           </div>
