@@ -1,6 +1,5 @@
 "use client";
 import ListeMentor from "@/components/ListeMentor";
-import SideBar from "@/components/SideBar";
 import React from "react";
 import { usePathname } from "next/navigation";
 
@@ -83,7 +82,7 @@ const mentorlistes: MentorProps[] = [
 
 const Page = () => {
   const pathname = usePathname();
-  const domainName = pathname.split("/").pop(); // Extract the domain name from the URL
+  const domainName = pathname?.split("/")[2];
 
   // Filter mentors to only include those with type "mentor" and matching domain
   const filteredMentors = mentorlistes.filter((mentor) => {
@@ -96,7 +95,6 @@ const Page = () => {
 
   return (
     <div className="flex">
-      <SideBar />
       <div className="flex flex-col md:gap-5 gap-7 w-full">
         <p className="text-2xl font-semibold pl-5 pt-6 md:text-4xl">
           Liste des mentors dans le domaine{" "}

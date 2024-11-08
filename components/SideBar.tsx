@@ -1,4 +1,3 @@
-// components/SideBar.tsx
 "use client";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -25,10 +24,8 @@ export default function SideBar() {
   };
 
   return (
-    <aside
-      className={`h-screen sticky top-0 bg-slate-900 transition-all duration-300 ease-in-out flex flex-col
-         "md:w-[280px]"}`}
-    >
+    <aside className="h-screen sticky top-0 bg-slate-900 transition-all duration-300 ease-in-out flex flex-col md:w-[280px]">
+      {/* Logo Section */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-slate-700">
         <Link href="/" className="block">
           <Image
@@ -38,13 +35,10 @@ export default function SideBar() {
             height={80}
             className="hover:opacity-90 transition-opacity"
           />
-    <div className="sidebar h-screen sticky top-0 bg-neutral-700 py-3 flex flex-col gap-3 md:px-6">
-      <div className="px-3">
-        <Link href="/">
-          <Image src="/logo-whit.svg" alt="logo" width={80} height={80} />
         </Link>
       </div>
 
+      {/* Domains Navigation */}
       <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2">
         {domains.map((domain) => {
           const encodedDomainName = encodeURIComponent(
@@ -58,6 +52,7 @@ export default function SideBar() {
               <Domain
                 name={domain.name}
                 icon={domain.icon}
+                isOnSideBar={true}
                 className={`transition-all duration-200 rounded-sm ${
                   isActive
                     ? "bg-primary/20 text-primary"
@@ -75,7 +70,8 @@ export default function SideBar() {
         })}
       </nav>
 
-      <div className="p-2 mx-2">
+      {/* Search Button */}
+      <div className="p-2 mx-2 mb-4">
         <Link
           href="/search"
           className="group flex items-center space-x-3 px-3 py-2 text-white bg-slate-800/50 transition-all duration-200 rounded-md hover:bg-slate-800"
@@ -95,54 +91,28 @@ export default function SideBar() {
           </svg>
           <span className="hidden md:block">Search</span>
         </Link>
-      {domains.map((domain) => {
-        const encodedDomainName = encodeURIComponent(domain.name.toLowerCase());
-        const isActive =
-          pathname === `/domaine/${toCapitalize(encodedDomainName)}`;
-        return (
-          <div key={domain.name}>
-            <Domain
-              key={domain.name}
-              name={domain.name}
-              icon={domain.icon}
-              isOnSideBar={true}
-              className={isActive ? "bg-accent-dark" : ""}
-            />
-            {isActive && (
-              <div className="flex flex-col pl-9 text-white gap-2 text-lg cursor-pointer">
-                <span>Annonce</span>
-                <span>Publier</span>
-                <Link href={`/listeMentor/${toCapitalize(encodedDomainName)}`}>
-                  <button className="flex flex-col  text-white gap-2 text-lg cursor-pointer">
-                    <span>Mentors</span>
-                  </button>
-                </Link>
-              </div>
-            )}
-          </div>
-        );
-      })}
-      <div className="mx-3 border-4 rounded-3xl flex items-center justify-center">
-        <span className="text-white text-center text-4xl">+</span>
       </div>
+
+      {/* Create Button */}
       <div className="px-4 pb-6">
-        <button className="w-full group px-4 py-3 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-200">
-          <span className=" flex items-center justify-center">
-            <svg
-              className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-200"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-          </span>
-        </button>
+        <Link
+          href="/create"
+          className="w-full group px-4 py-3 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-200 flex items-center justify-center"
+        >
+          <svg
+            className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-200"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </Link>
       </div>
     </aside>
   );
