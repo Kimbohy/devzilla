@@ -1,6 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { getCollection } from '../tools/function.js'
 
+// gerer les doublons
+// enregistrer les authentifications par github ou google et generer id
 export async function create(userData) {
     const newUser = {
         nom: userData.nom,
@@ -25,7 +27,7 @@ export async function create(userData) {
     }
 }
 
-// fonction pour l'authentification de l'utilisateur
+
 export async function authenticate(userData) {
     const collection = await getCollection('Utilisateurs')
     return await collection.findOne(userData, {projection: {nom: 1, email: 1, photoProfil: 1}})

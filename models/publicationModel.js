@@ -51,3 +51,13 @@ export async function react(publicationId, reaction) {
     await collection.updateOne({_id: new ObjectId(publicationId)}, { $push: { reactions: newReaction } })
     return await collection.findOne({_id: new ObjectId(publicationId)})
 }
+
+export async function getOnePub(publicationId) {
+    const collection = await getCollection('Publications')
+    return await collection.findOne({_id: new ObjectId(publicationId)})
+}
+
+export async function getAllPub() {
+    const collection = await getCollection('Publications')
+    return await collection.find().toArray()
+}

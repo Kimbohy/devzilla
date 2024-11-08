@@ -89,6 +89,30 @@
 }
 ```
 
+## getOneUser
+
+- GET : /users?user-id=672b60cccebbedded25fcd77
+
+- **output**
+
+``` json
+{
+    "success": true,
+    "data": {
+        "_id": "672b60cccebbedded25fcd77",
+        "nom": "RANDRIA",
+        "email": "a@a.com",
+        "type": "Talent",
+        "photoProfil": "",
+        "description": "",
+        "competences": [],
+        "reseauxSociaux": [],
+        "domaines": [],
+        "mentorDomaineId": []
+    }
+}
+```
+
 # publication
 ## createPublication
 
@@ -155,6 +179,74 @@
         "domainesId": "672b60cccebbedded25fcd77",
         "reactions": [],
         "commentaires": [
+            {
+                "_id": "672c490263e7f15a6e17ff46",
+                "utilisateurId": "672b60cccebbedded25fcd77",
+                "contenu": "first comment",
+                "reactions": [],
+                "date": "2024-11-07T04:58:42.663Z"
+            }
+        ],
+        "date": "2024-11-07T04:18:23.359Z"
+    }
+}
+```
+
+## reactPublication
+
+- POST : /publications/react?publicationId=672c3f8fdc7463b0c171f18b
+
+- **input**
+
+``` js
+{
+    "utilisateurId": "672b60cccebbedded25fcd77",
+    "type": "domaine"
+}
+```
+
+- **output**
+
+``` js
+{
+    "success": true,
+    "message": "Réaction réussie",
+    "data": {
+        "_id": "672c3f8fdc7463b0c171f18b",
+        "utilisateurId": "672b60cccebbedded25fcd77",
+        "type": "projet",
+        "contenu": "first pub",
+        "images": [
+            "aa",
+            "bb"
+        ],
+        "videos": [
+            "cc",
+            "dd"
+        ],
+        "domainesId": "672b60cccebbedded25fcd77",
+        "reactions": [
+            {
+                "_id": "672ca4c14f83549f9fff2b7d",
+                "utilisateurId": "672b60cccebbedded25fcd77",
+                "type": "domaine",
+                "date": "2024-11-07T11:30:09.931Z"
+            }
+        ],
+        "commentaires": [
+            {
+                "utilisateurId": "672b60cccebbedded25fcd77",
+                "contenu": "first comment",
+                "reactions": [],
+                "date": "2024-11-07T04:54:19.531Z"
+            },
+            {
+                "_id": "672c48ec63e7f15a6e17ff45",
+                "utilisateurId": "672b60cccebbedded25fcd77",
+                "contenu": "first comment",
+                "reactions": [],
+                "date": "2024-11-07T04:58:20.698Z"
+            },
             {
                 "_id": "672c490263e7f15a6e17ff46",
                 "utilisateurId": "672b60cccebbedded25fcd77",

@@ -1,5 +1,5 @@
 import {createUser, authenticateUser, updateUser, getOneUser} from '../controllers/userController.js'
-import {createPublication, commentPublication} from '../controllers/publicationController.js'
+import {createPublication, commentPublication, reactPublication, getAllPublication, getOnePublication} from '../controllers/publicationController.js'
 
 export async function userRoute(req, res, url) {
     if (url.pathname === '/users/signup' && req.method === 'POST') {
@@ -20,6 +20,10 @@ export async function publicationRoute(req, res, url) {
         await createPublication(req, res)
     } else if (url.pathname === '/publications/comment' && req.method === 'POST') {
         await commentPublication(req, res, url)
+    } else if (url.pathname === '/publications/react' && req.method === 'POST') {
+        await reactPublication(req, res, url)
+    } else if (url.pathname === '/publications' && req.method === 'GET') {
+        await getAllPublication(req, res)
     } else {
         res.end()
     }
