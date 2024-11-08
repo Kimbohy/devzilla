@@ -259,3 +259,28 @@
     }
 }
 ```
+
+# Matching
+## askMatch
+
+- POST : /matchs/ask
+
+- **input** : 
+
+```json
+{
+    "talentId": "672b60cccebbedded25fcd77",
+    "mentorId": "672b60cccebbedded25fcd76",
+    "domaineId": "672b60cccebbedded25fcd77",
+    "source": "mentor"
+} 
+```
+
+- **output**
+
+``` json
+{
+    "status": true,
+    "message": "Demande envoyée"
+}
+```

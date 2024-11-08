@@ -14,7 +14,8 @@ export async function create(userData) {
         competences: [],
         reseauxSociaux: [],
         domaines: [],
-        mentorDomaineId: [],
+        mentor: [],
+        apprenti: []
     };
 
     const collection = await getCollection('Utilisateurs')

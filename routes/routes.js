@@ -1,5 +1,6 @@
 import {createUser, authenticateUser, updateUser, getOneUser} from '../controllers/userController.js'
 import {createPublication, commentPublication, reactPublication, getAllPublication, getOnePublication} from '../controllers/publicationController.js'
+import {askMatch} from '../controllers/matchController.js'
 
 export async function userRoute(req, res, url) {
     if (url.pathname === '/users/signup' && req.method === 'POST') {
@@ -24,6 +25,15 @@ export async function publicationRoute(req, res, url) {
         await reactPublication(req, res, url)
     } else if (url.pathname === '/publications' && req.method === 'GET') {
         await getAllPublication(req, res)
+    } else {
+        res.end()
+    }
+}
+
+// fonction pour les routes de match
+export async function matchRoute(req, res, url) {
+    if (url.pathname === '/matchs/ask' && req.method === 'POST') {
+        await askMatch(req, res)
     } else {
         res.end()
     }
