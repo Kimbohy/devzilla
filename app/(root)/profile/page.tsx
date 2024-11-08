@@ -1,5 +1,4 @@
 import ProfileUser from "@/components/ProfileUser";
-import SideBar from "@/components/SideBar";
 import React from "react";
 
 // fake data
@@ -28,7 +27,6 @@ const profile: ProfileProps = {
 const Page = () => {
   return (
     <div className="flex">
-      <SideBar />
       <ProfileUser profile={profile} />
     </div>
   );
