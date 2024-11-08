@@ -1,4 +1,7 @@
 import Publication from "@/components/Publication";
+import BestMentor from "../components/BestMentor";
+import DomainQuickAccess from "../components/DomainQuickAccess";
+import TrendingTopics from "../components/TrendingTopics";
 
 // fake data
 interface PublicationProps {
@@ -67,12 +70,30 @@ const publications: PublicationProps[] = [
 
 export default async function Home() {
   return (
-    <>
-      <div className="flex flex-col gap-2 p-4 items-center">
-        {publications.map((publication) => (
-          <Publication key={publication.data.id} pub={publication} />
-        ))}
+    <div className="container mx-auto px-4 py-6">
+      <div className="grid md:grid-cols-3 gap-6">
+        {/* Publications Column */}
+        <div className="md:col-span-2">
+          <h2 className="text-2xl font-bold mb-6">Dernières Publications</h2>
+          <div className="flex flex-col gap-4">
+            {publications.map((publication) => (
+              <Publication key={publication.data.id} pub={publication} />
+            ))}
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div className="hidden md:block">
+          {/* Domains Quick Access */}
+          <DomainQuickAccess />
+
+          {/* Trending Topics */}
+          <TrendingTopics />
+
+          {/* Best Mentor */}
+          <BestMentor />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
