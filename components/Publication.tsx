@@ -92,15 +92,19 @@ export default function Publication({ pub }: { pub: PublicationProps }) {
             className="rounded-full object-cover"
           />
         </div>
-        <div className="flex flex-col">
-          <h1 className="font-semibold text-gray-900">{pub.data.user.name}</h1>
-          <span className="text-sm text-gray-500">{pub.data.createdAt}</span>
+        <div className="flex flex-col gap-[2px]">
+          <h1 className="font-semibold text-gray-900 relative">
+            {pub.data.user.name}
+          </h1>
+          <div>
+            <span className="text-sm text-gray-500">{pub.data.createdAt}</span>
+            {pub.data.type && (
+              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full ml-2 cursor-default">
+                {pub.data.type}
+              </span>
+            )}
+          </div>
         </div>
-        {pub.data.type && (
-          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full ml-2">
-            {pub.data.type}
-          </span>
-        )}
       </div>
 
       {/* Content */}
