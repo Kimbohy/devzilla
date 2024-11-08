@@ -93,7 +93,7 @@ const Page = () => {
   });
 
   return (
-    <div className="flex flex-col md:gap-5 gap-7 w-full">
+    <div className="flex flex-col md:gap-5 gap-7 w-full md:h-screen">
       <h1 className="text-xl font-semibold pl-5 pt-6 md:text-3xl">
         Liste des mentors dans le domaine de{" "}
         {decodeURIComponent(domainName || "")}

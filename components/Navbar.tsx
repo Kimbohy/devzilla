@@ -18,7 +18,7 @@ async function Navbar() {
   }
 
   return (
-    <header className="bg-white shadow w-full">
+    <header className="bg-white shadow w-full md:h-12">
       <div className="flex justify-between items-center px-2 py-1">
         <div className="flex items-center gap-5"></div>
         {session && session?.user ? (

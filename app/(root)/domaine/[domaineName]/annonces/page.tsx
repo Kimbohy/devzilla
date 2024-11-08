@@ -8,7 +8,7 @@ export default function AnnoncesPage() {
   const domaineName = decodeURIComponent(pathname?.split("/")[2] || "");
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 md:h-screen">
       <h1 className="text-3xl font-bold mb-8 capitalize">
         Annonces de {domaineName}
       </h1>
