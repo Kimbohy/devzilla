@@ -67,18 +67,6 @@ const mentorlistes: MentorProps[] = [
       },
     },
   },
-  {
-    data: {
-      id: "6",
-      type: "mentor",
-      user: {
-        id: "7",
-        name: "Alicia",
-        avatar: "/avatar.svg",
-        domaine: "Poésie", // Updated domaine
-      },
-    },
-  },
 ];
 
 const Page = () => {
@@ -95,16 +83,13 @@ const Page = () => {
   const [connectedUser, setConnectedUser] = useState<User | null>(null);
   const [isInDomain, setIsInDomain] = useState(false);
 
-  // Simulate fetching connected user data
   useEffect(() => {
-    // Simulate fetching the connected user data
     const fetchConnectedUser = async () => {
-      // Replace this with your actual user fetching logic
       const user = {
-        id: "4", // Example user ID
+        id: "4",
         name: "Poter",
         avatar: "/avatar.svg",
-        domaine: "Poésie", // Example domain
+        domaine: "Poésie",
       };
       setConnectedUser(user);
     };
@@ -129,7 +114,7 @@ const Page = () => {
   });
 
   return (
-    <div className="flex flex-col md:gap-5 gap-7 w-full md:h-screen">
+    <div className="flex flex-col md:gap-5 gap-7 w-full h-screen">
       <div className="flex justify-between items-center py-6">
         <h1 className="text-xl font-semibold pl-5 md:text-3xl">
           Liste des mentors dans le domaine de{" "}
