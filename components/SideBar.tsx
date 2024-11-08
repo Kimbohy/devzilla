@@ -24,9 +24,9 @@ export default function SideBar() {
   };
 
   return (
-    <aside className="h-screen sticky top-0 bg-slate-900 transition-all duration-300 ease-in-out flex flex-col md:w-[280px]">
+    <aside className="h-screen sticky top-0 bg-slate-900 transition-all duration-300 ease-in-out flex flex-col md:w-[280px] w-16">
       {/* Logo Section */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-700">
+      <div className="flex items-center justify-between px-3 md:px-6 py-5 border-b border-slate-700">
         <Link href="/" className="block">
           <Image
             src="/logo-whit.svg"
@@ -39,7 +39,7 @@ export default function SideBar() {
       </div>
 
       {/* Domains Navigation */}
-      <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-2">
+      <nav className="flex-1 overflow-y-auto px-1 md:px-4 py-6 space-y-2">
         {domains.map((domain) => {
           const encodedDomainName = encodeURIComponent(
             domain.name.toLowerCase()
@@ -71,7 +71,7 @@ export default function SideBar() {
       </nav>
 
       {/* Search Button */}
-      <div className="p-2 mx-2 mb-4">
+      <div className="md:p-2 mx-2 mb-4">
         <Link
           href="/search"
           className="group flex items-center space-x-3 px-3 py-2 text-white bg-slate-800/50 transition-all duration-200 rounded-md hover:bg-slate-800"
@@ -94,7 +94,7 @@ export default function SideBar() {
       </div>
 
       {/* Create Button */}
-      <div className="px-4 pb-6">
+      <div className=" px-2 md:px-4 pb-6">
         <Link
           href="/create"
           className="w-full group px-4 py-3 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-200 flex items-center justify-center"

@@ -28,7 +28,7 @@ export default function UserDropDown({ session }: { session: Session }) {
   }, [dropdownRef]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative z-10" ref={dropdownRef}>
       {session.user && (
         <button
           className="flex items-center space-x-2 focus:outline-none"

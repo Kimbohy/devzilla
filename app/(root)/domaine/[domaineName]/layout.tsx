@@ -20,6 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       {children}
+      {/* need to be changed to the correct logic */}
       {currentDomain && <JoinTheDomain domain={currentDomain} />}
     </div>
   );
