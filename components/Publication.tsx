@@ -20,12 +20,11 @@ export interface PublicationProps {
     createdAt: string;
   };
 }
-
 export default function Publication({ pub }: { pub: PublicationProps }) {
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <div className="max-w-[550px] bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+    <div className="w-full max-w-[550px] bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 mx-auto">
       <PublicationHeader
         user={pub.data.user}
         createdAt={pub.data.createdAt}
@@ -39,7 +38,7 @@ export default function Publication({ pub }: { pub: PublicationProps }) {
         showComments={showComments}
       />
       {showComments && (
-        <div className="mt-4 mx-3">
+        <div className="mt-4 mx-3 md:mx-4 lg:mx-6">
           <PublicationComments publicationId={pub.data.id} />
         </div>
       )}

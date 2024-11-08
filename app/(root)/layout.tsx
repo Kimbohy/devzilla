@@ -10,7 +10,7 @@ export default async function Layout({
   return (
     <main className="font-work-sans flex relative w-screen">
       <SideBar />
-      <div className=" flex-grow">
+      <div className="flex-grow">
         <Navbar />
         {children}
       </div>

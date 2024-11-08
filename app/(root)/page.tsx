@@ -114,7 +114,7 @@ export default async function Home() {
           {/* <h2 className="text-2xl font-bold mb-6 sticky top-0 bg-white z-10">
             Dernières Publications
           </h2> */}
-          <div className="flex flex-col gap-4 items-center">
+          <div className="flex flex-col gap-4 w-full items-center px-2 sm:px-4 md:px-6">
             {publications.map((publication) => (
               <Publication key={publication.data.id} pub={publication} />
             ))}

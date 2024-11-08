@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
@@ -70,10 +71,11 @@ export default function PublicationActions({
   };
 
   return (
-    <div className="relative px-4 py-3 border-t border-gray-100 flex items-center space-x-6">
-      <div className="flex items-center space-x-6">
-        <button className="flex items-center space-x-2 group">
-          <div className="relative w-6 h-6 group-hover:scale-110 transition-transform">
+    <div className="relative px-3 md:px-4 py-2 border-t border-gray-100 flex items-center space-x-3 md:space-x-6">
+      <div className="flex items-center space-x-3 md:space-x-6">
+        {/* Happy Reaction */}
+        <button className="flex items-center space-x-1 md:space-x-2 group">
+          <div className="relative w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform">
             <Image
               src="/smiley.svg"
               alt="smiley"
@@ -81,25 +83,27 @@ export default function PublicationActions({
               className="object-contain"
             />
           </div>
-          <span className="text-sm text-gray-600 group-hover:text-gray-900">
+          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
             Happy
           </span>
         </button>
 
-        <button className="flex items-center space-x-2 group">
-          <div className="relative w-6 h-6 group-hover:scale-110 transition-transform">
+        {/* Sad Reaction */}
+        <button className="flex items-center space-x-1 md:space-x-2 group">
+          <div className="relative w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform">
             <Image src="/sad.svg" alt="sad" fill className="object-contain" />
           </div>
-          <span className="text-sm text-gray-600 group-hover:text-gray-900">
+          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
             Sad
           </span>
         </button>
 
+        {/* Comments Toggle */}
         <button
           onClick={() => setShowComments(!showComments)}
-          className="flex items-center space-x-2 group"
+          className="flex items-center space-x-1 md:space-x-2 group"
         >
-          <div className="relative w-6 h-6 group-hover:scale-110 transition-transform">
+          <div className="relative w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform">
             <Image
               src="/comment.svg"
               alt="comment"
@@ -107,19 +111,20 @@ export default function PublicationActions({
               className="object-contain"
             />
           </div>
-          <span className="text-sm text-gray-600 group-hover:text-gray-900">
+          <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
             {showComments
               ? "Masquer les commentaires"
               : "Voir les commentaires"}
           </span>
         </button>
 
+        {/* Share Menu */}
         <div ref={shareMenuRef} className="relative">
           <button
-            className="flex items-center space-x-2 group"
+            className="flex items-center space-x-1 md:space-x-2 group"
             onClick={() => setShowShareMenu(!showShareMenu)}
           >
-            <div className="relative w-6 h-6 group-hover:scale-110 transition-transform">
+            <div className="relative w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform">
               <Image
                 src="/share.svg"
                 alt="share"
@@ -127,7 +132,7 @@ export default function PublicationActions({
                 className="object-contain"
               />
             </div>
-            <span className="text-sm text-gray-600 group-hover:text-gray-900">
+            <span className="text-xs md:text-sm text-gray-600 group-hover:text-gray-900">
               Partager
             </span>
           </button>
