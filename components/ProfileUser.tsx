@@ -2,13 +2,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Domain from "./Domain";
-import facebook from "@/public/facebook-f-brands-solid.svg";
-import instagram from "@/public/instagram-brands-solid.svg";
-import linkedin from "@/public/linkedin-in-brands-solid.svg";
-import chant from "@/public/domain/chant.svg";
-import mathematiques from "@/public/domain/mathematiques.svg";
-import poesie from "@/public/domain/poesie.svg";
-import musique from "@/public/domain/musique.svg";
 import { toCapitalize } from "@/app/utils";
 import { FaEdit, FaShareAlt } from "react-icons/fa";
 
@@ -23,16 +16,16 @@ interface ProfileProps {
 
 const ProfileUser = ({ profile }: { profile: ProfileProps }) => {
   const socialMediaIcons: { [key: string]: string } = {
-    facebook: facebook,
-    instagram: instagram,
-    linkedin: linkedin,
+    facebook: "facebook-f-brands-solid.svg",
+    instagram: "/instagram-brands-solid.svg",
+    linkedin: "/linkedin-in-brands-solid.svg",
   };
 
   const domains = [
-    { name: "Musique", icon: musique },
-    { name: "Mathematiques", icon: mathematiques },
-    { name: "Chant", icon: chant },
-    { name: "Poésie", icon: poesie },
+    { name: "Musique", icon: "/domain/musique.svg" },
+    { name: "Mathematiques", icon: "/domain/mathematiques.svg" },
+    { name: "Chant", icon: "/domain/chant.svg" },
+    { name: "Poésie", icon: "/domain/poesie.svg" },
   ];
 
   return (
