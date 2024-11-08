@@ -1,4 +1,6 @@
 import ProfileUser from "@/components/ProfileUser";
+import React from "react";
+
 // fake data
 interface ProfileProps {
   id: string;
@@ -7,6 +9,7 @@ interface ProfileProps {
   competence: string[];
   reseauxSociaux: { lien: string; nom: string };
   domaines: string[];
+  type: string;
 }
 
 const profile: ProfileProps = {
@@ -20,12 +23,15 @@ const profile: ProfileProps = {
   ],
   reseauxSociaux: { lien: "https://facebook.com", nom: "instagram" },
   domaines: ["Musique", "Chant", "Mathematiques"],
+  type: "user", // Add the missing 'type' property
 };
+
+const connectedUserId = "2"; // Assume this is the ID of the connected user
 
 const Page = () => {
   return (
     <div className="flex">
-      <ProfileUser profile={profile} />
+      <ProfileUser profile={profile} connectedUserId={connectedUserId} />
     </div>
   );
 };

@@ -12,9 +12,15 @@ interface ProfileProps {
   competence: string[];
   reseauxSociaux: { lien: string; nom: string };
   domaines: string[];
+  type: string;
 }
 
-const ProfileUser = ({ profile }: { profile: ProfileProps }) => {
+interface ProfileUserProps {
+  profile: ProfileProps;
+  connectedUserId: string; // Add connectedUserId prop
+}
+
+const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
   const socialMediaIcons: { [key: string]: string } = {
     facebook: "facebook-f-brands-solid.svg",
     instagram: "/instagram-brands-solid.svg",
@@ -43,7 +49,7 @@ const ProfileUser = ({ profile }: { profile: ProfileProps }) => {
                 className="rounded-full border-4 border-white shadow-lg"
               />
               {/* <div className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-2">
-                 <FaStar className="w-5 h-5" /> 
+                 <FaStar className="w-5 h-5" />
               </div> */}
             </div>
             <div className="text-center md:text-left">
@@ -73,12 +79,14 @@ const ProfileUser = ({ profile }: { profile: ProfileProps }) => {
 
         {/* Profile Actions */}
         <div className="flex justify-center space-x-4 p-4 bg-gray-50">
-          <Link href="/editProfile" className="w-full max-w-xs">
-            <button className="flex items-center justify-center w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors space-x-2">
-              <FaEdit className="w-5 h-5" />
-              <span className="hidden md:block">Edit Profile</span>
-            </button>
-          </Link>
+          {profile.id === connectedUserId && (
+            <Link href="/editProfile" className="w-full max-w-xs">
+              <button className="flex items-center justify-center w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors space-x-2">
+                <FaEdit className="w-5 h-5" />
+                <span className="hidden md:block">Edit Profile</span>
+              </button>
+            </Link>
+          )}
           <Link href="/shareProfile" className="w-full max-w-xs">
             <button className="flex items-center justify-center w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition-colors space-x-2">
               <FaShareAlt className="w-5 h-5" />
