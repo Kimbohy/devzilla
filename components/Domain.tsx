@@ -4,10 +4,12 @@ import Link from "next/link";
 export default function Domain({
   name,
   icon,
+  isOnSideBar,
   className,
 }: {
   name: string;
   icon: string;
+  isOnSideBar?: boolean;
   className?: string;
 }) {
   return (
@@ -16,7 +18,11 @@ export default function Domain({
         className={`flex items-center gap-3 w-full px-3 py-1 transition-all cursor-pointer hover:bg-accent ${className}`}
       >
         <Image src={icon} alt="icon" width={50} height={50} />
-        <span className="text-white text-xl hidden md:block">{name}</span>
+        <span
+          className={`text-white text-xl hidden ${isOnSideBar && "md:block"}`}
+        >
+          {name}
+        </span>
       </div>
     </Link>
   );

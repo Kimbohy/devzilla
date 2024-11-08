@@ -1,52 +1,43 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Image from "next/image";
-import arrowleft from "@/public/angle-left-solid.svg";
+import React, { useState, useEffect, useRef } from "react";
+import { FaArrowLeft, FaSave, FaPlus, FaTimes, FaCamera } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 
 const EditProfileUser = () => {
-  const field =
-    "border-[1px] border-black px-2 py-1 rounded-lg mt-3 md:h-20 md:w-[800px] flex flex-col justify-center md:px-6";
-  const labelfield = "text-zinc-700 text-sm";
-
-  const [formData, setFormData] = useState<{
-    nom: string;
-    photoProfil: string;
-    competence: string[];
-    reseauxSociaux: { lien: string; nom: string };
-    domaines: string[];
-  }>({
+  const [formData, setFormData] = useState({
     nom: "",
     photoProfil: "",
-    competence: [],
+    competence: [] as string[],
     reseauxSociaux: { lien: "", nom: "" },
-    domaines: [],
+    domaines: [] as string[],
   });
 
-  const [initialData, setInitialData] = useState(formData);
-
-  // State to hold new competencies and domains
-  // const [newCompetence, setNewCompetence] = useState("");
-  // const [newDomain, setNewDomain] = useState("");
-
-  // State to control visibility of the social media link input
-  // const [showSocialLinkInput, setShowSocialLinkInput] = useState(false);
+  const [newCompetence, setNewCompetence] = useState("");
+  const [newDomain, setNewDomain] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fakeData = {
       nom: "John Doe",
-      photoProfil: "https://example.com/profile.jpg",
-      competence: ["JavaScript", "React", "Node.js"],
+      photoProfil: "/avatar.svg",
+      competence: [
+        "Enseignant de mathématique",
+        "Directeur de club de danse",
+        "Membre d'un club de dessin international",
+      ],
       reseauxSociaux: { lien: "https://twitter.com/johndoe", nom: "Twitter" },
       domaines: ["Musique", "Chant"],
     };
 
-    setInitialData(fakeData);
     setFormData(fakeData);
+    setImagePreview(fakeData.photoProfil);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     if (name === "reseauxSociaux.lien" || name === "reseauxSociaux.nom") {
@@ -57,11 +48,6 @@ const EditProfileUser = () => {
           [name.split(".")[1]]: value,
         },
       }));
-    } else if (name === "competence" || name === "domaines") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value.split(",").map((item) => item.trim()),
-      }));
     } else {
       setFormData({
         ...formData,
@@ -70,210 +56,244 @@ const EditProfileUser = () => {
     }
   };
 
-  // const handleAddCompetence = () => {
-  //   if (newCompetence) {
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       competence: [...prev.competence, newCompetence],
-  //     }));
-  //     setNewCompetence(""); // Clear the input after adding
-  //   }
-  // };
-
-  // const handleAddDomain = () => {
-  //   if (newDomain) {
-  //     setFormData((prev) => ({
-  //       ...prev,
-  //       domaines: [...prev.domaines, newDomain],
-  //     }));
-  //     setNewDomain(""); // Clear the input after adding
-  //   }
-  // };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Construct the data to send only for updated fields
-    const dataToSend = [];
-
-    // Check for updated fields
-    if (formData.nom !== initialData.nom) {
-      dataToSend.push({ key: "nom", value: formData.nom });
-    }
-    if (formData.photoProfil !== initialData.photoProfil) {
-      dataToSend.push({ key: "photoProfil", value: formData.photoProfil });
-    }
-    formData.competence.forEach((comp, index) => {
-      if (initialData.competence[index] !== comp) {
-        dataToSend.push({ key: "competence", value: comp });
-      }
-    });
-    if (
-      formData.reseauxSociaux.lien !== initialData.reseauxSociaux.lien ||
-      formData.reseauxSociaux.nom !== initialData.reseauxSociaux.nom
-    ) {
-      dataToSend.push({
-        key: "reseauxSociaux",
-        value: formData.reseauxSociaux,
-      });
-    }
-    formData.domaines.forEach((domain, index) => {
-      if (initialData.domaines[index] !== domain) {
-        dataToSend.push({ key: "domaines", value: domain });
-      }
-    });
-
-    // Remove duplicates, if any (optional)
-    const uniqueDataToSend = dataToSend.filter(
-      (item, index, self) =>
-        index ===
-        self.findIndex(
-          (t) =>
-            t.key === item.key &&
-            JSON.stringify(t.value) === JSON.stringify(item.value)
-        )
-    );
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/users/update",
-        uniqueDataToSend
-      );
-      console.log(response);
-    } catch (error) {
-      console.error("There was an error updating profile!", error);
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+        setFormData((prev) => ({
+          ...prev,
+          photoProfil: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
+  const handleAddCompetence = () => {
+    if (newCompetence && !formData.competence.includes(newCompetence)) {
+      setFormData((prev) => ({
+        ...prev,
+        competence: [...prev.competence, newCompetence],
+      }));
+      setNewCompetence("");
+    }
+  };
+
+  const handleRemoveCompetence = (competence: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      competence: prev.competence.filter((comp) => comp !== competence),
+    }));
+  };
+
+  const handleAddDomain = () => {
+    if (newDomain && !formData.domaines.includes(newDomain)) {
+      setFormData((prev) => ({
+        ...prev,
+        domaines: [...prev.domaines, newDomain],
+      }));
+      setNewDomain("");
+    }
+  };
+
+  const handleRemoveDomain = (domain: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      domaines: prev.domaines.filter((dom) => dom !== domain),
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Submit logic
+    console.log("Submitting form data:", formData);
+  };
+
   return (
-    <div className="md:ml-10">
-      <div className="flex gap-5 items-center pl-3 pt-4 md:my-9">
-        <Link href="/profile">
-          <Image src={arrowleft} alt="arrow" width={"15"} height={"15"} />
-        </Link>
-        <p className="font-semibold text-lg md:text-3xl">Edit profile</p>
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col justify-center items-center px-2 md:gap-4 md:pl-7"
-      >
-        <div className={field}>
-          <label htmlFor="nom" className={labelfield}>
-            Changer de nom
-          </label>
-          <input
-            type="text"
-            name="nom"
-            id="nom"
-            value={formData.nom}
-            onChange={handleChange}
-            className="focus:text-lg"
-          />
+    <div className="container mx-auto max-w-4xl px-4 py-8">
+      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-primary/10 to-primary/20 p-6 flex items-center justify-between">
+          <div className="flex items-center">
+            <Link href="/profile" className="mr-4">
+              <FaArrowLeft className="text-2xl text-gray-700 hover:text-primary transition-colors" />
+            </Link>
+            <h1 className="text-2xl font-bold text-gray-800">
+              Éditer le profil
+            </h1>
+          </div>
         </div>
-        <div className={field}>
-          <label htmlFor="photoProfil" className={labelfield}>
-            Changer votre photo de profile
-          </label>
-          <input
-            type="text"
-            name="photoProfil"
-            id="photoProfil"
-            value={formData.photoProfil}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={field}>
-          <label htmlFor="competence" className={labelfield}>
-            Changer votre compétence
-          </label>
-          <input
-            type="text"
-            name="competence"
-            id="competence"
-            value={formData.competence.join(". ")}
-            onChange={handleChange}
-          />
-          {/* <input
-            type="text"
-            value={newCompetence}
-            onChange={(e) => setNewCompetence(e.target.value)}
-            className="mt-2"
-          /> */}
-          {/* <button
-            type="button"
-            onClick={handleAddCompetence}
-            className="mt-2 bg-blue-500 text-white rounded px-2 md:hidden"
-          >
-            Ajouter
-          </button> */}
-        </div>
-        <div className={field}>
-          <label htmlFor="reseauxSociaux" className={labelfield}>
-            Changer votre reseaux sociaux
-          </label>
-          <input
-            type="text"
-            name="reseauxSociaux"
-            id="reseauxSociaux"
-            value={formData.reseauxSociaux.nom}
-            onChange={handleChange}
-          />
-          {/* <button
-            type="button"
-            onClick={() => setShowSocialLinkInput((prev) => !prev)}
-            className="mt-2 bg-blue-500 text-white rounded px-2 md:hidden"
-          >
-            {showSocialLinkInput ? "Masquer" : "Modifier"}
-          </button> */}
-          {/* {showSocialLinkInput && (
-            <div className={field}>
-              <label htmlFor="reseauxSociauxLien" className={labelfield}>
-                Changer votre lien reseaux sociaux
+
+        <form onSubmit={handleSubmit} className="p-8 space-y-8">
+          {/* Profile Image Upload */}
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg">
+                <Image
+                  src={imagePreview || "/default-avatar.png"}
+                  alt="Profile"
+                  width={160}
+                  height={160}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="absolute bottom-0 right-0 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-primary-dark transition-colors"
+              >
+                <FaCamera />
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                className="hidden"
+                accept="image/*"
+              />
+            </div>
+          </div>
+
+          {/* Name */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-1 ">
+              <label
+                htmlFor="nom"
+                className="form-label font-semibold md:text-xl"
+              >
+                Nom
               </label>
               <input
                 type="text"
-                name="reseauxSociaux.lien"
-                id="reseauxSociauxLien"
-                value={formData.reseauxSociaux.lien}
+                name="nom"
+                id="nom"
+                value={formData.nom}
                 onChange={handleChange}
-                className="md:focus:text-3xl"
+                className="form-input md:text-lg outline-none"
+                placeholder="Votre nom complet"
               />
             </div>
-          )} */}
-        </div>
+          </div>
 
-        <div className={field}>
-          <label htmlFor="domaines" className={labelfield}>
-            Changer vos domaines
-          </label>
-          <input
-            type="text"
-            name="domaines"
-            id="domaines"
-            value={formData.domaines.join(". ")}
-            onChange={handleChange}
-          />
-          {/* <input
-            type="text"
-            value={newDomain}
-            onChange={(e) => setNewDomain(e.target.value)}
-            className="mt-2"
-          /> */}
-          {/* <button
-            type="button"
-            onClick={handleAddDomain}
-            className="mt-2 bg-blue-500 text-white rounded px-2 md:hidden"
+          {/* Competences */}
+          <div className="form-group">
+            <label className="form-label font-semibold md:text-xl">
+              Compétences
+            </label>
+            <div className="flex items-center space-x-2 mb-4">
+              <input
+                type="text"
+                value={newCompetence}
+                onChange={(e) => setNewCompetence(e.target.value)}
+                className="form-input flex-grow outline-none"
+                placeholder="Ajouter une compétence"
+              />
+              <button
+                type="button"
+                onClick={handleAddCompetence}
+                className="btn-icon bg-primary text-white hover:bg-primary-dark"
+              >
+                <FaPlus />
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {formData.competence.map((comp) => (
+                <div
+                  key={comp}
+                  className="bg-primary/10 text-primary px-3 py-1 rounded-full flex items-center space-x-2"
+                >
+                  {" "}
+                  <span>{comp}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveCompetence(comp)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Social Media */}
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="reseauxSociaux.nom"
+              className="form-label font-semibold md:text-xl"
+            >
+              Réseau social
+            </label>
+            <input
+              type="text"
+              name="reseauxSociaux.nom"
+              value={formData.reseauxSociaux.nom}
+              onChange={handleChange}
+              className="form-input md:text-lg outline-none"
+              placeholder="Nom du réseau social"
+            />
+            <input
+              type="text"
+              name="reseauxSociaux.lien"
+              value={formData.reseauxSociaux.lien}
+              onChange={handleChange}
+              className="form-input mt-2 md:text-lg outline-none"
+              placeholder="Lien du réseau social"
+            />
+          </div>
+
+          {/* Domains */}
+          <div className="form-group">
+            <label className="form-label font-semibold md:text-xl">
+              Domaines
+            </label>
+            <div className="flex items-center space-x-2 mb-4">
+              <input
+                type="text"
+                value={newDomain}
+                onChange={(e) => setNewDomain(e.target.value)}
+                className="form-input flex-grow md:text-lg outline-none"
+                placeholder="Ajouter un domaine"
+              />
+              <button
+                type="button"
+                onClick={handleAddDomain}
+                className="btn-icon bg-primary text-white hover:bg-primary-dark"
+              >
+                <FaPlus />
+              </button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {formData.domaines.map((domain) => (
+                <div
+                  key={domain}
+                  className="bg-primary/10 text-primary px-3 py-1 rounded-full flex items-center space-x-2"
+                >
+                  <span>{domain}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveDomain(domain)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors flex items-center justify-center"
           >
-            Ajouter
-          </button> */}
-        </div>
-        <button
-          type="submit"
-          className="px-2 bg-primary rounded-md text-white my-10 w-[150px] flex justify-center items-end h-7 md:text-xl md:h-10 md:gap-2 fixed right-3 bottom-16 md:justify-center md:items-center md:w-[200px] md:right-20 md:bottom-8"
-        >
-          Mettre à jour
-        </button>
-      </form>
+            <FaSave className="mr-2" />
+            Mettre à jour
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

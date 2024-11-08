@@ -32,6 +32,7 @@ export default function SideBar() {
               key={domain.name}
               name={domain.name}
               icon={domain.icon}
+              isOnSideBar={true}
               className={isActive ? "bg-accent-dark" : ""}
             />
             {isActive && (

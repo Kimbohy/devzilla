@@ -46,7 +46,7 @@ const mentorlistes: MentorProps[] = [
   {
     data: {
       id: "2",
-      type: "mentor",
+      type: "user",
       user: {
         id: "4",
         name: "Poter",
@@ -83,12 +83,10 @@ const mentorlistes: MentorProps[] = [
 
 const Page = () => {
   const pathname = usePathname();
-  const domainName = pathname.split("/").pop();
-  // Extract the domain name from the URL
+  const domainName = pathname.split("/").pop(); // Extract the domain name from the URL
 
   // Filter mentors to only include those with type "mentor" and matching domain
   const filteredMentors = mentorlistes.filter((mentor) => {
-    console.log(decodeURIComponent(domainName?.toLowerCase() || ""));
     return (
       mentor.data.type === "mentor" && // Only include mentors
       mentor.data.user.domaine.toLowerCase() ===
@@ -99,18 +97,25 @@ const Page = () => {
   return (
     <div className="flex">
       <SideBar />
-      <div className="flex flex-col md:gap-5 gap-7">
-        <p className="text-2xl font-semibold pl-5 pt-6 md:text-4xl ">
+      <div className="flex flex-col md:gap-5 gap-7 w-full">
+        <p className="text-2xl font-semibold pl-5 pt-6 md:text-4xl">
           Liste des mentors dans le domaine{" "}
           {decodeURIComponent(domainName || "")}
         </p>
-        <div className="bg-stone-50 rounded-lg mx-5 py-4 flex flex-col gap-3 md:items-center md:justify-center md:px-3">
+        <div className="bg-white rounded-lg mx-5 py-4 flex flex-col gap-3 shadow-lg">
           {filteredMentors.length > 0 ? (
             filteredMentors.map((list) => (
-              <ListeMentor key={list.data.id} listes={list} />
+              <div
+                key={list.data.id}
+                className="transition-transform duration-300 transform hover:scale-105"
+              >
+                <ListeMentor listes={list} />
+              </div>
             ))
           ) : (
-            <p className="pl-5">Aucun mentor trouvé dans ce domaine.</p>
+            <p className="text-center text-gray-500">
+              Aucun mentor trouvé dans ce domaine.
+            </p>
           )}
         </div>
       </div>
