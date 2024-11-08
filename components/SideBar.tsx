@@ -38,7 +38,11 @@ export default function SideBar() {
               <div className="flex flex-col pl-9 text-white gap-2 text-lg cursor-pointer">
                 <span>Annonce</span>
                 <span>Publier</span>
-                <span>Mentors</span>
+                <Link href={`/listeMentor/${toCapitalize(encodedDomainName)}`}>
+                  <button className="flex flex-col  text-white gap-2 text-lg cursor-pointer">
+                    <span>Mentors</span>
+                  </button>
+                </Link>
               </div>
             )}
           </div>
