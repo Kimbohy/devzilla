@@ -38,6 +38,10 @@ export default function SideBar() {
             height={80}
             className="hover:opacity-90 transition-opacity"
           />
+    <div className="sidebar h-screen sticky top-0 bg-neutral-700 py-3 flex flex-col gap-3 md:px-6">
+      <div className="px-3">
+        <Link href="/">
+          <Image src="/logo-whit.svg" alt="logo" width={80} height={80} />
         </Link>
       </div>
 
@@ -91,6 +95,35 @@ export default function SideBar() {
           </svg>
           <span className="hidden md:block">Search</span>
         </Link>
+      {domains.map((domain) => {
+        const encodedDomainName = encodeURIComponent(domain.name.toLowerCase());
+        const isActive =
+          pathname === `/domaine/${toCapitalize(encodedDomainName)}`;
+        return (
+          <div key={domain.name}>
+            <Domain
+              key={domain.name}
+              name={domain.name}
+              icon={domain.icon}
+              isOnSideBar={true}
+              className={isActive ? "bg-accent-dark" : ""}
+            />
+            {isActive && (
+              <div className="flex flex-col pl-9 text-white gap-2 text-lg cursor-pointer">
+                <span>Annonce</span>
+                <span>Publier</span>
+                <Link href={`/listeMentor/${toCapitalize(encodedDomainName)}`}>
+                  <button className="flex flex-col  text-white gap-2 text-lg cursor-pointer">
+                    <span>Mentors</span>
+                  </button>
+                </Link>
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <div className="mx-3 border-4 rounded-3xl flex items-center justify-center">
+        <span className="text-white text-center text-4xl">+</span>
       </div>
       <div className="px-4 pb-6">
         <button className="w-full group px-4 py-3 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-200">
