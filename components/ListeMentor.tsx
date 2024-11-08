@@ -9,26 +9,26 @@ interface MentorProps {
       id: string;
       name: string;
       avatar: string;
-      domaine: string; // Ensure this is included
+      domaine: string;
     };
   };
 }
 
 const ListeMentor: React.FC<{ listes: MentorProps }> = ({ listes }) => {
   return (
-    <div className="ml-5 flex flex-col gap-7">
-      <div className="flex md:items-center gap-4 ">
+    <div className="bg-white rounded-lg shadow-md p-4 transition-transform duration-200 hover:shadow-lg hover:scale-105">
+      <div className="flex flex-col items-center">
         <Image
           src={listes.data.user.avatar}
-          alt="avatar"
-          width={50}
-          height={50}
-          className="md:w-[100px] md:h-[100px]"
+          alt={`${listes.data.user.name}'s avatar`}
+          width={80}
+          height={80}
+          className="rounded-full mb-2"
         />
-        <p className="md:text-2xl text-sm">
-          <strong>{listes.data.user.name}</strong> est un mentor dans le domaine{" "}
-          <strong>{listes.data.user.domaine}</strong>
+        <p className="font-semibold text-lg text-center">
+          {listes.data.user.name}
         </p>
+        <p className="text-gray-500 text-sm">{listes.data.user.domaine}</p>
       </div>
     </div>
   );

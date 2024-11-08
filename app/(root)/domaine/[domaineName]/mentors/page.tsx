@@ -11,7 +11,7 @@ interface MentorProps {
       id: string;
       name: string;
       avatar: string;
-      domaine: string; // Added domaine here to match the updated interface
+      domaine: string;
     };
   };
 }
@@ -38,7 +38,7 @@ const mentorlistes: MentorProps[] = [
         id: "6",
         name: "Hey",
         avatar: "/avatar.svg",
-        domaine: "Mathematiques", // Updated domaine
+        domaine: "Poésie", // Updated domaine
       },
     },
   },
@@ -50,7 +50,7 @@ const mentorlistes: MentorProps[] = [
         id: "4",
         name: "Poter",
         avatar: "/avatar.svg",
-        domaine: "Chant", // Updated domaine
+        domaine: "Poésie", // Updated domaine
       },
     },
   },
@@ -84,38 +84,30 @@ const Page = () => {
   const pathname = usePathname();
   const domainName = pathname?.split("/")[2];
 
-  // Filter mentors to only include those with type "mentor" and matching domain
   const filteredMentors = mentorlistes.filter((mentor) => {
     return (
-      mentor.data.type === "mentor" && // Only include mentors
+      mentor.data.type === "mentor" &&
       mentor.data.user.domaine.toLowerCase() ===
         decodeURIComponent(domainName?.toLowerCase() || "")
     );
   });
 
   return (
-    <div className="flex">
-      <div className="flex flex-col md:gap-5 gap-7 w-full">
-        <p className="text-2xl font-semibold pl-5 pt-6 md:text-4xl">
-          Liste des mentors dans le domaine{" "}
-          {decodeURIComponent(domainName || "")}
-        </p>
-        <div className="bg-white rounded-lg mx-5 py-4 flex flex-col gap-3 shadow-lg">
-          {filteredMentors.length > 0 ? (
-            filteredMentors.map((list) => (
-              <div
-                key={list.data.id}
-                className="transition-transform duration-300 transform hover:scale-105"
-              >
-                <ListeMentor listes={list} />
-              </div>
-            ))
-          ) : (
-            <p className="text-center text-gray-500">
-              Aucun mentor trouvé dans ce domaine.
-            </p>
-          )}
-        </div>
+    <div className="flex flex-col md:gap-5 gap-7 w-full">
+      <h1 className="text-xl font-semibold pl-5 pt-6 md:text-3xl">
+        Liste des mentors dans le domaine de{" "}
+        {decodeURIComponent(domainName || "")}
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:grid-cols-4 gap-4 mx-5">
+        {filteredMentors.length > 0 ? (
+          filteredMentors.map((list) => (
+            <ListeMentor key={list.data.id} listes={list} />
+          ))
+        ) : (
+          <p className="text-center text-gray-500 col-span-full">
+            Aucun mentor trouvé dans ce domaine.
+          </p>
+        )}
       </div>
     </div>
   );

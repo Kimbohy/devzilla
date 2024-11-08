@@ -1,6 +1,4 @@
 import ProfileUser from "@/components/ProfileUser";
-import React from "react";
-
 // fake data
 interface ProfileProps {
   id: string;
