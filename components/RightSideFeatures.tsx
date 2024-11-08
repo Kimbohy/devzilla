@@ -32,7 +32,7 @@ export default function RightSideFeatures({
   relatedDomains,
 }: RightSideFeaturesProps) {
   return (
-    <div className="w-96 p-6 mt-2 space-y-8 sticky top-0 h-screen overflow-y-auto">
+    <div className=" p-6 mt-2 pb-5 space-y-8 sticky top-0 overflow-y-auto">
       {/* Domain Statistics */}
       <section className="bg-white rounded-xl shadow-md p-6 mb-6">
         <h2 className="text-xl font-bold mb-4">Statistiques du Domaine</h2>
