@@ -42,7 +42,7 @@ const Page = async () => {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
     const response = await fetch(
-      `http://localhost:8080/users?userId=${session.user.id}`,
+      `http://localhost:8080/users?userId=${session?.user?.id || ""}`,
       {
         method: "GET",
         headers: {
@@ -69,7 +69,7 @@ const Page = async () => {
 
     return (
       <div className="container mx-auto px-4 py-8">
-        <ProfileUser profile={user} connectedUserId={session.user.id} />
+        <ProfileUser profile={user} connectedUserId={session?.user?.id || ""} />
       </div>
     );
   } catch (error) {
