@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 interface Comment {
   id: string;
@@ -21,13 +22,20 @@ interface PublicationCommentsProps {
 export default function PublicationComments({
   publicationId,
 }: PublicationCommentsProps) {
+  const { data: session } = useSession();
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userImage, setUserImage] = useState<string | null>(null);
 
-  // Fetch comments when component mounts or publication changes
+  useEffect(() => {
+    if (session) {
+      setUserImage(session.user?.image || "/avatar.png");
+    }
+  }, [session]);
+
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -36,10 +44,10 @@ export default function PublicationComments({
           `/api/publications/${publicationId}/comments`
         );
         setComments(response.data);
-        setLoading(false);
       } catch (err) {
         console.error("Failed to fetch comments:", err);
         setError("Impossible de charger les commentaires");
+      } finally {
         setLoading(false);
       }
     };
@@ -49,7 +57,6 @@ export default function PublicationComments({
     }
   }, [publicationId]);
 
-  // Submit new comment
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -66,10 +73,7 @@ export default function PublicationComments({
         }
       );
 
-      // Add the new comment to the list
       setComments((prevComments) => [...prevComments, response.data]);
-
-      // Clear input
       setNewComment("");
     } catch (err) {
       console.error("Failed to submit comment:", err);
@@ -89,13 +93,12 @@ export default function PublicationComments({
 
   return (
     <div className="space-y-4">
-      {/* Comment Input */}
       <form
         onSubmit={handleSubmitComment}
         className="flex items-start space-x-3"
       >
         <Image
-          src="/avatar.svg"
+          src={userImage || "/avatar.png"}
           alt="User Avatar"
           width={40}
           height={40}
@@ -125,7 +128,6 @@ export default function PublicationComments({
         </div>
       </form>
 
-      {/* Comments List */}
       <div className="space-y-4 p-5">
         {comments.length === 0 ? (
           <p className="text-gray-500 text-center">Aucun commentaire</p>
@@ -136,15 +138,15 @@ export default function PublicationComments({
               className="flex items-start space-x-3 bg-gray-50 p-3 rounded-lg"
             >
               <Image
-                src={comment.user.avatar}
-                alt={comment.user.name}
+                src={comment.user?.avatar || "/avatar.png"}
+                alt={comment.user?.name || "Utilisateur"}
                 width={40}
                 height={40}
                 className="rounded-full"
               />
               <div>
                 <div className="flex items-center space-x-2">
-                  <h4 className="font-semibold">{comment.user.name}</h4>
+                  <h4 className="font-semibold">{comment.user?.name}</h4>
                   <span className="text-xs text-gray-500">
                     {comment.createdAt}
                   </span>
