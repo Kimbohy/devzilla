@@ -39,11 +39,17 @@ const SingUp = () => {
       });
 
       setSuccess(true);
+      console.log(formData);
       // Optional: Reset form or redirect
-    } catch (error: any) {
-      setError(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setError(
+          error.response?.data?.message ||
+            "An error occurred. Please try again."
+        );
+      } else {
+        setError("An error occurred. Please try again.");
+      }
     }
   };
 
