@@ -44,3 +44,24 @@ export class userError extends Error {
         return new userError(401, 'Mot de passe ou mail incorrect');
     }
 }
+
+// creer classe error pour les erreurs au niveau des publications
+
+export class publicationError extends Error {
+    constructor(statusCode, message) {
+        super(message);
+        this.statusCode = statusCode;
+    }
+
+    static publicationNotFoundError() {
+        return new publicationError(404, 'Publication non trouvée');
+    }
+
+    static databaseError() {
+        return new publicationError(500, 'Une erreur est survenue lors de l\'accès à la base de données');
+    }
+
+    static duplicatePublicationError() {
+        return new publicationError(400, 'Vous avez déjà réagi à cette publication');
+    }
+}

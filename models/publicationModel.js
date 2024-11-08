@@ -1,5 +1,6 @@
 import {ObjectId} from 'mongodb'
 import {getCollection} from '../tools/function.js'
+import {publicationError} from '../tools/error.js'
 
 export async function create(publicationData) {
     const newPublication = {
@@ -48,6 +49,7 @@ export async function react(publicationId, reaction) {
         type: reaction.type,
         date: new Date()
     }
+    
     await collection.updateOne({_id: new ObjectId(publicationId)}, { $push: { reactions: newReaction } })
     return await collection.findOne({_id: new ObjectId(publicationId)})
 }

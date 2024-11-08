@@ -2,43 +2,67 @@ import {json} from 'node:stream/consumers'
 import {create, comment, react, getOnePub, getAllPub} from '../models/publicationModel.js';
 
 export async function createPublication(req, res) {
-    const data = await json(req);
+    try {
+        const data = await json(req);
 
-    const publication = await create(data)
-    res.writeHead(201, {'Content-Type': 'application/json'})
-    res.write(JSON.stringify({
-        success: true,
-        message: 'Publication réussie',
-        data: publication
-    }))
+        const publication = await create(data)
+        res.writeHead(201, {'Content-Type': 'application/json'})
+        res.write(JSON.stringify({
+            success: true,
+            message: 'Publication réussie',
+            data: publication
+        }))
+    } catch (error) {
+        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        res.write(JSON.stringify({
+            success: false,
+            message: error.message
+        }))
+    }
     res.end()
 }
 
 export async function commentPublication(req, res, url) {
-    const data = await json(req);
-    const publicationId = url.searchParams.get('publicationId')
+    try {
+        const data = await json(req);
+        const publicationId = url.searchParams.get('publicationId')
 
-    const publication = await comment(publicationId, data)
-    res.writeHead(201, {'Content-Type': 'application/json'})
-    res.write(JSON.stringify({
-        success: true,
-        message: 'Commentaire réussi',
-        data: publication
-    }))
+        const publication = await comment(publicationId, data)
+        res.writeHead(201, {'Content-Type': 'application/json'})
+        res.write(JSON.stringify({
+            success: true,
+            message: 'Commentaire réussi',
+            data: publication
+        }))
+    } catch (error) {
+        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        res.write(JSON.stringify({
+            success: false,
+            message: error.message
+        }))
+    }
     res.end()
 }
 
 export async function reactPublication(req, res, url) {
-    const data = await json(req);
-    const publicationId = url.searchParams.get('publicationId')
+    try {
+        const data = await json(req);
+        const publicationId = url.searchParams.get('publicationId')
 
-    const publication = await react(publicationId, data)
-    res.writeHead(201, {'Content-Type': 'application/json'})
-    res.write(JSON.stringify({
-        success: true,
-        message: 'Réaction réussie',
-        data: publication
-    }))
+        const publication = await react(publicationId, data)
+        res.writeHead(201, {'Content-Type': 'application/json'})
+        res.write(JSON.stringify({
+            success: true,
+            message: 'Réaction réussie',
+            data: publication
+        }))
+    } catch (error) {
+        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        res.write(JSON.stringify({
+            success: false,
+            message: error.message
+        }))
+    }
     res.end()
 }
 
