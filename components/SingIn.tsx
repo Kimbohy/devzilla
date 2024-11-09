@@ -20,12 +20,15 @@ const SingIn = () => {
         password,
       });
 
+      console.log("SignIn Result:", result); // Debugging line
+
       if (result?.error) {
-        setError("Invalid email or password");
+        setError(result.error); // Use the error returned from the signIn function
       } else {
-        router.refresh();
+        router.push("/"); // Redirect to the root after successful login
       }
-    } catch {
+    } catch (error) {
+      console.error("SignIn Error:", error); // Debugging line
       setError("An error occurred. Please try again.");
     }
   };

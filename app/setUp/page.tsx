@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"; // Import useEffect and useState
 import axios from "axios"; // Import axios for making HTTP requests
 import Domain from "@/components/Domain";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router"; // Import useRouter for redirection
+import { useRouter } from "next/navigation"; // Import useRouter for redirection
 
 interface DomainType {
   name: string;
