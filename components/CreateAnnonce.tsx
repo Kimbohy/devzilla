@@ -1,5 +1,6 @@
 "use client";
-import { useState, FormEvent, ChangeEvent, useEffect } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
+import { useSession } from "next-auth/react";
 import axios from "axios";
 
 interface CreateAnnonceProps {
@@ -13,26 +14,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [userId, setUserId] = useState(""); // User ID
-  // Fetch user information when component mounts
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const userEmail = localStorage.getItem("userEmail");
-        if (userEmail) {
-          const response = await axios.get(
-            `http://localhost:8080/users?userEmail=${userEmail}`
-          );
-          setUserId(response.data.id); // Set user ID
-        }
-      } catch (err) {
-        console.error("Error fetching user information:", err);
-        setError("Impossible de récupérer les informations de l'utilisateur");
-      }
-    };
-
-    fetchUserInfo();
-  }, []);
+  const { data: session } = useSession();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -64,18 +46,26 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
     setSuccess(false);
 
     try {
-      const formData = new FormData(); // Use FormData for file uploads
-      formData.append("utilisateurId", userId); // Include user ID
-      formData.append("type", "annonce"); // Set the type to "annonce"
-      formData.append("contenu", description); // Use description as contenu
-      images.forEach((image) => formData.append("images", image)); // Append each image file
-      formData.append("nomDomaine", domaineName); // Use domaineName as nomDomaine
+      const formData = new FormData();
+      // formData.append("title", title);
+      formData.append("utilisateurId", session?.user?.id || "");
+      formData.append("type", "annonce");
+      formData.append("contenu", description);
+      formData.append("domaineName", domaineName);
 
-      await axios.post("http://localhost:8080/publications/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Set content type to multipart/form-data
-        },
-      });
+      if (image) {
+        formData.append("image", image);
+      }
+
+      const response = await axios.post(
+        "http://localhost:8080/publications/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // need to be checked
+          },
+        }
+      );
 
       // Reset form
       setTitle("");
@@ -114,7 +104,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
         </div>
       )}
 
-      <div>
+      {/* <div>
         <label htmlFor="title" className="text-sm text-gray-600 font-medium">
           Titre de l&apos;annonce
         </label>
@@ -126,14 +116,14 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none"
           placeholder="Entrez le titre de l'annonce"
         />
-      </div>
+      </div> */}
 
       <div>
         <label
           htmlFor="description"
           className="text-sm text-gray-600 font-medium"
         >
-          Description de l&apos;annonce{" "}
+          Votre annonce
         </label>
         <textarea
           id="description"

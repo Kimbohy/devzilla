@@ -12,10 +12,13 @@ interface ProfileUserProps {
 }
 
 const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
+  console.log(profile);
+
   const socialMediaIcons: { [key: string]: string } = {
-    facebook: "facebook-f-brands-solid.svg",
+    facebook: "/facebook-f-brands-solid.svg",
     instagram: "/instagram-brands-solid.svg",
-    linkedin: "/linkedin-in-brands-solid.svg",
+    linkedin: "/linkedin-black.svg",
+    twitter: "/x-twitter.svg",
   };
 
   const domains = [
@@ -47,9 +50,9 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 {profile.nom}
               </h1>
-              <div className="flex justify-center md:justify-start space-x-3 mt-3">
+              <div className="flex justify-center items-center md:justify-start space-x-3 mt-3">
                 {profile.reseauxSociaux.map((socialMedia) => (
-                  <>
+                  <div key={socialMedia.nom}>
                     {socialMedia.nom in socialMediaIcons && (
                       <Link
                         href={socialMedia.lien}
@@ -65,7 +68,7 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
                         />
                       </Link>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
             </div>
@@ -82,7 +85,10 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
               </button>
             </Link>
           )}
-          <Link href="/shareProfile" className="w-full max-w-xs">
+          <Link
+            href={`/profile/${profile.id}/share`}
+            className="w-full max-w-xs"
+          >
             <button className="flex items-center justify-center w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition-colors space-x-2">
               <FaShareAlt className="w-5 h-5" />
               <span className="hidden md:block">Share Profile</span>

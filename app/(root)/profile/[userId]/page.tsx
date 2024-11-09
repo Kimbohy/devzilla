@@ -3,6 +3,7 @@
 import ProfileUser from "@/components/ProfileUser";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 export interface SocialMedia {
   lien: string;
@@ -33,18 +34,20 @@ const Page = () => {
   const { data: session } = useSession();
   const [user, setUser] = useState<ProfileProps | null>(null);
   const [error, setError] = useState<Error | null>(null);
+  const { userId } = useParams() as { userId: string };
 
   const fetchProfile = async () => {
-    if (!session?.user?.id) {
+    /* if (!session?.user?.id) {
       throw new Error("User  is not authenticated.");
     }
+      */
 
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
       const response = await fetch(
-        `http://localhost:8080/users?userId=${session.user.id}`,
+        `http://localhost:8080/users?userId=${userId}`,
         {
           method: "GET",
           headers: {
@@ -74,14 +77,13 @@ const Page = () => {
       );
     }
   };
-
   useEffect(() => {
-    if (session?.user?.id) {
-      fetchProfile();
-    }
+    // if (session?.user?.id) {
+    fetchProfile();
+    // }
   }, []);
 
-  if (error) {
+  if (error && userId !== session?.user?.id) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div
@@ -129,6 +131,38 @@ const Page = () => {
   if (!user) {
     return <div>Loading...</div>;
   }
+  /*
+  const fakeUser: ProfileProps = {
+    id: "1",
+    nom: "John Doe",
+    email: "john@gmail.com",
+    type: "mentor",
+    photoProfil: session?.user?.image || "",
+    description: "I am a mentor",
+    competence: ["React", "Node.js", "TypeScript"],
+    reseauxSociaux: [
+      {
+        lien: "https://twitter.com",
+        nom: "twitter",
+      },
+      {
+        lien: "https://linkedin.com",
+        nom: "linkedin",
+      },
+      {
+        lien: "https://facebook.com",
+        nom: "facebook",
+      },
+      {
+        lien: "https://instagram.com",
+        nom: "instagram",
+      },
+    ],
+    domaines: ["Web Development", "Mobile Development"],
+    mentor: [],
+    apprenti: [],
+  };
+  */
 
   return (
     <div className="container mx-auto px-4 py-8">

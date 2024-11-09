@@ -11,3 +11,17 @@ export const goToLandingIfNotLoggedIn = async () => {
     redirect("/LandingPage");
   }
 };
+
+export const fetchPublication = async (domaineName: string) => {
+  const response = await fetch(
+    `http://localhost:8080/publications/${domaineName}`
+  );
+  const publications = await response.json();
+  return publications;
+};
+
+export const fetchAllDomaines = async () => {
+  const response = await fetch("http://localhost:8080/domaines");
+  const domaines = await response.json();
+  return domaines;
+};
