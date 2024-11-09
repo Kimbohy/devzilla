@@ -17,7 +17,7 @@ export interface MentorApprenticeRelation {
 }
 
 export interface ProfileProps {
-  id: string;
+  _id: string;
   nom: string;
   email: string;
   type: string;
@@ -37,39 +37,37 @@ const Page = () => {
   const { userId } = useParams() as { userId: string };
 
   const fetchProfile = async () => {
-    /* if (!session?.user?.id) {
+    if (!session?.user?.id) {
       throw new Error("User  is not authenticated.");
     }
-      */
 
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
       const response = await fetch(
-        `http://localhost:8080/users?userId=${userId}`,
+        `http://localhost:8080/users?user-id=${userId}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          signal: controller.signal,
         }
       );
 
       clearTimeout(timeoutId);
 
+      const userData: { success: boolean; data: ProfileProps } =
+        await response.json();
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${userData.success}`);
       }
 
-      const userData: ProfileProps = await response.json();
-
-      if (!userData || !userData.id) {
+      if (!userData || !userData.data._id) {
         throw new Error("Invalid user data received");
       }
 
-      setUser(userData);
+      setUser(userData.data);
     } catch (err) {
       console.error("Profile fetch error:", err);
       setError(
