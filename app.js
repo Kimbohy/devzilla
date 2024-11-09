@@ -1,5 +1,8 @@
 import {createServer, get} from 'node:http'
 import { userRoute, publicationRoute, matchRoute, domainRoute } from './routes/routes.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const server = createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -28,4 +31,4 @@ const server = createServer(async (req, res) => {
         res.writeHead(404, { 'Content-Type': 'text/plain' })
         res.end('Not Found')
     }
-}).listen('8080')
+}).listen(process.env.PORT)
