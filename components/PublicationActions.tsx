@@ -12,12 +12,15 @@ export default function PublicationActions({
   pubId: string;
   setShowComments: (show: boolean) => void;
   showComments: boolean;
-  userId: string; // User ID for the reaction
+  userId: string; // User ID for the reaction and comment
 }) {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const shareMenuRef = useRef<HTMLDivElement>(null);
   const [reactionError, setReactionError] = useState<string | null>(null);
   const [reactionSuccess, setReactionSuccess] = useState<boolean>(false);
+  const [comment, setComment] = useState(""); // State for comment content
+  const [commentError, setCommentError] = useState<string | null>(null);
+  const [commentSuccess, setCommentSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -105,8 +108,47 @@ export default function PublicationActions({
     }
   };
 
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!comment.trim()) {
+      setCommentError("Le commentaire ne peut pas être vide");
+      return;
+    }
+
+    if (!userId) {
+      setCommentError("Identifiant utilisateur non disponible");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/publications/comment?publicationId=${pubId}`,
+        {
+          utilisateurId: userId,
+          contenu: comment,
+        }
+      );
+
+      // Handle success response
+      setCommentSuccess(true);
+      setCommentError(null);
+      setComment(""); // Clear the comment input
+      console.log("Comment success:", response.data);
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      setCommentError(
+        axios.isAxiosError(error)
+          ? error.response?.data?.message ||
+              "Erreur lors de l'envoi du commentaire"
+          : "Une erreur est survenue"
+      );
+      setCommentSuccess(false);
+    }
+  };
+
   return (
-    <div className="relative px-3 md:px-4 md:py-3 py-2 border-t border-gray-100 flex items-center space-x-3 md:space-x-6">
+    <div className="relative px-3 md:px-4 md:py-3 py-2 border-t border-gray-100 flex flex-col space-y-3">
       <div className="flex items-center space-x-3 md:space-x-6">
         {/* Happy Reaction */}
         <button
@@ -201,7 +243,7 @@ export default function PublicationActions({
               </button>
               <button
                 onClick={() => handleShare("twitter")}
-                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover :bg-gray-100 flex items-center space-x-2"
               >
                 <Image
                   src="/x-twitter.svg"
@@ -228,12 +270,37 @@ export default function PublicationActions({
         </div>
       </div>
 
+      {/* Comment Input */}
+      <form onSubmit={handleCommentSubmit} className="flex flex-col space-y-2">
+        <textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Écrire un commentaire..."
+          className="border border-gray-300 rounded-md p-2"
+          rows={3}
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white rounded-md px-4 py-2"
+        >
+          Commenter
+        </button>
+      </form>
+
       {/* Reaction Feedback */}
       {reactionError && (
         <div className="text-red-500 text-sm mt-2">{reactionError}</div>
       )}
       {reactionSuccess && (
         <div className="text-green-500 text-sm mt-2">Réaction enregistrée!</div>
+      )}
+
+      {/* Comment Feedback */}
+      {commentError && (
+        <div className="text-red-500 text-sm mt-2">{commentError}</div>
+      )}
+      {commentSuccess && (
+        <div className="text-green-500 text-sm mt-2">Commentaire ajouté!</div>
       )}
     </div>
   );
