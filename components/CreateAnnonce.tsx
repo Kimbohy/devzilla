@@ -1,22 +1,38 @@
 "use client";
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import axios from "axios";
 
 interface CreateAnnonceProps {
-  utilisateurId: string; // Pass the user ID
   domaineName: string; // This will be used for nomDomaine
 }
 
-export default function CreateAnnonce({
-  utilisateurId,
-  domaineName,
-}: CreateAnnonceProps) {
+export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState<File[]>([]); // Handle multiple images
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [userId, setUserId] = useState(""); // User ID
+  // Fetch user information when component mounts
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userEmail = localStorage.getItem("userEmail");
+        if (userEmail) {
+          const response = await axios.get(
+            `http://localhost:8080/users?userEmail=${userEmail}`
+          );
+          setUserId(response.data.id); // Set user ID
+        }
+      } catch (err) {
+        console.error("Error fetching user information:", err);
+        setError("Impossible de récupérer les informations de l'utilisateur");
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -38,13 +54,18 @@ export default function CreateAnnonce({
       return;
     }
 
+    if (!userId) {
+      setError("Identifiant utilisateur non disponible");
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
     setSuccess(false);
 
     try {
       const formData = new FormData(); // Use FormData for file uploads
-      formData.append("utilisateurId", utilisateurId);
+      formData.append("utilisateurId", userId); // Include user ID
       formData.append("type", "annonce"); // Set the type to "annonce"
       formData.append("contenu", description); // Use description as contenu
       images.forEach((image) => formData.append("images", image)); // Append each image file
