@@ -65,3 +65,18 @@ export class publicationError extends Error {
         return new publicationError(400, 'Vous avez déjà réagi à cette publication');
     }
 }
+
+export class domainError extends Error {
+    constructor (statusCode, message) {
+        super (message)
+        this.statusCode = statusCode
+    }
+
+    static duplicateDomainError() {
+        return new domainError(400, 'Ce domaine existe déjà')
+    }
+
+    static domainNotFoundError() {
+        return new domainError(404, 'Domaine non trouvé')
+    }
+}

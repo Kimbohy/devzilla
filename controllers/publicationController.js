@@ -95,7 +95,7 @@ export async function reactPublication(req, res, url) {
 export async function getOneDomainePublication(req, res, url) {
     try {
         const domaineId = url.searchParams.get('domaineId')
-        const publication = await getOneDomainePub(domaineId)
+        const publication = await getOneDomainePub(domaineName)
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.write(JSON.stringify({
             success: true,

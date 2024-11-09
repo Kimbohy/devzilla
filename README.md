@@ -285,3 +285,49 @@
     "message": "Demande envoyée"
 }
 ```
+
+# Domaine
+## createDomain
+
+- POST : /domains/create
+
+- **input**
+
+``` json
+{
+    "nom": "math",
+    "description": "Nouveau domaine"
+}
+```
+
+- **output**
+
+``` json
+{
+    "success": true,
+    "message": "Création de domaine réussi",
+    "data": {
+        "_id": "672ef2ee6ce8c3e9c5cade00",
+        "nom": "musique",
+        "description": "Nouveau domaine"
+    }
+}
+```
+
+## getDomainByName
+
+- GET : /domains?domainName=math
+
+- **output**
+
+``` json
+{
+    "success": true,
+    "message": "domaine trouvé",
+    "data": {
+        "_id": "672ede12fa4511c7cb3737eb",
+        "nom": "math",
+        "description": "Nouveau domaine"
+    }
+}
+```
