@@ -23,7 +23,7 @@ export default function AnnoncesPage() {
         {/* Create Annonce Section */}
         <div>
           <h2 className="text-2xl font-semibold mb-4">Créer une Annonce</h2>
-          <CreateAnnonce domaineName={domaineName} />
+          <CreateAnnonce />
         </div>
       </div>
     </div>

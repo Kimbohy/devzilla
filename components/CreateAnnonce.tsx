@@ -2,15 +2,16 @@
 import { useState, FormEvent, ChangeEvent } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { usePathname } from "next/navigation";
 
-interface CreateAnnonceProps {
-  domaineName: string; // This will be used for nomDomaine
-}
+export default function CreateAnnonce() {
+  const pathname = usePathname();
+  const domaineName = decodeURIComponent(pathname?.split("/")[2] || "");
 
-export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState<File[]>([]); // Handle multiple images
+  const [videos, setVideos] = useState<File[]>([]); // Handle multiple videos
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -19,6 +20,12 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImages(Array.from(e.target.files)); // Convert FileList to an array
+    }
+  };
+
+  const handleVideoChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setVideos(Array.from(e.target.files)); // Convert FileList to an array
     }
   };
 
@@ -46,22 +53,20 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
     setSuccess(false);
 
     try {
-      const formData = new FormData();
-      formData.append("title", title); // Make sure to append the title
-      formData.append("utilisateurId", session?.user?.id || "");
-      formData.append("type", "annonce");
-      formData.append("contenu", description);
-      formData.append("domaineName", domaineName);
+      const formData = {
+        utilisateurId: session?.user?.id || "",
+        type: "projet", // Set type to "projet"
+        contenu: description,
+        images: images.map((image) => image.name), // Get the names of the images
+        videos: videos.map((video) => video.name), // Get the names of the videos
+        nomDomaine: domaineName, // Set the domain name
+      };
 
-      images.forEach((image) => {
-        formData.append("images", image);
-      });
-
-      console.log("Form Data:", Array.from(formData.entries())); // Log formData entries
+      console.log("Form Data:", formData); // Log the form data
 
       await axios.post("http://localhost:8080/publications/create", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // This is correct for file uploads
+          "Content-Type": "application/json", // Change to application/json
         },
       });
 
@@ -69,6 +74,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
       setTitle("");
       setDescription("");
       setImages([]);
+      setVideos([]);
       setSuccess(true);
     } catch (err) {
       console.error("Publication submission error:", err);
@@ -155,6 +161,32 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
           <div className="mt-2 text-sm text-gray-600">
             Fichiers sélectionnés:{" "}
             {images.map((image) => image.name).join(", ")}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <label htmlFor="annonce-videos" className="text-sm text-gray-600">
+          Ajouter des vidéos
+        </label>
+        <input
+          type="file"
+          id="annonce-videos"
+          accept="video/*"
+          multiple // Allow multiple file selection
+          onChange={handleVideoChange}
+          className="block w-full text-sm text-gray-500
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-primary file:text-white
+          hover:file:bg-primary-dark
+          cursor-pointer"
+        />
+        {videos.length > 0 && (
+          <div className="mt-2 text-sm text-gray-600">
+            Fichiers sélectionnés:{" "}
+            {videos.map((video) => video.name).join(", ")}
           </div>
         )}
       </div>
