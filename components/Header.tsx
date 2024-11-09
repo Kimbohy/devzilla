@@ -15,7 +15,7 @@ const Header = () => {
           className="pt-5 px-3 md:w-[150px] md:h-[150px]"
         />
         <Link href="/session" className="hidden md:block">
-          <button className="bg-slate-500 px-4 py-3 text-white rounded-lg mt-16 text-xl hover:bg-slate-800">
+          <button className="bg-primary text-white px-8 py-3 rounded-lg shadow-lg hover:bg-primary-dark transition-colors text-lg font-semibold">
             Se connecter
           </button>
         </Link>
