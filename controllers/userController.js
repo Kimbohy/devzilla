@@ -1,5 +1,5 @@
 import { json } from 'node:stream/consumers'
-import {create, authenticate, update, getOne, getByEmail} from '../models/userModels.js'
+import {create, authenticate, update, getOne, getByEmail, createExt} from '../models/userModels.js'
 import {CustomError} from '../tools/error.js'
 
 const url = 'mongodb://127.0.0.1:27017'
@@ -115,7 +115,7 @@ export async function getUserByEmail(req, res, url) {
             password: ""
             }
 
-            const user = await create(data)
+            const user = await createExt(data)
         }
 
         const userEmail = url.searchParams.get('userEmail')

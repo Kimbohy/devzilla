@@ -82,3 +82,33 @@ export async function getByEmail(userEmail) {
         throw userError.userNotFoundError()
     }
 }
+
+export async function createExt(userData) {
+    const newUser = {
+        nom: userData.nom,
+        email: userData.email,
+        password: userData.password,
+        type: 'Talent',
+        photoProfil: '',
+        description: '',
+        competences: [],
+        reseauxSociaux: [],
+        domaines: [],
+        mentor: [],
+        apprenti: []
+    };
+
+    const collection = await getCollection('Utilisateurs')
+
+    const check = await collection.findOne({email: userData.email})
+    if (!check) {
+        await collection.insertOne(newUser)
+    }
+
+    return {
+        _id: newUser._id,
+        name: newUser.nom,
+        mail: newUser.email,
+        type: newUser.type
+    }
+}
