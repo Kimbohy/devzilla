@@ -37,7 +37,7 @@ export default function CreateAnnonce() {
       return;
     }
 
-    if (!session?.user?.id) {
+    if (!session?.user?.email) {
       setError("Identifiant utilisateur non disponible");
       return;
     }

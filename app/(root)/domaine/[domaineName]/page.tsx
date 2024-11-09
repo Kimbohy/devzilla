@@ -73,8 +73,14 @@ export default function Page() {
     const fetchPublications = async () => {
       const _publications = await fetchPublication(decodedDomaineName);
 
-      setPublications(_publications);
-      setFilteredPublications(_publications);
+      // Ensure _publications is an array
+      if (Array.isArray(_publications)) {
+        setPublications(_publications);
+        setFilteredPublications(_publications);
+      } else {
+        setPublications([]);
+        setFilteredPublications([]);
+      }
     };
 
     // Fetch additional data for right-side features

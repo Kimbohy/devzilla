@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, FormEvent, ChangeEvent } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { getUser } from "@/app/utils";
 
 export default function Publier() {
   const pathname = usePathname();
@@ -17,7 +18,6 @@ export default function Publier() {
   const [success, setSuccess] = useState(false);
 
   const { data: session } = useSession();
-  const userId = session?.user?.id;
 
   const publicationTypes = [
     "Projets en cours",
@@ -47,6 +47,7 @@ export default function Publier() {
       setError("Le contenu de la publication ne peut pas être vide");
       return;
     }
+    const userId = getUser(session?.user?.email as string);
 
     // Additional validation for user ID
     if (!userId) {

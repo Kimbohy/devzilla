@@ -5,6 +5,7 @@ import { FaFacebook, FaTwitter, FaLinkedin, FaClipboard } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { getUser } from "@/app/utils";
 
 const ShareProfile = () => {
   const userId = usePathname()?.split("/")[2];
@@ -23,9 +24,11 @@ const ShareProfile = () => {
         );
         console.log(response.data.data);
 
+        const actual = getUser(session?.user?.email as string);
+
         if (response.data.success) {
           if (response.data.data.photoProfil === "") {
-            if (response.data.data._id === session?.user?.id) {
+            if (response.data.data._id === actual) {
               response.data.data.photoProfil = session?.user?.image;
             } else {
               response.data.data.photoProfil = "/avatar.svg";
@@ -41,7 +44,7 @@ const ShareProfile = () => {
     };
 
     fetchUserData();
-  }, [session?.id, session?.user?.image, userId]);
+  }, [session?.user?.email, session?.user?.image, userId]);
 
   const handleShare = (platform: string) => {
     const shareUrl = profileLink;

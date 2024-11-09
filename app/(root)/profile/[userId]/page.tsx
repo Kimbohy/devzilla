@@ -4,6 +4,7 @@ import ProfileUser from "@/components/ProfileUser";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { getUser } from "@/app/utils";
 
 export interface SocialMedia {
   lien: string;
@@ -35,12 +36,12 @@ const Page = () => {
   const [user, setUser] = useState<ProfileProps | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const { userId } = useParams() as { userId: string };
+  console.log(
+    "userId",
+    `https://ta-lenta.onrender.com/users?user-id=${userId}`
+  );
 
   const fetchProfile = async () => {
-    if (!session?.user?.id) {
-      throw new Error("User  is not authenticated.");
-    }
-
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
@@ -81,11 +82,15 @@ const Page = () => {
   apprenti: MentorApprenticeRelation[];
        
        */
-      if (userData.data.photoProfil === "") {
-        if (userData.data._id === session.user.id) {
-          userData.data.photoProfil = session.user.image || "";
-        } else {
-          userData.data.photoProfil = "/avatar.png";
+
+      if (session && session.user) {
+        const actualUserId = await getUser(session.user.email || "");
+        if (userData.data.photoProfil === "") {
+          if (userData.data._id === actualUserId) {
+            userData.data.photoProfil = session.user.image || "";
+          } else {
+            userData.data.photoProfil = "/avatar.png";
+          }
         }
       }
 
@@ -98,7 +103,7 @@ const Page = () => {
     }
   };
   useEffect(() => {
-    if (session?.user?.id) {
+    if (session) {
       fetchProfile();
     }
   }, []);
