@@ -15,31 +15,34 @@ export default function Publier() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [userId, setUserId] = useState("");
+  const [userName, setUserName] = useState(""); // New state for user name
+  const [userPhoto, setUserPhoto] = useState("");
 
-  // Fetch user ID when component mounts
+  // Fetch user ID and name when component mounts
   useEffect(() => {
-    const fetchUserId = async () => {
+    const fetchUserInfo = async () => {
       try {
-        // Assuming you store the email or username in localStorage after signup/login
+        // Assuming you store the email in localStorage after signup/login
         const userEmail = localStorage.getItem("userEmail");
 
         if (userEmail) {
           // Fetch user details using the email
           const response = await axios.get(
-            `http://localhost:8080/users/signup?email=${userEmail}`
+            `http://localhost:8080//users?userEmail=?email=${userEmail}`
           );
 
-          // Set the user ID
+          // Set the user ID and name
           setUserId(response.data.id);
-          console.log(response.data.id);
+          setUserName(response.data.name); // Set user name
+          setUserPhoto(response.data.photoProfil);
         }
       } catch (err) {
-        console.error("Error fetching user ID:", err);
+        console.error("Error fetching user ID and name:", err);
         setError("Impossible de récupérer l'identifiant utilisateur");
       }
     };
 
-    fetchUserId();
+    fetchUserInfo();
   }, []);
 
   const publicationTypes = [
@@ -152,15 +155,14 @@ export default function Publier() {
 
       <div className="flex items-center gap-3 mb-6 p-3 bg-gray-50 rounded-lg">
         <Image
-          src="/avatar.svg"
+          src={userPhoto}
           alt="user"
           width={50}
           height={50}
           className="rounded-full"
         />
-        <span className="text-lg text-gray-700 font-medium">
-          Kimbohy Marisika
-        </span>
+        <span className="text-lg text-gray-700 font-medium">{userName}</span>{" "}
+        {/* Display user name */}
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">

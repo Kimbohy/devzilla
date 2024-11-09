@@ -3,20 +3,24 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import axios from "axios";
 
 interface CreateAnnonceProps {
-  domaineName: string;
+  utilisateurId: string; // Pass the user ID
+  domaineName: string; // This will be used for nomDomaine
 }
 
-export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
+export default function CreateAnnonce({
+  utilisateurId,
+  domaineName,
+}: CreateAnnonceProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<File[]>([]); // Handle multiple images
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+    if (e.target.files) {
+      setImages(Array.from(e.target.files)); // Convert FileList to an array
     }
   };
 
@@ -39,36 +43,26 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
     setSuccess(false);
 
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("domain", domaineName);
+      const formData = new FormData(); // Use FormData for file uploads
+      formData.append("utilisateurId", utilisateurId);
+      formData.append("type", "annonce"); // Set the type to "annonce"
+      formData.append("contenu", description); // Use description as contenu
+      images.forEach((image) => formData.append("images", image)); // Append each image file
+      formData.append("nomDomaine", domaineName); // Use domaineName as nomDomaine
 
-      if (image) {
-        formData.append("image", image);
-      }
-
-      const response = await axios.post("/api/annonces", formData, {
+      await axios.post("http://localhost:8080/publications/create", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data", // Set content type to multipart/form-data
         },
       });
 
       // Reset form
       setTitle("");
       setDescription("");
-      setImage(null);
+      setImages([]);
       setSuccess(true);
-
-      // Clear file input
-      const fileInput = document.getElementById(
-        "annonce-image"
-      ) as HTMLInputElement;
-      if (fileInput) {
-        fileInput.value = "";
-      }
     } catch (err) {
-      console.error("Annonce submission error:", err);
+      console.error("Publication submission error:", err);
       setError(
         axios.isAxiosError(err)
           ? err.response?.data?.message ||
@@ -118,7 +112,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
           htmlFor="description"
           className="text-sm text-gray-600 font-medium"
         >
-          Description de l&apos;annonce
+          Description de l&apos;annonce{" "}
         </label>
         <textarea
           id="description"
@@ -131,13 +125,14 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
       </div>
 
       <div>
-        <label htmlFor="annonce-image" className="text-sm text-gray-600">
-          Ajouter une image
+        <label htmlFor="annonce-images" className="text-sm text-gray-600">
+          Ajouter des images
         </label>
         <input
           type="file"
-          id="annonce-image"
+          id="annonce-images"
           accept="image/*"
+          multiple // Allow multiple file selection
           onChange={handleImageChange}
           className="block w-full text-sm text-gray-500
           file:mr-4 file:py-2 file:px-4
@@ -147,9 +142,10 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
           hover:file:bg-primary-dark
           cursor-pointer"
         />
-        {image && (
+        {images.length > 0 && (
           <div className="mt-2 text-sm text-gray-600">
-            Fichier sélectionné: {image.name}
+            Fichiers sélectionnés:{" "}
+            {images.map((image) => image.name).join(", ")}
           </div>
         )}
       </div>
