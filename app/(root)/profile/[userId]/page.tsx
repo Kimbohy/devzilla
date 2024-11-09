@@ -67,6 +67,28 @@ const Page = () => {
         throw new Error("Invalid user data received");
       }
 
+      /**
+  _id: string;
+  nom: string;
+  email: string;
+  type: string;
+  photoProfil: string;
+  description: string;
+  competence: string[];
+  reseauxSociaux: SocialMedia[];
+  domaines: string[];
+  mentor: MentorApprenticeRelation[];
+  apprenti: MentorApprenticeRelation[];
+       
+       */
+      if (userData.data.photoProfil === "") {
+        if (userData.data._id === session.user.id) {
+          userData.data.photoProfil = session.user.image || "";
+        } else {
+          userData.data.photoProfil = "/avatar.png";
+        }
+      }
+
       setUser(userData.data);
     } catch (err) {
       console.error("Profile fetch error:", err);
@@ -76,12 +98,12 @@ const Page = () => {
     }
   };
   useEffect(() => {
-    // if (session?.user?.id) {
-    fetchProfile();
-    // }
+    if (session?.user?.id) {
+      fetchProfile();
+    }
   }, []);
 
-  if (error && userId !== session?.user?.id) {
+  if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div
@@ -129,38 +151,6 @@ const Page = () => {
   if (!user) {
     return <div>Loading...</div>;
   }
-  /*
-  const fakeUser: ProfileProps = {
-    id: "1",
-    nom: "John Doe",
-    email: "john@gmail.com",
-    type: "mentor",
-    photoProfil: session?.user?.image || "",
-    description: "I am a mentor",
-    competence: ["React", "Node.js", "TypeScript"],
-    reseauxSociaux: [
-      {
-        lien: "https://twitter.com",
-        nom: "twitter",
-      },
-      {
-        lien: "https://linkedin.com",
-        nom: "linkedin",
-      },
-      {
-        lien: "https://facebook.com",
-        nom: "facebook",
-      },
-      {
-        lien: "https://instagram.com",
-        nom: "instagram",
-      },
-    ],
-    domaines: ["Web Development", "Mobile Development"],
-    mentor: [],
-    apprenti: [],
-  };
-  */
 
   return (
     <div className="container mx-auto px-4 py-8">

@@ -21,7 +21,7 @@ export const fetchPublication = async (domaineName: string) => {
 };
 
 export const fetchAllDomaines = async () => {
-  const response = await fetch("http://localhost:8080/domaines");
+  const response = await fetch("http://localhost:8080/domains");
   const domaines = await response.json();
   return domaines;
 };
