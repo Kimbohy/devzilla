@@ -29,7 +29,7 @@ export default function SideBar() {
       <div className="flex items-center justify-between px-3 md:px-6 py-5 border-b border-slate-700">
         <Link href="/" className="block">
           <Image
-            src="/logo-whit.svg"
+            src="/logo.svg"
             alt="logo"
             width={80}
             height={80}

@@ -4,12 +4,12 @@ import Image from "next/image";
 import { FaFacebook, FaTwitter, FaLinkedin, FaClipboard } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const ShareProfile = () => {
   const userId = usePathname()?.split("/")[2];
-  const [profileLink, setProfileLink] = useState(
-    `http://localhost:3000/profil/${userId}`
-  );
+  const profileLink = `http://localhost:3000/profile/${userId}`;
+  const { data: session } = useSession();
   const [userData, setUserData] = useState<{
     nom: string;
     photoProfil: string;
@@ -19,9 +19,18 @@ const ShareProfile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/users?user-id=${userId}`
+          `http://localhost:8080/users?user-id=${userId}`
         );
+        console.log(response.data.data);
+
         if (response.data.success) {
+          if (response.data.data.photoProfil === "") {
+            if (response.data.data._id === session?.user?.id) {
+              response.data.data.photoProfil = session?.user?.image;
+            } else {
+              response.data.data.photoProfil = "/avatar.svg";
+            }
+          }
           setUserData(response.data.data);
         } else {
           console.error("Error fetching user data");
@@ -32,7 +41,7 @@ const ShareProfile = () => {
     };
 
     fetchUserData();
-  }, [userId]);
+  }, [session?.id, session?.user?.image, userId]);
 
   const handleShare = (platform: string) => {
     const shareUrl = profileLink;
