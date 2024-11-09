@@ -114,6 +114,35 @@
 }
 ```
 
+## getUserByEmail
+
+- GET : /users?userEmail=john.doe@example.com
+
+- **output**
+
+``` json
+{
+    "success": true,
+    "message": "Utilisateur trouvé",
+    "data": {
+        "_id": "672dc59dd04ad311e37e2c73",
+        "nom": "nomVaovao",
+        "email": "john.doe@example.com",
+        "type": "Talent",
+        "photoProfil": "",
+        "description": "",
+        "competences": [
+            "art",
+            "art"
+        ],
+        "reseauxSociaux": [],
+        "domaines": [],
+        "mentor": [],
+        "apprenti": []
+    }
+}
+```
+
 # publication
 ## createPublication
 

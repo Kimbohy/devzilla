@@ -2,8 +2,6 @@ import { ObjectId } from 'mongodb'
 import { getCollection } from '../tools/function.js'
 import { userError } from '../tools/error.js'
 
-// gerer les doublons
-// enregistrer les authentifications par github ou google et generer id
 export async function create(userData) {
     const newUser = {
         nom: userData.nom,
@@ -68,6 +66,16 @@ export async function update(id, userData) {
 export async function getOne(id) {
     const collection = await getCollection('Utilisateurs')
     const user = await collection.findOne({_id: new ObjectId(id)}, {projection: {password: 0}})
+    if (user) {
+        return user
+    } else {
+        throw userError.userNotFoundError()
+    }
+}
+
+export async function getByEmail(userEmail) {
+    const collection = await getCollection('Utilisateurs')
+    const user = await collection.findOne({email: userEmail}, {projection: {password: 0}})
     if (user) {
         return user
     } else {

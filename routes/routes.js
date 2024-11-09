@@ -1,4 +1,4 @@
-import {createUser, authenticateUser, updateUser, getOneUser} from '../controllers/userController.js'
+import {createUser, authenticateUser, updateUser, getOneUser, getUserByEmail} from '../controllers/userController.js'
 import {createPublication, commentPublication, reactPublication, getOneDomainePublication} from '../controllers/publicationController.js'
 import {askMatch} from '../controllers/matchController.js'
 import {createDomain, getDomainByName} from '../controllers/domainController.js'
@@ -11,7 +11,11 @@ export async function userRoute(req, res, url) {
     } else if (url.pathname === '/users/update' && req.method === 'PUT') {
         await updateUser(req, res, url)
     } else if (url.pathname === '/users' && req.method === 'GET') {
-        await getOneUser(req, res, url)
+        if (url.searchParams.get('user-id')) {
+            await getOneUser(req, res, url)
+        } else if (url.searchParams.get('userEmail')) {
+            await getUserByEmail(req, res, url)
+        }
     } else {
         res.end()
     }
