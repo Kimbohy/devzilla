@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"; // Import useEffect and useState
 import axios from "axios"; // Import axios for making HTTP requests
 import Domain from "@/components/Domain";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router"; // Import useRouter for redirection
 
 interface DomainType {
   name: string;
@@ -14,7 +15,8 @@ const Page = () => {
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState<string | null>(null); // State to manage error state
   const { data: session } = useSession();
-  const userId = session?.id; // Replace with actual user ID logic
+  const router = useRouter(); // Initialize the router
+  const userId = session?.id; // Get user ID from session
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -46,7 +48,7 @@ const Page = () => {
         userId,
       });
       console.log("Response from server:", response.data);
-      // Handle successful response (e.g., redirect or show a success message)
+      router.push("/"); // Redirect to the root after successful submission
     } catch (error) {
       console.error("Error sending domain selection:", error);
       // Handle error (e.g., show an error message)

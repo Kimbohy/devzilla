@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect } from "react"; // Import useEffect for side effects
-import { useRouter } from "next/router"; // Import useRouter for redirection
 import Publication, { PublicationProps } from "@/components/Publication";
 import DomainQuickAccess from "../../components/DomainQuickAccess";
 import TrendingTopics from "../../components/TrendingTopics";
 import MentorsRecommended from "@/components/MentorsRecommended";
 import QuickActionSection from "@/components/QuickActionSection";
+import { redirect } from "next/navigation";
 
 interface Mentor {
   id: string;
@@ -83,15 +83,14 @@ const publications: PublicationProps[] = [
 ];
 
 export default function Home() {
-  const router = useRouter(); // Initialize the router
   // const isFirstLogin = localStorage.getItem("firstLogin") === "true"; // Check if it's the first login
-  const isFirstLogin = true;
+  const isFirstLogin = false;
 
   useEffect(() => {
     if (isFirstLogin) {
-      router.push("/setup"); // Redirect to setup if it's the first login
+      redirect("/setUp"); // Redirect to setup if it's the first login
     }
-  }, [isFirstLogin, router]); // Add isFirstLogin and router to dependency array
+  }, [isFirstLogin]); // Add isFirstLogin and router to dependency array
 
   return (
     <div className="container mx-auto px-4 py-1 h-[calc(100vh-64px)] overflow-y-auto">
