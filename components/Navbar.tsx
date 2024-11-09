@@ -6,6 +6,8 @@ import axios from "axios";
 
 async function Navbar() {
   const session = await auth();
+  console.log("session", session);
+
   // console.log("ssss", session);
 
   /*

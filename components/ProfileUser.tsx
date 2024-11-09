@@ -52,7 +52,7 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
               </h1>
               <div className="flex justify-center items-center md:justify-start space-x-3 mt-3">
                 {profile.reseauxSociaux.map((socialMedia) => (
-                  <>
+                  <div key={socialMedia.nom}>
                     {socialMedia.nom in socialMediaIcons && (
                       <Link
                         href={socialMedia.lien}
@@ -68,7 +68,7 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
                         />
                       </Link>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
             </div>

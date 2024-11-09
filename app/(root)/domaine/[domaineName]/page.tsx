@@ -71,54 +71,6 @@ export default function Page() {
   useEffect(() => {
     // Fetch publications
     const fetchPublications = async () => {
-      // Simulated data - replace with actual API call
-      /*
-      const _publications: PublicationProps[] = [
-        {
-          data: {
-            id: "1",
-            content: "Projet de développement en cours",
-            image: "/hanina.jpg",
-            type: "Projets en cours",
-            user: {
-              id: "1",
-              name: "Kimbohy Marisika",
-              avatar: "/avatar.svg",
-            },
-            createdAt: "2j",
-          },
-        },
-        {
-          data: {
-            id: "2",
-            content: "Résultat d'un projet intéressant",
-            image: "/hanina.jpg",
-            type: "Résultats de projets",
-            user: {
-              id: "2",
-              name: "Jean Dupont",
-              avatar: "/avatar.svg",
-            },
-            createdAt: "1j",
-          },
-        },
-        {
-          data: {
-            id: "3",
-            content: "Nouveau challenge lancé !",
-            image: "/hanina.jpg",
-            type: "Challenge",
-            user: {
-              id: "3",
-              name: "Marie Dubois",
-              avatar: "/avatar.svg",
-            },
-            createdAt: "3j",
-          },
-        },
-      ];
-      */
-
       const _publications = await fetchPublication(decodedDomaineName);
 
       setPublications(_publications);

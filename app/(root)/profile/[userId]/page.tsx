@@ -37,9 +37,10 @@ const Page = () => {
   const { userId } = useParams() as { userId: string };
 
   const fetchProfile = async () => {
-    if (!session?.user?.id) {
+    /* if (!session?.user?.id) {
       throw new Error("User  is not authenticated.");
     }
+      */
 
     try {
       const controller = new AbortController();
@@ -76,11 +77,10 @@ const Page = () => {
       );
     }
   };
-
   useEffect(() => {
-    if (session?.user?.id) {
-      fetchProfile();
-    }
+    // if (session?.user?.id) {
+    fetchProfile();
+    // }
   }, []);
 
   if (error && userId !== session?.user?.id) {
@@ -129,9 +129,9 @@ const Page = () => {
   }
 
   if (!user) {
-    // return <div>Loading...</div>;
+    return <div>Loading...</div>;
   }
-
+  /*
   const fakeUser: ProfileProps = {
     id: "1",
     nom: "John Doe",
@@ -162,13 +162,11 @@ const Page = () => {
     mentor: [],
     apprenti: [],
   };
+  */
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <ProfileUser
-        profile={fakeUser}
-        connectedUserId={session?.user?.id || ""}
-      />
+      <ProfileUser profile={user} connectedUserId={session?.user?.id || ""} />
     </div>
   );
 };

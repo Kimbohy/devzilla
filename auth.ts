@@ -108,10 +108,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token }) {
       try {
         const response = await fetch(
-          `http://localhost:8080/users?userEmail=${session?.user?.email}`
+          `http://localhost:8080/users?userEmail=${session?.user?.email}&status=1`
         );
         const data = await response.json();
-        session.user.id = data._id;
+        // console.log("User data:", data.data);
+
+        session.user.id = data.data._id;
       } catch (error) {
         console.error("Failed to fetch user email:", error); // Log error if the request fails
       }
