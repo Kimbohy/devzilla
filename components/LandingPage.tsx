@@ -84,7 +84,7 @@ export default function LandingPage() {
                   Commencer
                 </motion.button>
               </Link>
-              <Link href="/about">
+              <Link href="#features">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -114,9 +114,9 @@ export default function LandingPage() {
       </div>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-16 md:py-24">
+      <section id="features" className="container mx-auto px-4 py-16 md:py-24">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-bold text -gray-900 mb-4">
             Pourquoi Ta Lenta ?
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -236,7 +236,7 @@ export default function LandingPage() {
               Politique de confidentialité
             </Link>
             <Link href="/terms" className="text-gray-400 hover:text-white">
-              Conditions d&apos;util isation
+              Conditions d&apos;utilisation
             </Link>
           </div>
         </div>
