@@ -1,4 +1,3 @@
-// auth.ts
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
@@ -20,7 +19,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       async profile(profile) {
-        // Return the user profile
         return {
           id: profile.id.toString(),
           name: profile.name,
@@ -33,7 +31,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       async profile(profile) {
-        // Return the user profile
         return {
           id: profile.sub,
           name: profile.name,
@@ -47,7 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: {
           label: "Email",
-          type: "text",
+          type: "email",
           placeholder: "jsmith@example.com",
         },
         password: { label: "Password", type: "password" },
@@ -69,32 +66,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }),
           });
 
+          // Log the response status and body for debugging
+          console.log("Response status:", res.status);
+          const data = await res.json();
+          console.log("Response data:", data);
+
           if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.message || "Invalid credentials");
+            throw new Error(data.message || "Invalid credentials");
           }
 
-          const user = await res.json();
-
-          // Fetch the user ID from your server using the email
-          const userResponse = await fetch(
-            `http://localhost:8080/users?email=${credentials.email}`
-          );
-          const userData = await userResponse.json();
-
-          if (userData && userData.id) {
+          // Assuming the response returns user data directly
+          if (data && data.id) {
             return {
-              id: userData.id, // Set the user ID here
-              name: user.nom,
-              email: user.email,
-              image: user.photoProfil,
+              id: data.id,
+              name: data.nom,
+              email: data.email,
+              image: data.photoProfil,
             };
           }
 
           return null;
         } catch (error) {
           console.error("Authentication error:", error);
-          return null;
+          throw new Error("An error occurred during authentication.");
         }
       },
     }),
@@ -103,26 +97,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/session",
   },
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, user }) {
       if (user) {
-        token.id = user.id; // Set the user ID in the token
-      }
-
-      // Fetch user ID for GitHub and Google sign-ins
-      if (account?.provider) {
-        const email = user?.email || token.email; // Get the email from the user or token
-        if (email) {
-          /*
-          const userResponse = await fetch(
-            `http://localhost:8080/users?email=${email}`
-          );
-          const userData = await userResponse.json();
-          */
-          const userData = { id: "51" }; // Mock user data
-          if (userData && userData.id) {
-            token.id = userData.id; // Set the user ID from the server
-          }
-        }
+        token.id = user.id;
       }
 
       token.exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 14; // Set expiration to 2 weeks
