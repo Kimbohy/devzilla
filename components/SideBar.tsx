@@ -96,7 +96,7 @@ export default function SideBar() {
       {/* Create Button */}
       <div className=" px-2 md:px-4 pb-6">
         <Link
-          href="/create"
+          href="/domaine/allDomaine"
           className="w-full group px-4 py-3 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-200 flex items-center justify-center"
         >
           <svg

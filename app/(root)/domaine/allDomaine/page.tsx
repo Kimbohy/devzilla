@@ -3,8 +3,10 @@ import React from "react";
 
 const Page = () => {
   return (
-    <div>
-      <p className="text-xl font-semibold">Toutes les domaines disponibles</p>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Toutes les domaines disponibles
+      </h1>
       <ListAllDomain />
     </div>
   );
