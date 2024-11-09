@@ -26,10 +26,10 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
     e.preventDefault();
 
     // Validation
-    // if (!title.trim()) {
-    //   setError("Le titre de l'annonce est requis");
-    //   return;
-    // }
+    if (!title.trim()) {
+      setError("Le titre de l'annonce est requis");
+      return;
+    }
 
     if (!description.trim()) {
       setError("La description de l'annonce est requise");
@@ -47,7 +47,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
 
     try {
       const formData = new FormData();
-      // formData.append("title", title);
+      formData.append("title", title); // Make sure to append the title
       formData.append("utilisateurId", session?.user?.id || "");
       formData.append("type", "annonce");
       formData.append("contenu", description);
@@ -57,9 +57,11 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
         formData.append("images", image);
       });
 
+      console.log("Form Data:", Array.from(formData.entries())); // Log formData entries
+
       await axios.post("http://localhost:8080/publications/create", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // need to be checked
+          "Content-Type": "multipart/form-data", // This is correct for file uploads
         },
       });
 
@@ -100,7 +102,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
         </div>
       )}
 
-      {/* <div>
+      <div>
         <label htmlFor="title" className="text-sm text-gray-600 font-medium">
           Titre de l&apos;annonce
         </label>
@@ -112,7 +114,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none"
           placeholder="Entrez le titre de l'annonce"
         />
-      </div> */}
+      </div>
 
       <div>
         <label
