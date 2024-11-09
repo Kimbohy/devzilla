@@ -12,7 +12,7 @@ interface ProfileUserProps {
 }
 
 const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
-  console.log(profile);
+  // console.log(profile);
 
   const socialMediaIcons: { [key: string]: string } = {
     facebook: "/facebook-f-brands-solid.svg",
@@ -77,7 +77,7 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
 
         {/* Profile Actions */}
         <div className="flex justify-center space-x-4 p-4 bg-gray-50">
-          {profile.id === connectedUserId && (
+          {profile._id === connectedUserId && (
             <Link href="/editProfile" className="w-full max-w-xs">
               <button className="flex items-center justify-center w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors space-x-2">
                 <FaEdit className="w-5 h-5" />
@@ -86,7 +86,7 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
             </Link>
           )}
           <Link
-            href={`/profile/${profile.id}/share`}
+            href={`/profile/${profile._id}/share`}
             className="w-full max-w-xs"
           >
             <button className="flex items-center justify-center w-full bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition-colors space-x-2">
@@ -102,7 +102,7 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
             Compétences
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {profile.competence.map((skill) => (
+            {profile?.competence?.map((skill) => (
               <div
                 key={skill}
                 className="bg-gray-100 text-start rounded-lg px-4 py-2 md:text-center text-sm font-medium text-gray-700 hover:bg-primary/10 transition-colors"

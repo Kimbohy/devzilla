@@ -11,7 +11,7 @@ export default function Publier() {
 
   const [selectedType, setSelectedType] = useState("");
   const [content, setContent] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [images, setImages] = useState<File[]>([]); // Changed to array for multiple images
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -28,8 +28,9 @@ export default function Publier() {
   ];
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+    if (e.target.files) {
+      const filesArray = Array.from(e.target.files); // Convert FileList to Array
+      setImages(filesArray);
     }
   };
 
@@ -60,26 +61,44 @@ export default function Publier() {
     try {
       // Prepare form data
       const formData = new FormData();
+      formData.append("utilisateurId", userId); // Add user ID to form data
       formData.append("type", selectedType);
       formData.append("contenu", content);
       formData.append("nomDomaine", domaineName);
-      formData.append("utilisateurId", userId); // Add user ID to form data
 
-      if (image) {
-        formData.append("image", image);
+      // Append images as an array
+      images.forEach((image) => {
+        formData.append("images", image);
+      });
+
+      // Placeholder for videos (if needed in the future)
+      const videos = []; // Add logic to populate this if required
+      videos.forEach((video) => {
+        formData.append("videos", video);
+      });
+
+      // Log the FormData entries for debugging
+      console.log("Form Data Before Submission:");
+      for (const pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
       }
 
       // Send publication to backend
-      await axios.post("http://localhost:8080/publications/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:8080/publications/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Publication response:", response.data);
 
       // Reset form
       setSelectedType("");
       setContent("");
-      setImage(null);
+      setImages([]); // Reset images
       setSuccess(true);
 
       // Optional: Clear file input
@@ -118,7 +137,7 @@ export default function Publier() {
       {/* Success Message */}
       {success && (
         <div
-          className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+          className="bg -green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
           role="alert"
         >
           <span className="block sm:inline">
@@ -129,14 +148,15 @@ export default function Publier() {
 
       <div className="flex items-center gap-3 mb-6 p-3 bg-gray-50 rounded-lg">
         <Image
-          src={userPhoto}
+          src={session?.user?.image || "/avatar.svg"}
           alt="user"
           width={50}
           height={50}
-          className="rounded-full"
+          className="rounded -full"
         />
-        <span className="text-lg text-gray-700 font-medium">{userName}</span>{" "}
-        {/* Display user name */}
+        <span className="text-lg text-gray-700 font-medium">
+          {session?.user?.name || "Utilisateur"}
+        </span>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -176,12 +196,13 @@ export default function Publier() {
 
         <div className="flex flex-col gap-2">
           <label htmlFor="file" className="text-sm text-gray-600">
-            Ajouter une image
+            Ajouter des images
           </label>
           <input
             type="file"
             id="file"
             accept="image/*"
+            multiple
             onChange={handleImageChange}
             className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
@@ -191,9 +212,9 @@ export default function Publier() {
             hover:file:bg-primary-dark
             cursor-pointer"
           />
-          {image && (
+          {images.length > 0 && (
             <div className="mt-2 text-sm text-gray-600">
-              Fichier sélectionné: {image.name}
+              Fichiers sélectionnés: {images.map((img) => img.name).join(", ")}
             </div>
           )}
         </div>

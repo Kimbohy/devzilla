@@ -17,7 +17,7 @@ export interface MentorApprenticeRelation {
 }
 
 export interface ProfileProps {
-  id: string;
+  _id: string;
   nom: string;
   email: string;
   type: string;
@@ -37,39 +37,59 @@ const Page = () => {
   const { userId } = useParams() as { userId: string };
 
   const fetchProfile = async () => {
-    /* if (!session?.user?.id) {
+    if (!session?.user?.id) {
       throw new Error("User  is not authenticated.");
     }
-      */
 
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
       const response = await fetch(
-        `http://localhost:8080/users?userId=${userId}`,
+        `http://localhost:8080/users?user-id=${userId}`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          signal: controller.signal,
         }
       );
 
       clearTimeout(timeoutId);
 
+      const userData: { success: boolean; data: ProfileProps } =
+        await response.json();
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${userData.success}`);
       }
 
-      const userData: ProfileProps = await response.json();
-
-      if (!userData || !userData.id) {
+      if (!userData || !userData.data._id) {
         throw new Error("Invalid user data received");
       }
 
-      setUser(userData);
+      /**
+  _id: string;
+  nom: string;
+  email: string;
+  type: string;
+  photoProfil: string;
+  description: string;
+  competence: string[];
+  reseauxSociaux: SocialMedia[];
+  domaines: string[];
+  mentor: MentorApprenticeRelation[];
+  apprenti: MentorApprenticeRelation[];
+       
+       */
+      if (userData.data.photoProfil === "") {
+        if (userData.data._id === session.user.id) {
+          userData.data.photoProfil = session.user.image || "";
+        } else {
+          userData.data.photoProfil = "/avatar.png";
+        }
+      }
+
+      setUser(userData.data);
     } catch (err) {
       console.error("Profile fetch error:", err);
       setError(
@@ -78,12 +98,12 @@ const Page = () => {
     }
   };
   useEffect(() => {
-    // if (session?.user?.id) {
-    fetchProfile();
-    // }
+    if (session?.user?.id) {
+      fetchProfile();
+    }
   }, []);
 
-  if (error && userId !== session?.user?.id) {
+  if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div
@@ -131,38 +151,6 @@ const Page = () => {
   if (!user) {
     return <div>Loading...</div>;
   }
-  /*
-  const fakeUser: ProfileProps = {
-    id: "1",
-    nom: "John Doe",
-    email: "john@gmail.com",
-    type: "mentor",
-    photoProfil: session?.user?.image || "",
-    description: "I am a mentor",
-    competence: ["React", "Node.js", "TypeScript"],
-    reseauxSociaux: [
-      {
-        lien: "https://twitter.com",
-        nom: "twitter",
-      },
-      {
-        lien: "https://linkedin.com",
-        nom: "linkedin",
-      },
-      {
-        lien: "https://facebook.com",
-        nom: "facebook",
-      },
-      {
-        lien: "https://instagram.com",
-        nom: "instagram",
-      },
-    ],
-    domaines: ["Web Development", "Mobile Development"],
-    mentor: [],
-    apprenti: [],
-  };
-  */
 
   return (
     <div className="container mx-auto px-4 py-8">
