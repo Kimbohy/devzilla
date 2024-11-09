@@ -71,6 +71,7 @@ export default function Page() {
     // Fetch publications
     const fetchPublications = async () => {
       // Simulated data - replace with actual API call
+      /*
       const _publications: PublicationProps[] = [
         {
           data: {
@@ -115,6 +116,11 @@ export default function Page() {
           },
         },
       ];
+      */
+      const response = await fetch(
+        `http://localhost:8080/publications/${decodedDomaineName}`
+      );
+      const _publications = await response.json();
 
       setPublications(_publications);
       setFilteredPublications(_publications);
