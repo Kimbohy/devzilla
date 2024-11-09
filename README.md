@@ -304,6 +304,39 @@
 }
 ```
 
+## getPublicationByDomainName
+
+- GET : /publications?domainName=math
+
+- **output**
+
+``` json
+{
+    "success": true,
+    "message": "Publications trouvées",
+    "data": [
+        {
+            "_id": "672f17f223ba6833056927ef",
+            "utilisateurId": "672b60cccebbedded25fcd77",
+            "type": "projet",
+            "contenu": "first pub",
+            "images": [
+                "aa",
+                "bb"
+            ],
+            "videos": [
+                "cc",
+                "dd"
+            ],
+            "domainesId": "672edce70d3ca97e1bf524d3",
+            "reactions": [],
+            "commentaires": [],
+            "date": "2024-11-09T08:06:10.039Z"
+        }
+    ]
+}
+```
+
 # Matching
 ## askMatch
 
