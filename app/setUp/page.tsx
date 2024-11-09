@@ -22,7 +22,9 @@ const Page = () => {
   useEffect(() => {
     const fetchDomains = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/domaine"); // Fetch domains from the endpoint
+        const response = await axios.get(
+          "https://ta-lenta.onrender.com/domaine"
+        ); // Fetch domains from the endpoint
         setDomains(response.data); // Set the fetched domains to state
       } catch {
         setError("Failed to fetch domains"); // Set error if the request fails
@@ -44,10 +46,13 @@ const Page = () => {
 
   const handleSubmit = async (domainName: string) => {
     try {
-      const response = await axios.post("http://localhost:8080/profile", {
-        domainName,
-        userId,
-      });
+      const response = await axios.post(
+        "https://ta-lenta.onrender.com/profile",
+        {
+          domainName,
+          userId,
+        }
+      );
       console.log("Response from server:", response.data);
       router.push("/"); // Redirect to the root after successful submission
     } catch (error) {

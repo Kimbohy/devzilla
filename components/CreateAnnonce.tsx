@@ -58,11 +58,15 @@ export default function CreateAnnonce() {
 
       console.log("Form Data:", formData); // Log the form data
 
-      await axios.post("http://localhost:8080/publications/create", formData, {
-        headers: {
-          "Content-Type": "application/json", // Change to application/json
-        },
-      });
+      await axios.post(
+        "https://ta-lenta.onrender.com/publications/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json", // Change to application/json
+          },
+        }
+      );
 
       // Reset form
       setTitle("");

@@ -85,7 +85,7 @@ export default function Publier() {
 
       // Send publication to backend
       const response = await axios.post(
-        "http://localhost:8080/publications/create",
+        "https://ta-lenta.onrender.com/publications/create",
         formData,
         {
           headers: {

@@ -46,7 +46,7 @@ const Page = () => {
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
       const response = await fetch(
-        `http://localhost:8080/users?user-id=${userId}`,
+        `https://ta-lenta.onrender.com/users?user-id=${userId}`,
         {
           method: "GET",
           headers: {

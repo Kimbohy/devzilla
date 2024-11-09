@@ -14,14 +14,14 @@ export const goToLandingIfNotLoggedIn = async () => {
 
 export const fetchPublication = async (domaineName: string) => {
   const response = await fetch(
-    `http://localhost:8080/publications/${domaineName}`
+    `https://ta-lenta.onrender.com/publications/${domaineName}`
   );
   const publications = await response.json();
   return publications;
 };
 
 export const fetchAllDomaines = async () => {
-  const response = await fetch("http://localhost:8080/domains");
+  const response = await fetch("https://ta-lenta.onrender.com/domains");
   const domaines = await response.json();
   return domaines;
 };

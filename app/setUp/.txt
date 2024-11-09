@@ -20,7 +20,7 @@
   //   useEffect(() => {
   //     const fetchDomains = async () => {
   //       try {
-  //         const response = await axios.get("http://localhost:8080/domaine"); // Fetch domains from the endpoint
+  //         const response = await axios.get("https://ta-lenta.onrender.com/domaine"); // Fetch domains from the endpoint
   //         setDomains(response.data); // Set the fetched domains to state
   //       } catch {
   //         setError("Failed to fetch domains"); // Set error if the request fails

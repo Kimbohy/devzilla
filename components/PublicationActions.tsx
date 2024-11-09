@@ -83,7 +83,7 @@ export default function PublicationActions({
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/publications/react?publicationId=${pubId}`,
+        `https://ta-lenta.onrender.com/publications/react?publicationId=${pubId}`,
         {
           utilisateurId: userId,
           type: reactionType,

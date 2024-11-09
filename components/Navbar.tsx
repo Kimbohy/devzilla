@@ -12,7 +12,7 @@ async function Navbar() {
   if (session?.user) {
     try {
       const response = await axios.get(
-        "http://localhost:8080/notifications/unread"
+        "https://ta-lenta.onrender.com/notifications/unread"
       );
       unreadNotificationsCount = response.data.count;
     } catch (error) {

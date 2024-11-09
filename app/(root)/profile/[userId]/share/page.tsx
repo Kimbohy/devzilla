@@ -19,7 +19,7 @@ const ShareProfile = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/users?user-id=${userId}`
+          `https://ta-lenta.onrender.com/users?user-id=${userId}`
         );
         console.log(response.data.data);
 

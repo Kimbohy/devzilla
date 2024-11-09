@@ -18,7 +18,9 @@ const ListAllDomain = () => {
   useEffect(() => {
     const fetchDomains = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/domains"); // Fetch domains from the endpoint
+        const response = await axios.get(
+          "https://ta-lenta.onrender.com/domains"
+        ); // Fetch domains from the endpoint
         if (response.data.success) {
           // Check if the response indicates success
           setDomains(response.data.data); // Set the fetched domains to state

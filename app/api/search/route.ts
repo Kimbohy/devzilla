@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // Replace with your actual backend search endpoint
-    const response = await axios.get("http://localhost:8080/search", {
+    const response = await axios.get("https://ta-lenta.onrender.com/search", {
       params: { term, type },
     });
 

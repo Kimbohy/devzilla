@@ -33,7 +33,7 @@ const SingUp = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/users/signup", {
+      await axios.post("https://ta-lenta.onrender.com/users/signup", {
         nom: formData.nom,
         email: formData.email,
         password: formData.passwordOne,
