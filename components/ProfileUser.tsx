@@ -12,7 +12,7 @@ interface ProfileUserProps {
 }
 
 const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
-  console.log(profile);
+  // console.log(profile);
 
   const socialMediaIcons: { [key: string]: string } = {
     facebook: "/facebook-f-brands-solid.svg",

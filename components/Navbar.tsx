@@ -1,12 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { auth } from "@/auth";
 import UserDropDown from "./UserDropDown";
-import axios from "axios";
 
 async function Navbar() {
   const session = await auth();
-  console.log("session", session);
 
   // console.log("ssss", session);
 
