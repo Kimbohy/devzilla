@@ -1,5 +1,5 @@
 import {json} from 'node:stream/consumers'
-import {create, getByName} from '../models/domainModel.js'
+import {create, getByName, getAll} from '../models/domainModel.js'
 import {CustomError} from '../tools/error.js'
 
 export async function createDomain(req, res) {
@@ -38,6 +38,30 @@ export async function getDomainByName(req, res, url) {
             success: true,
             message: "domaine trouvé",
             data: domain
+        }))
+    } catch (error) {
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
+        res.write(JSON.stringify({
+            success: false,
+            message: error.message
+        }))
+    }
+    res.end()
+}
+
+export async function getAllDomains(req, res) {
+    try {
+        const domains = await getAll()
+
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.write(JSON.stringify({
+            success: true,
+            message: "Tous les domaines récupérés",
+            data: domains
         }))
     } catch (error) {
         if (error instanceof CustomError) {

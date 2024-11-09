@@ -1,7 +1,7 @@
 import {createUser, authenticateUser, updateUser, getOneUser, getUserByEmail} from '../controllers/userController.js'
 import {createPublication, commentPublication, reactPublication, getOneDomainePublication, getPublicationByDomainName} from '../controllers/publicationController.js'
 import {askMatch} from '../controllers/matchController.js'
-import {createDomain, getDomainByName} from '../controllers/domainController.js'
+import {createDomain, getDomainByName, getAllDomains} from '../controllers/domainController.js'
 
 export async function userRoute(req, res, url) {
     if (url.pathname === '/users/signup' && req.method === 'POST') {
@@ -52,7 +52,11 @@ export async function domainRoute(req, res, url) {
     if (url.pathname === '/domains/create' && req.method === 'POST') {
         await createDomain(req, res)
     } else if (url.pathname === '/domains' && req.method === 'GET') {
-        await getDomainByName(req, res, url)
+        if (url.searchParams.get('domainName')) {
+            await getDomainByName(req, res, url)
+        } else {
+            await getAllDomains(req, res)
+        }
     }
     else {
         res.end()

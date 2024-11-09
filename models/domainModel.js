@@ -28,3 +28,8 @@ export async function getByName(domainName) {
         throw domainError.domainNotFoundError()
     }
 }
+
+export async function getAll() {
+    const collection = await getCollection('Domaines')
+    return collection.find({}).toArray()
+}
