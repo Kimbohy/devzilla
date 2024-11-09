@@ -407,3 +407,38 @@
     }
 }
 ```
+
+## getAllDomains
+
+- GET : /domains
+
+- **output**
+
+```json
+{
+    "success": true,
+    "message": "Tous les domaines récupérés",
+    "data": [
+        {
+            "_id": "672edce70d3ca97e1bf524d3",
+            "nom": "sport",
+            "description": "Nouveau domaine"
+        },
+        {
+            "_id": "672ede12fa4511c7cb3737eb",
+            "nom": "math",
+            "description": "Nouveau domaine"
+        },
+        {
+            "_id": "672ef2ee6ce8c3e9c5cade00",
+            "nom": "musique",
+            "description": "Nouveau domaine"
+        },
+        {
+            "_id": "672ef3b27d54add9eda18f78",
+            "nom": "js",
+            "description": "Nouveau domaine"
+        }
+    ]
+}
+```
