@@ -26,17 +26,17 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
     e.preventDefault();
 
     // Validation
-    if (!title.trim()) {
-      setError("Le titre de l'annonce est requis");
-      return;
-    }
+    // if (!title.trim()) {
+    //   setError("Le titre de l'annonce est requis");
+    //   return;
+    // }
 
     if (!description.trim()) {
       setError("La description de l'annonce est requise");
       return;
     }
 
-    if (!userId) {
+    if (!session?.user?.id) {
       setError("Identifiant utilisateur non disponible");
       return;
     }
@@ -53,19 +53,15 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
       formData.append("contenu", description);
       formData.append("domaineName", domaineName);
 
-      if (image) {
-        formData.append("image", image);
-      }
+      images.forEach((image) => {
+        formData.append("images", image);
+      });
 
-      const response = await axios.post(
-        "http://localhost:8080/publications/create",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data", // need to be checked
-          },
-        }
-      );
+      await axios.post("http://localhost:8080/publications/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // need to be checked
+        },
+      });
 
       // Reset form
       setTitle("");
