@@ -184,7 +184,7 @@ export default function LandingPage() {
                 <div className="p-6">
                   <h3 className="text-2xl font-bold mb-2">{domain.name}</h3>
                   <p className="text-gray-600">{domain.description}</p>
-                  <Link href={`/domaine/${domain.name.toLowerCase()}`}>
+                  <Link href="/session">
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       className="mt-4 text-primary hover:underline"
