@@ -3,57 +3,79 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaArrowLeft, FaSave, FaPlus, FaTimes, FaCamera } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 const EditProfileUser = () => {
+  const { data: session } = useSession();
+
   const [formData, setFormData] = useState({
     nom: "",
-    photoProfil: "",
+    photoProfil: session?.user?.image || "/avatar.png",
+    description: "",
     competence: [] as string[],
-    reseauxSociaux: { lien: "", nom: "" },
+    reseauxSociaux: [] as { lien: string; nom: string }[],
     domaines: [] as string[],
   });
 
   const [newCompetence, setNewCompetence] = useState("");
   const [newDomain, setNewDomain] = useState("");
-  const [imagePreview, setImagePreview] = useState("");
+  const [newSocialMedia, setNewSocialMedia] = useState({ lien: "", nom: "" });
+  const [imagePreview, setImagePreview] = useState(formData.photoProfil);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const fakeData = {
-      nom: "John Doe",
-      photoProfil: "/avatar.svg",
-      competence: [
-        "Enseignant de mathématique",
-        "Directeur de club de danse",
-        "Membre d'un club de dessin international",
-      ],
-      reseauxSociaux: { lien: "https://twitter.com/johndoe", nom: "Twitter" },
-      domaines: ["Musique", "Chant"],
+    const fetchData = async () => {
+      // Simulated fetch for user data
+      const fakeData = {
+        nom: session?.user?.name || "John Doe",
+        photoProfil: session?.user?.image || "/avatar.png",
+        description: "Enseignant de mathématique et directeur de club de danse",
+        competence: [
+          "Enseignant de mathématique",
+          "Directeur de club de danse",
+          "Membre d'un club de dessin international",
+        ],
+        reseauxSociaux: [
+          { lien: "https://twitter.com/johndoe", nom: "Twitter" },
+        ],
+        domaines: ["Musique", "Chant"],
+      };
+
+      /*
+      const response = await fetch(
+        `http://localhost:3000/users?user-id=${session?.user?.id}`
+      );
+      const userData = await response.json();
+      if (userData.success === true) {
+        setFormData(userData.data);
+        setImagePreview(userData.data.photoProfil);
+      } else {
+        console.log("Error fetching user data");
+      }
+        */
+
+      setFormData((prev) => ({
+        ...prev,
+        nom: fakeData.nom,
+        description: fakeData.description,
+        competence: fakeData.competence,
+        reseauxSociaux: fakeData.reseauxSociaux,
+        domaines: fakeData.domaines,
+      }));
+      setImagePreview(fakeData.photoProfil);
     };
 
-    setFormData(fakeData);
-    setImagePreview(fakeData.photoProfil);
-  }, []);
+    fetchData();
+  }, [session]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-
-    if (name === "reseauxSociaux.lien" || name === "reseauxSociaux.nom") {
-      setFormData((prev) => ({
-        ...prev,
-        reseauxSociaux: {
-          ...prev.reseauxSociaux,
-          [name.split(".")[1]]: value,
-        },
-      }));
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,10 +127,53 @@ const EditProfileUser = () => {
     }));
   };
 
+  const handleAddSocialMedia = () => {
+    if (newSocialMedia.lien && newSocialMedia.nom) {
+      setFormData((prev) => ({
+        ...prev,
+        reseauxSociaux: [...prev.reseauxSociaux, newSocialMedia],
+      }));
+      setNewSocialMedia({ lien: "", nom: "" });
+    }
+  };
+
+  const handleRemoveSocialMedia = (socialMedia: {
+    lien: string;
+    nom: string;
+  }) => {
+    setFormData((prev) => ({
+      ...prev,
+      reseauxSociaux: prev.reseauxSociaux.filter(
+        (sm) => sm.lien !== socialMedia.lien
+      ),
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Submit logic
     console.log("Submitting form data:", formData);
+
+    /*
+    example of formData object:
+
+    {
+      nom: "John Doe",
+      photoProfil: "/avatar.png",
+      description: "Enseignant de mathématique et directeur de club de danse",
+      competence: [
+        "Enseignant de mathématique",
+        "Directeur de club de danse",
+        "Membre d'un club de dessin international",
+      ],
+      reseauxSociaux: [
+        { lien: "https://twitter.com/johndoe", nom: "Twitter" },
+        { lien: "https://facebook.com/johndoe", nom: "Facebook" },
+      ],
+    }
+
+
+*/
   };
 
   return (
@@ -177,6 +242,23 @@ const EditProfileUser = () => {
             </div>
           </div>
 
+          {/* Description */}
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="description"
+              className="form-label font-semibold md:text-xl"
+            >
+              Description
+            </label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="form-input md:text-lg outline-none"
+              placeholder="Description"
+            />
+          </div>
+
           {/* Competences */}
           <div className="form-group">
             <label className="form-label font-semibold md:text-xl">
@@ -204,7 +286,6 @@ const EditProfileUser = () => {
                   key={comp}
                   className="bg-primary/10 text-primary px-3 py-1 rounded-full flex items-center space-x-2"
                 >
-                  {" "}
                   <span>{comp}</span>
                   <button
                     type="button"
@@ -220,28 +301,52 @@ const EditProfileUser = () => {
 
           {/* Social Media */}
           <div className="flex flex-col gap-1">
-            <label
-              htmlFor="reseauxSociaux.nom"
-              className="form-label font-semibold md:text-xl"
-            >
+            <label className="form-label font-semibold md:text-xl">
+              {" "}
               Réseau social
             </label>
             <input
               type="text"
-              name="reseauxSociaux.nom"
-              value={formData.reseauxSociaux.nom}
-              onChange={handleChange}
+              value={newSocialMedia.nom}
+              onChange={(e) =>
+                setNewSocialMedia({ ...newSocialMedia, nom: e.target.value })
+              }
               className="form-input md:text-lg outline-none"
               placeholder="Nom du réseau social"
             />
             <input
               type="text"
-              name="reseauxSociaux.lien"
-              value={formData.reseauxSociaux.lien}
-              onChange={handleChange}
+              value={newSocialMedia.lien}
+              onChange={(e) =>
+                setNewSocialMedia({ ...newSocialMedia, lien: e.target.value })
+              }
               className="form-input mt-2 md:text-lg outline-none"
               placeholder="Lien du réseau social"
             />
+            <button
+              type="button"
+              onClick={handleAddSocialMedia}
+              className="btn-icon bg-primary text-white hover:bg-primary-dark mt-2"
+            >
+              <FaPlus />
+            </button>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {formData.reseauxSociaux.map((socialMedia) => (
+                <div
+                  key={socialMedia.lien}
+                  className="bg-primary/10 text-primary px-3 py-1 rounded-full flex items-center space-x-2"
+                >
+                  <span>{socialMedia.nom}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveSocialMedia(socialMedia)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Domains */}
