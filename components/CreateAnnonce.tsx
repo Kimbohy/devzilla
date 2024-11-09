@@ -23,12 +23,6 @@ export default function CreateAnnonce() {
     }
   };
 
-  const handleVideoChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setVideos(Array.from(e.target.files)); // Convert FileList to an array
-    }
-  };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -161,32 +155,6 @@ export default function CreateAnnonce() {
           <div className="mt-2 text-sm text-gray-600">
             Fichiers sélectionnés:{" "}
             {images.map((image) => image.name).join(", ")}
-          </div>
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="annonce-videos" className="text-sm text-gray-600">
-          Ajouter des vidéos
-        </label>
-        <input
-          type="file"
-          id="annonce-videos"
-          accept="video/*"
-          multiple // Allow multiple file selection
-          onChange={handleVideoChange}
-          className="block w-full text-sm text-gray-500
-          file:mr-4 file:py-2 file:px-4
-          file:rounded-full file:border-0
-          file:text-sm file:font-semibold
-          file:bg-primary file:text-white
-          hover:file:bg-primary-dark
-          cursor-pointer"
-        />
-        {videos.length > 0 && (
-          <div className="mt-2 text-sm text-gray-600">
-            Fichiers sélectionnés:{" "}
-            {videos.map((video) => video.name).join(", ")}
           </div>
         )}
       </div>
