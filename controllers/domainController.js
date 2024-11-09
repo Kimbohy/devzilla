@@ -1,5 +1,6 @@
 import {json} from 'node:stream/consumers'
 import {create, getByName} from '../models/domainModel.js'
+import {CustomError} from '../tools/error.js'
 
 export async function createDomain(req, res) {
     try {

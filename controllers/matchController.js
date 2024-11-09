@@ -1,5 +1,6 @@
 import {ask} from '../models/matchModel.js'
 import {json} from 'node:stream/consumers'
+import {CustomError} from '../tools/error.js'
 
 export async function askMatch(req, res) {
     res.writeHead(200, {'Content-Type': 'application/json'})

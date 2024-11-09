@@ -1,5 +1,6 @@
 import { json } from 'node:stream/consumers'
-import {create, authenticate, update, getOne, getByEmail} from '../models/userModels.js';
+import {create, authenticate, update, getOne, getByEmail} from '../models/userModels.js'
+import {CustomError} from '../tools/error.js'
 
 const url = 'mongodb://127.0.0.1:27017'
 const dbName = 'devzilla'
