@@ -1,5 +1,6 @@
 "use client";
 import { useState, FormEvent, ChangeEvent } from "react";
+import { useSession } from "next-auth/react";
 import axios from "axios";
 
 interface CreateAnnonceProps {
@@ -13,6 +14,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const { data: session } = useSession();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -40,19 +42,25 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
 
     try {
       const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("domain", domaineName);
+      // formData.append("title", title);
+      formData.append("utilisateurId", session?.user?.id || "");
+      formData.append("type", "annonce");
+      formData.append("contenu", description);
+      formData.append("domaineName", domaineName);
 
       if (image) {
         formData.append("image", image);
       }
 
-      const response = await axios.post("/api/annonces", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:8080/publications/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // need to be checked
+          },
+        }
+      );
 
       // Reset form
       setTitle("");
@@ -99,7 +107,7 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
         </div>
       )}
 
-      <div>
+      {/* <div>
         <label htmlFor="title" className="text-sm text-gray-600 font-medium">
           Titre de l&apos;annonce
         </label>
@@ -111,14 +119,14 @@ export default function CreateAnnonce({ domaineName }: CreateAnnonceProps) {
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none"
           placeholder="Entrez le titre de l'annonce"
         />
-      </div>
+      </div> */}
 
       <div>
         <label
           htmlFor="description"
           className="text-sm text-gray-600 font-medium"
         >
-          Description de l&apos;annonce
+          Votre annonce
         </label>
         <textarea
           id="description"
