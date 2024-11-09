@@ -87,7 +87,7 @@ const ShareProfile = () => {
           </div>
         )}
         <h1 className="text-3xl font-bold mb-4 text-center">
-          Share Your Profile
+          Share the Profile
         </h1>
         <p className="mb-6 text-center">
           Share the profile link on social media:
