@@ -1,18 +1,23 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import axios from "axios";
 
 export default function PublicationActions({
   pubId,
   setShowComments,
   showComments,
+  userId, // Pass the userId as a prop
 }: {
   pubId: string;
   setShowComments: (show: boolean) => void;
   showComments: boolean;
+  userId: string; // User ID for the reaction
 }) {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const shareMenuRef = useRef<HTMLDivElement>(null);
+  const [reactionError, setReactionError] = useState<string | null>(null);
+  const [reactionSuccess, setReactionSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -70,11 +75,44 @@ export default function PublicationActions({
     setShowShareMenu(false);
   };
 
+  const handleReaction = async (reactionType: string) => {
+    if (!userId) {
+      setReactionError("Identifiant utilisateur non disponible");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/publications/react?publicationId=${pubId}`,
+        {
+          utilisateurId: userId,
+          type: reactionType,
+        }
+      );
+
+      // Handle success response
+      setReactionSuccess(true);
+      setReactionError(null);
+      console.log("Reaction success:", response.data);
+    } catch (error) {
+      console.error("Error submitting reaction:", error);
+      setReactionError(
+        axios.isAxiosError(error)
+          ? error.response?.data?.message || "Erreur lors de la réaction"
+          : "Une erreur est survenue"
+      );
+      setReactionSuccess(false);
+    }
+  };
+
   return (
     <div className="relative px-3 md:px-4 md:py-3 py-2 border-t border-gray-100 flex items-center space-x-3 md:space-x-6">
       <div className="flex items-center space-x-3 md:space-x-6">
         {/* Happy Reaction */}
-        <button className="flex items-center space-x-1 md:space-x-2 group">
+        <button
+          className="flex items-center space-x-1 md:space-x-2 group"
+          onClick={() => handleReaction("happy")}
+        >
           <div className="relative w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform">
             <Image
               src="/smiley.svg"
@@ -89,7 +127,10 @@ export default function PublicationActions({
         </button>
 
         {/* Sad Reaction */}
-        <button className="flex items-center space-x-1 md:space-x-2 group">
+        <button
+          className="flex items-center space-x-1 md:space-x-2 group"
+          onClick={() => handleReaction("sad")}
+        >
           <div className="relative w-5 h-5 md:w-6 md:h-6 group-hover:scale-110 transition-transform">
             <Image src="/sad.svg" alt="sad" fill className="object-contain" />
           </div>
@@ -186,6 +227,14 @@ export default function PublicationActions({
           )}
         </div>
       </div>
+
+      {/* Reaction Feedback */}
+      {reactionError && (
+        <div className="text-red-500 text-sm mt-2">{reactionError}</div>
+      )}
+      {reactionSuccess && (
+        <div className="text-green-500 text-sm mt-2">Réaction enregistrée!</div>
+      )}
     </div>
   );
 }
