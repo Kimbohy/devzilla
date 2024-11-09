@@ -150,27 +150,41 @@
 
 - **input**
 
-```js
+```json
 {
     "utilisateurId": "672b60cccebbedded25fcd77",
     "type": "projet",
     "contenu": "first pub",
     "images": ["aa", "bb"],
     "videos": ["cc","dd"],
-    "domainesId": "672b60cccebbedded25fcd77"
+    "nomDomaine": "math"
 }
 ```
 
 - **output**
 
-``` js
+``` json
 {
-    "utilisateurId": "672b60cccebbedded25fcd77",
-    "type": "projet",
-    "contenu": "first pub",
-    "images": ["aa", "bb"],
-    "videos": ["cc","dd"],
-    "domainesId": "672b60cccebbedded25fcd77"
+    "success": true,
+    "message": "Publication réussie",
+    "data": {
+        "utilisateurId": "672b60cccebbedded25fcd77",
+        "type": "projet",
+        "contenu": "first pub",
+        "images": [
+            "aa",
+            "bb"
+        ],
+        "videos": [
+            "cc",
+            "dd"
+        ],
+        "domainesId": "672ede12fa4511c7cb3737eb",
+        "reactions": [],
+        "commentaires": [],
+        "date": "2024-11-09T08:03:46.631Z",
+        "_id": "672f176223ba6833056927ee"
+    }
 }
 ```
 

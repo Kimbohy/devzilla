@@ -13,7 +13,11 @@ export async function createDomain(req, res) {
             data: domain
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
@@ -35,7 +39,11 @@ export async function getDomainByName(req, res, url) {
             data: domain
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message

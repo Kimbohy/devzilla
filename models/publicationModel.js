@@ -3,13 +3,19 @@ import {getCollection} from '../tools/function.js'
 import {publicationError} from '../tools/error.js'
 
 export async function create(publicationData) {
+    const domainCollection = await getCollection('Domaines')
+    const domaine = await domainCollection.findOne({nom: publicationData.nomDomaine.toLowerCase()});
+    if (!domaine) {
+        throw new publicationError(404,'Domaine not found');
+    }
+
     const newPublication = {
         utilisateurId: new ObjectId(publicationData.utilisateurId),
         type: publicationData.type,
         contenu: publicationData.contenu,
         images: [],
         videos: [],
-        domainesId: new ObjectId(publicationData.domainesId),
+        domainesId: new ObjectId(domaine._id),
         reactions: [],
         commentaires: [],
         date: new Date()
@@ -52,6 +58,12 @@ export async function react(publicationId, reaction) {
     
     await collection.updateOne({_id: new ObjectId(publicationId)}, { $push: { reactions: newReaction } })
     return await collection.findOne({_id: new ObjectId(publicationId)})
+}
+
+export async function getPubByDomainName(domaineName) {
+    const collection = await getCollection('Domaines')
+    const domaine = await collection.findOne({ nom: domaineName.toLowerCase() })
+    return await getOneDomainePub(domaine._id)
 }
 
 export async function getOnePub(publicationId) {

@@ -16,7 +16,11 @@ export async function createUser(req, res) {
             data: user
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
@@ -37,7 +41,11 @@ export async function authenticateUser(req, res) {
             data: user
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
@@ -59,7 +67,11 @@ export async function updateUser(req, res, url) {
             data: user
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
@@ -79,7 +91,11 @@ export async function getOneUser(req, res, url) {
             data: user
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
@@ -100,7 +116,11 @@ export async function getUserByEmail(req, res, url) {
             data: user
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message

@@ -1,5 +1,6 @@
 import {json} from 'node:stream/consumers'
-import {create, comment, react, getOnePub, getAllPub, getOneDomainePub} from '../models/publicationModel.js';
+import {CustomError} from '../tools/error.js'
+import {create, comment, react, getOnePub, getAllPub, getOneDomainePub, getPubByDomainName} from '../models/publicationModel.js';
 
 export async function createPublication(req, res) {
     try {
@@ -13,7 +14,11 @@ export async function createPublication(req, res) {
             data: publication
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
@@ -35,7 +40,11 @@ export async function commentPublication(req, res, url) {
             data: publication
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
@@ -57,13 +66,41 @@ export async function reactPublication(req, res, url) {
             data: publication
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message
         }))
     }
     res.end()
+}
+
+export async function getPublicationByDomainName(req, res, url) {
+    try {
+        const domainName = url.searchParams.get('domainName');
+        const publications = await getPubByDomainName(domainName);
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.write(JSON.stringify({
+            success: true,
+            message: 'Publications trouvées',
+            data: publications
+        }));
+    } catch (error) {
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
+        res.write(JSON.stringify({
+            success: false,
+            message: error.message
+        }))
+    }
+    res.end();
 }
 
 // vaovao
@@ -103,7 +140,11 @@ export async function getOneDomainePublication(req, res, url) {
             data: publication
         }))
     } catch (error) {
-        res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
             success: false,
             message: error.message

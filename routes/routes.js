@@ -1,5 +1,5 @@
 import {createUser, authenticateUser, updateUser, getOneUser, getUserByEmail} from '../controllers/userController.js'
-import {createPublication, commentPublication, reactPublication, getOneDomainePublication} from '../controllers/publicationController.js'
+import {createPublication, commentPublication, reactPublication, getOneDomainePublication, getPublicationByDomainName} from '../controllers/publicationController.js'
 import {askMatch} from '../controllers/matchController.js'
 import {createDomain, getDomainByName} from '../controllers/domainController.js'
 
@@ -29,7 +29,11 @@ export async function publicationRoute(req, res, url) {
     } else if (url.pathname === '/publications/react' && req.method === 'POST') {
         await reactPublication(req, res, url)
     } else if (url.pathname === '/publications' && req.method === 'GET') {
-        await getOneDomainePublication(req, res, url)
+        if (url.searchParams.get('domainId')) {
+            await getOneDomainePublication(req, res, url)
+        } else if (url.searchParams.get('domainName')) {
+            await getPublicationByDomainName(req, res, url)
+        }
     } else {
         res.end()
     }

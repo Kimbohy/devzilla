@@ -8,9 +8,14 @@ export async function askMatch(req, res) {
         const result = await ask(data)
         res.write(JSON.stringify(result))
     } catch (err) {
+        if (error instanceof CustomError) {
+            res.writeHead(error.statusCode, {'Content-Type': 'application/json'})
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+        }
         res.write(JSON.stringify({
-            status: false,
-            message: err.message
+            success: false,
+            message: error.message
         }))
     }
     res.end()

@@ -1,7 +1,13 @@
-export class matchError extends Error {
+export class CustomError extends Error {
     constructor(statusCode, message) {
-        super(message);
-        this.statusCode = statusCode;
+        super(message)
+        this.statusCode = statusCode
+    }
+}
+
+export class matchError extends CustomError {
+    constructor(statusCode, message) {
+        super(statusCode, message)
     }
 
     static duplicateRequestError() {
@@ -22,10 +28,9 @@ export class matchError extends Error {
 }
 
 // creer classe error pour les erreurs au niveau de l'incription
-export class userError extends Error {
+export class userError extends CustomError {
     constructor(statusCode, message) {
-        super(message);
-        this.statusCode = statusCode;
+        super(statusCode, message)
     }
 
     static duplicateEmailError() {
@@ -47,10 +52,9 @@ export class userError extends Error {
 
 // creer classe error pour les erreurs au niveau des publications
 
-export class publicationError extends Error {
+export class publicationError extends CustomError {
     constructor(statusCode, message) {
-        super(message);
-        this.statusCode = statusCode;
+        super(statusCode, message);
     }
 
     static publicationNotFoundError() {
@@ -66,10 +70,9 @@ export class publicationError extends Error {
     }
 }
 
-export class domainError extends Error {
+export class domainError extends CustomError {
     constructor (statusCode, message) {
-        super (message)
-        this.statusCode = statusCode
+        super(statusCode, message)
     }
 
     static duplicateDomainError() {
