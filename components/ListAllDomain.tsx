@@ -1,13 +1,48 @@
+"use client";
+import { useEffect, useState } from "react"; // Import useEffect and useState
 import Link from "next/link"; // Import Link from next/link
 import Domain from "@/components/Domain";
+import axios from "axios"; // Import axios for making HTTP requests
 
 const ListAllDomain = () => {
-  const domains = [
-    { name: "Musique", icon: "/domain/musique.svg" },
-    { name: "Mathematiques", icon: "/domain/mathematiques.svg" },
-    { name: "Chant", icon: "/domain/chant.svg" },
-    { name: "Poésie", icon: "/domain/poesie.svg" },
-  ];
+  interface DomainType {
+    name: string;
+    icon: string;
+  }
+
+  const [domains, setDomains] = useState<DomainType[]>([]); // State to hold the domains
+  const [loading, setLoading] = useState(true); // State to manage loading state
+  const [error, setError] = useState<string | null>(null); // State to manage error state
+
+  useEffect(() => {
+    const fetchDomains = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/domaine"); // Fetch domains from the endpoint
+        setDomains(response.data); // Set the fetched domains to state
+      } catch {
+        setError("Failed to fetch domains"); // Set error if the request fails
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchDomains(); // Call the fetch function
+  }, []); // Empty dependency array to run once on component mount
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading state
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>; // Show error message
+  }
+
+  // const domains = [
+  //   { name: "Musique", icon: "/domain/musique.svg" },
+  //   { name: "Mathematiques", icon: "/domain/mathematiques.svg" },
+  //   { name: "Chant", icon: "/domain/chant.svg" },
+  //   { name: "Poésie", icon: "/domain/poesie.svg" },
+  // ];
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
