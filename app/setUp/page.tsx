@@ -17,6 +17,7 @@ const Page = () => {
   const { data: session } = useSession();
   const router = useRouter(); // Initialize the router
   const userId = session?.id; // Get user ID from session
+  console.log(session?.user?.email);
 
   useEffect(() => {
     const fetchDomains = async () => {

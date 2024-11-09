@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import axios from "axios";
 
 declare module "next-auth" {
   interface Session {
@@ -106,8 +107,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/users?userEmail=${session?.user?.email}`
+        );
+        session.user.id = response.data.id; // Set the fetched email to session
+      } catch (error) {
+        console.error("Failed to fetch user email:", error); // Log error if the request fails
+      }
+
       if (token) {
-        session.user.id = token.id as string; // Set the user ID in the session
+        // session.user.id = token.id as string; // Set the user ID in the session
         if (token.exp) {
           session.expires = new Date(token.exp * 1000).toISOString(); // Set session expiration
         }

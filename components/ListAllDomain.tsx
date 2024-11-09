@@ -6,8 +6,9 @@ import axios from "axios"; // Import axios for making HTTP requests
 
 const ListAllDomain = () => {
   interface DomainType {
-    name: string;
-    icon: string;
+    _id: string; // Add the ID field for each domain
+    nom: string; // Domain name
+    description: string; // Domain description (if needed)
   }
 
   const [domains, setDomains] = useState<DomainType[]>([]); // State to hold the domains
@@ -17,8 +18,13 @@ const ListAllDomain = () => {
   useEffect(() => {
     const fetchDomains = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/domaine"); // Fetch domains from the endpoint
-        setDomains(response.data); // Set the fetched domains to state
+        const response = await axios.get("http://localhost:8080/domains"); // Fetch domains from the endpoint
+        if (response.data.success) {
+          // Check if the response indicates success
+          setDomains(response.data.data); // Set the fetched domains to state
+        } else {
+          setError("Failed to fetch domains"); // Handle case where success is false
+        }
       } catch {
         setError("Failed to fetch domains"); // Set error if the request fails
       } finally {
@@ -37,24 +43,22 @@ const ListAllDomain = () => {
     return <div className="text-red-500">{error}</div>; // Show error message
   }
 
-  // const domains = [
-  //   { name: "Musique", icon: "/domain/musique.svg" },
-  //   { name: "Mathematiques", icon: "/domain/mathematiques.svg" },
-  //   { name: "Chant", icon: "/domain/chant.svg" },
-  //   { name: "Poésie", icon: "/domain/poesie.svg" },
-  // ];
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
       {domains.map((domain) => (
         <Link
-          key={domain.name}
-          href={`/domaine/${domain.name.toLowerCase()}`} // Set the href to redirect to the appropriate domain
+          key={domain._id} // Use the unique ID as the key
+          href={`/domaine/${domain.nom.toLowerCase()}`} // Set the href to redirect to the appropriate domain
           className="bg-white rounded-lg shadow-md p-4 transition-transform duration-200 hover:shadow-lg hover:scale-105 flex items-center justify-center"
         >
           <div className="flex flex-col justify-center items-center">
-            <Domain name={domain.name} icon={domain.icon} isOnSideBar={false} />
-            <span className="text-base mt-2 text-gray-700">{domain.name}</span>
+            <Domain
+              name={domain.nom}
+              icon={`/domain/${domain.nom.toLowerCase()}.svg`}
+              isOnSideBar={false}
+            />{" "}
+            {/* Assuming the icon path */}
+            <span className="text-base mt-2 text-gray-700">{domain.nom}</span>
           </div>
         </Link>
       ))}
