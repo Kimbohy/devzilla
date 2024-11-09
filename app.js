@@ -15,6 +15,7 @@ const server = createServer(async (req, res) => {
     }
 
     const url = new URL(req.url, `http://${req.headers.host}`)
+
     if (url.pathname.startsWith('/user')) {
         await userRoute(req, res, url)
     } else if (url.pathname.startsWith('/publication')) {
