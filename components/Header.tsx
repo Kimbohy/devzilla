@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import logo from "../public/talent.png";
 
 const Header = () => {
   return (
     <div className="w-screen flex justify-center items-center">
       <div className="flex md:justify-between w-full md:px-20 md:items-center">
         <Image
-          src={logo}
+          src="/logo2.svg"
           alt="logo"
           width={120}
           height={120}

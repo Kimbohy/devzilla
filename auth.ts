@@ -120,6 +120,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (token) {
         // session.user.id = token.id as string; // Set the user ID in the session
+        // if (token.exp) {
+        //   session.expires = new Date(token.exp * 1000).toISOString(); // Set session expiration
+        // }
+        // expire on 2025-12-31
       }
       return session;
     },
