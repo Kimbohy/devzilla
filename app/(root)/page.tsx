@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react"; // Import useEffect for side effects
+import { useEffect, useState } from "react"; // Import useEffect for side effects
 import Publication, { PublicationProps } from "@/components/Publication";
 import DomainQuickAccess from "../../components/DomainQuickAccess";
 import TrendingTopics from "../../components/TrendingTopics";
 import MentorsRecommended from "@/components/MentorsRecommended";
 import QuickActionSection from "@/components/QuickActionSection";
 import { redirect } from "next/navigation";
+import { fetchAllDomaines, fetchPublication } from "../utils";
 
 interface Mentor {
   id: string;
@@ -34,6 +35,7 @@ const mentors: Mentor[] = [
 ];
 
 // Fake data for publications
+/*
 const publications: PublicationProps[] = [
   {
     data: {
@@ -81,17 +83,48 @@ const publications: PublicationProps[] = [
     },
   },
 ];
+*/
+
+interface Domaine {
+  _id: string;
+  nom: string;
+  description: string;
+}
+
+interface FetchDomainesResponse {
+  success: boolean;
+  message: string;
+  data: Domaine[];
+}
 
 export default function Home() {
   // const isFirstLogin = localStorage.getItem("firstLogin") === "true"; // Check if it's the first login
   const isFirstLogin = false;
 
+  const [publications, setPublications] = useState<PublicationProps[]>([]); // Initialize publications state
+  const [domaines, setDomaines] = useState<string[]>([]); // Initialize domaines state
+
+  const fetchDomaines = async () => {
+    const _domaines: FetchDomainesResponse = await fetchAllDomaines(); // Fetch domaines
+    setDomaines(_domaines.data.map((domaine: Domaine) => domaine.nom));
+  };
+
   useEffect(() => {
     if (isFirstLogin) {
       redirect("/setUp"); // Redirect to setup if it's the first login
     }
-  }, [isFirstLogin]); // Add isFirstLogin and router to dependency array
-
+    fetchDomaines(); // Fetch domaines
+    if (domaines.length > 0) {
+      for (const domaine of domaines) {
+        fetchPublication(domaine).then((publications) => {
+          setPublications((prevPublications) => [
+            ...prevPublications,
+            ...publications,
+          ]);
+        });
+      }
+    }
+  }, [domaines, isFirstLogin]); // Add isFirstLogin and router to dependency array
   return (
     <div className="container mx-auto px-4 py-1 h-[calc(100vh-64px)] overflow-y-auto">
       <div className="grid md:grid-cols-3 gap-6 h-full">
@@ -101,6 +134,11 @@ export default function Home() {
             {publications.map((publication) => (
               <Publication key={publication.data.id} pub={publication} />
             ))}
+            {publications.length === 0 && (
+              <div className="text-center text-gray-500 py-10">
+                Aucune publication trouvée
+              </div>
+            )}
           </div>
         </div>
 

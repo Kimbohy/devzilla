@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import RightSideFeatures from "@/components/RightSideFeatures";
 import { FaFilter } from "react-icons/fa";
+import { fetchPublication } from "@/app/utils";
 
 // Publication types matching the ones in the publier page
 const publicationTypes = [
@@ -117,10 +118,8 @@ export default function Page() {
         },
       ];
       */
-      const response = await fetch(
-        `http://localhost:8080/publications/${decodedDomaineName}`
-      );
-      const _publications = await response.json();
+
+      const _publications = await fetchPublication(decodedDomaineName);
 
       setPublications(_publications);
       setFilteredPublications(_publications);
