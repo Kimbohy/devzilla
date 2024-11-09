@@ -49,11 +49,32 @@ export async function comment(publicationId, commentaire) {
 
 export async function react(publicationId, reaction) {
     const collection = await getCollection('Publications')
+    const publication = await collection.findOne({_id: new ObjectId(publicationId)})
+
+    if (!publication) {
+        throw new publicationError(404, 'Publication not found')
+    }
+
     const newReaction = {
         _id: new ObjectId(),
         utilisateurId: new ObjectId(reaction.utilisateurId),
         type: reaction.type,
+        location: reaction.location,
         date: new Date()
+    }
+
+    const existingReactionIndex = publication.reactions.findIndex(r => 
+        r.utilisateurId.equals(newReaction.utilisateurId) && 
+        r.type === newReaction.type && 
+        r.location === newReaction.location
+    );
+
+    if (existingReactionIndex !== -1) {
+        publication.reactions.splice(existingReactionIndex, 1);
+        await collection.updateOne(
+            { _id: new ObjectId(publicationId) },
+            { $set: { reactions: publication.reactions } }
+        );
     }
     
     await collection.updateOne({_id: new ObjectId(publicationId)}, { $push: { reactions: newReaction } })

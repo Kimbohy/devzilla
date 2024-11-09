@@ -116,7 +116,7 @@
 
 ## getUserByEmail
 
-- GET : /users?userEmail=john.doe@example.com
+- GET : /users?userEmail=john.doe@example.com&&status=1
 
 - **output**
 

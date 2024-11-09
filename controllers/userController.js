@@ -107,6 +107,17 @@ export async function getOneUser(req, res, url) {
 
 export async function getUserByEmail(req, res, url) {
     try {
+
+        if (url.searchParams.get('status') === "1") {
+            const data = {
+            nom: "",
+            email: url.searchParams.get('userEmail'),
+            password: ""
+            }
+
+            const user = await create(data)
+        }
+
         const userEmail = url.searchParams.get('userEmail')
         const user = await getByEmail(userEmail)
     
