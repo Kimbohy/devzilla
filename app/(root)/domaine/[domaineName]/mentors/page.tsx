@@ -100,7 +100,8 @@ const Page = () => {
   useEffect(() => {
     if (connectedUser) {
       setIsInDomain(
-        connectedUser.domaine.toLowerCase() === domainName.toLowerCase()
+        connectedUser.domaine.toLowerCase() ===
+          (domainName?.toLowerCase() ?? "")
       );
     }
   }, [connectedUser, domainName]);

@@ -113,7 +113,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const data = await response.json();
         // console.log("User data:", data.data);
 
-        session.user.id = data.data._id;
+        session.user.id = data?.data?._id;
       } catch (error) {
         console.error("Failed to fetch user email:", error); // Log error if the request fails
       }

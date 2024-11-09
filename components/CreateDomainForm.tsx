@@ -85,6 +85,8 @@ export default function CreateDomainForm() {
         }
       );
 
+      console.log("Domain proposal response:", response.data);
+
       setSuccess(true);
 
       // Reset form

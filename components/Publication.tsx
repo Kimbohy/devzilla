@@ -34,6 +34,7 @@ export default function Publication({ pub }: { pub: PublicationProps }) {
       {pub.data.image && <PublicationImage image={pub.data.image} />}
       <PublicationActions
         pubId={pub.data.id}
+        userId={pub.data.user.id}
         setShowComments={setShowComments}
         showComments={showComments}
       />

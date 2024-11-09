@@ -72,7 +72,7 @@ export default function Publier() {
       });
 
       // Placeholder for videos (if needed in the future)
-      const videos = []; // Add logic to populate this if required
+      const videos: File[] = []; // Add logic to populate this if required
       videos.forEach((video) => {
         formData.append("videos", video);
       });
