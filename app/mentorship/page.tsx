@@ -14,9 +14,11 @@ export default function MentorshipPage() {
   return (
     <div className="bg-white">
       {/* Logo Section */}
-      <div className="flex justify-center py-8">
-        <Image src="/logo2.svg" alt="Logo" width={150} height={150} />
-      </div>
+      <Link href="/LandingPage">
+        <div className="flex justify-center py-8">
+          <Image src="/logo2.svg" alt="Logo" width={150} height={150} />
+        </div>
+      </Link>
 
       {/* Hero Section */}
       <motion.div
