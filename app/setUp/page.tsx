@@ -16,7 +16,7 @@ const Page = () => {
   const [error, setError] = useState<string | null>(null); // State to manage error state
   const { data: session } = useSession();
   const router = useRouter(); // Initialize the router
-  const userId = session?.id; // Get user ID from session
+  const userId = "25"; // Get user ID from session
   console.log(session?.user?.email);
 
   useEffect(() => {
