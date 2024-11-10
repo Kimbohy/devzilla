@@ -1,3 +1,4 @@
+import { toCapitalize } from "@/app/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -38,7 +39,7 @@ export default function DomainQuickAccess() {
         {domains.map((domain) => (
           <Link
             key={domain.name}
-            href={`/domaine/${domain.name.toLowerCase()}`}
+            href={`/domaine/${toCapitalize(domain.name)}`}
             className="flex items-center space-x-3 hover:bg-gray-50 p-2 rounded-lg transition-colors"
           >
             <Image src={domain.icon} alt={domain.name} width={40} height={40} />
