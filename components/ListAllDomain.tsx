@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"; // Import useEffect and useState
 import Link from "next/link"; // Import Link from next/link
 import Domain from "@/components/Domain";
-import axios from "axios"; // Import axios for making HTTP requests
+// import axios from "axios"; // Import axios for making HTTP requests
 
 const ListAllDomain = () => {
   interface DomainType {
@@ -11,12 +11,39 @@ const ListAllDomain = () => {
     description: string; // Domain description (if needed)
   }
 
+  const domain: DomainType[] = [
+    {
+      nom: "Musique",
+      _id: "/domain/musique.svg",
+      description:
+        "La musique est l'art de combiner les sons de manière harmonieuse.",
+    },
+    {
+      nom: "Mathematiques",
+      _id: "/domain/mathematiques.svg",
+      description:
+        "Les mathématiques sont une science qui étudie les nombres, les figures et les structures.",
+    },
+    {
+      nom: "Chant",
+      _id: "/domain/chant.svg",
+      description: "Le chant est l'art de produire des sons avec la voix.",
+    },
+    {
+      nom: "Poésie",
+      _id: "/domain/poesie.svg",
+      description:
+        "La poésie est un genre littéraire qui utilise des mots pour exprimer des émotions et des idées.",
+    },
+  ] as const;
+
   const [domains, setDomains] = useState<DomainType[]>([]); // State to hold the domains
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [error, setError] = useState<string | null>(null); // State to manage error state
 
   useEffect(() => {
     const fetchDomains = async () => {
+      /*
       try {
         const response = await axios.get(
           "https://ta-lenta.onrender.com/domains"
@@ -32,6 +59,10 @@ const ListAllDomain = () => {
       } finally {
         setLoading(false); // Set loading to false after fetching
       }
+        */
+      setDomains(domain);
+      setLoading(false);
+      setError(null);
     };
 
     fetchDomains(); // Call the fetch function
@@ -56,7 +87,9 @@ const ListAllDomain = () => {
           <div className="flex flex-col justify-center items-center">
             <Domain
               name={domain.nom}
-              icon={`/domain/${domain.nom.toLowerCase()}.svg`}
+              icon={`/domain/${
+                domain.nom !== "Poésie" ? domain.nom.toLowerCase() : "poesie"
+              }.svg`}
               isOnSideBar={false}
             />{" "}
             {/* Assuming the icon path */}

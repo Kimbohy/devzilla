@@ -29,6 +29,7 @@ interface PublicationProps {
       avatar: string;
     };
     createdAt: string;
+    domain: string;
   };
 }
 
@@ -49,7 +50,7 @@ interface UpcomingEvent {
 export default function Page() {
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
 
-  const params = useParams();
+  const params: { domaineName?: string | string[] } = useParams();
   const [publications, setPublications] = useState<PublicationProps[]>([]);
   const [filteredPublications, setFilteredPublications] = useState<
     PublicationProps[]
@@ -70,6 +71,7 @@ export default function Page() {
 
   useEffect(() => {
     // Fetch publications
+
     const fetchPublications = async () => {
       const _publications = await fetchPublication(decodedDomaineName);
 
@@ -88,21 +90,21 @@ export default function Page() {
       // Simulated data - replace with actual API calls
       setTopContributors([
         {
-          id: "1",
-          name: "Kimbohy Marisika",
-          avatar: "/avatar.svg",
+          id: "2",
+          name: "Meriam",
+          avatar: "/avatar3.jpeg",
           publicationCount: 15,
         },
         {
-          id: "2",
-          name: "Jean Dupont",
-          avatar: "/avatar.svg",
+          id: "5",
+          name: "Mamisoa R.",
+          avatar: "/avatar5.jpeg",
           publicationCount: 10,
         },
         {
-          id: "3",
-          name: "Marie Dubois",
-          avatar: "/avatar.svg",
+          id: "6",
+          name: "Fara Malala",
+          avatar: "/avatar6.jpeg",
           publicationCount: 8,
         },
       ]);
@@ -128,7 +130,6 @@ export default function Page() {
         "Entrepreneuriat",
       ]);
     };
-
     fetchPublications();
     fetchAdditionalData();
   }, [decodedDomaineName]);

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link"; // Import Link from Next.js
-import { useEffect, useState } from "react";
-import axios from "axios"; // Import axios for making API requests
+// import { useState } from "react";
+// import axios from "axios"; // Import axios for making API requests
 
 export default function PublicationHeader({
   user: initialUser,
@@ -12,11 +12,13 @@ export default function PublicationHeader({
   createdAt: string;
   type: string;
 }) {
+  const user = initialUser;
+  /*
   const [user, setUser] = useState(initialUser); // State to hold user information
   const [loading, setLoading] = useState(true); // State to manage loading status
   const [error, setError] = useState<string | null>(null); // State to manage errors
-
   useEffect(() => {
+    
     const fetchUser = async () => {
       try {
         const response = await axios.get(
@@ -35,14 +37,14 @@ export default function PublicationHeader({
 
     fetchUser(); // Call the fetch function
   }, [user.id]); // Dependency array includes user.id
-
   if (loading) {
     return <div>Loading user information...</div>; // Loading state
   }
-
+  
   if (error) {
     return <div className="text-red-500">{error}</div>; // Error state
   }
+  */
 
   return (
     <div className="p-3 md:p-4 flex items-center space-x-3 md:space-x-4">

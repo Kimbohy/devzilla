@@ -21,24 +21,24 @@ interface MentorProps {
 const mentorlistes: MentorProps[] = [
   {
     data: {
-      id: "1",
+      id: "0",
       type: "mentor",
       user: {
-        id: "2",
-        name: "Hary",
-        avatar: "/avatar.svg",
+        id: "5",
+        name: "Mamisoa R.",
+        avatar: "/avatar5.jpeg",
         domaine: "Musique", // Updated domaine
       },
     },
   },
   {
     data: {
-      id: "3",
+      id: "1",
       type: "mentor",
       user: {
-        id: "6",
-        name: "Hey",
-        avatar: "/avatar.svg",
+        id: "1",
+        name: "Kimbohy Marisika",
+        avatar: "/avatar1.jpeg",
         domaine: "Poésie", // Updated domaine
       },
     },
@@ -48,21 +48,21 @@ const mentorlistes: MentorProps[] = [
       id: "2",
       type: "user",
       user: {
-        id: "4",
-        name: "Poter",
-        avatar: "/avatar.svg",
-        domaine: "Poésie", // Updated domaine
+        id: "2",
+        name: "Meriam",
+        avatar: "/avatar2.jpeg",
+        domaine: "Musique", // Updated domaine
       },
     },
   },
   {
     data: {
-      id: "4",
+      id: "3",
       type: "mentor",
       user: {
-        id: "5",
-        name: "Alice",
-        avatar: "/avatar.svg",
+        id: "3",
+        name: "Marie Claire",
+        avatar: "/avatar3.jpeg",
         domaine: "Poésie", // Updated domaine
       },
     },
