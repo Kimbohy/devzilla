@@ -62,7 +62,7 @@ const SingIn = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
-          placeholder="Enter your email"
+          placeholder="Entrer votre email"
         />
       </div>
 
@@ -71,7 +71,7 @@ const SingIn = () => {
           htmlFor="password"
           className="block text-sm font-medium text-gray-700 mb-2"
         >
-          Password
+          Mot de passe
         </label>
         <input
           type="password"
@@ -80,13 +80,13 @@ const SingIn = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
-          placeholder="Enter your password"
+          placeholder="Entrer votre mot de passe"
         />
       </div>
 
       <div className="flex items-center justify-between">
         <span className="text-sm text-primary hover:underline">
-          Forgot Password?
+          Mot de passe oublié ?
         </span>
       </div>
 
@@ -94,7 +94,7 @@ const SingIn = () => {
         type="submit"
         className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark transition-colors"
       >
-        Sign In
+        Se connecter
       </button>
     </motion.form>
   );

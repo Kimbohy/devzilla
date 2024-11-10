@@ -6,7 +6,7 @@ import Image from "next/image";
 const AuthButtons = () => {
   return (
     <div className="flex flex-col items-center gap-3">
-      <span>Sign in with</span>
+      <span>Continuer avec</span>
       <div className="flex justify-center gap-5">
         <form action={() => signInWithProvider("github")}>
           <button

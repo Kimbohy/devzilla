@@ -32,7 +32,7 @@ const SessionClient = ({ session }: { session: Session | null }) => {
             className="mx-auto mb-4"
           />
           <h2 className="text-2xl font-bold text-primary">
-            Welcome to Talent Platform
+            Bienvenue sur la plateforme <br /> Ta Lenta
           </h2>
         </div>
 
@@ -43,7 +43,7 @@ const SessionClient = ({ session }: { session: Session | null }) => {
               !page ? "text-primary font-semibold" : "text-gray-500"
             }`}
           >
-            Sign In
+            Se connecter
             {!page && (
               <motion.div
                 layoutId="tab-underline"
@@ -57,7 +57,7 @@ const SessionClient = ({ session }: { session: Session | null }) => {
               page ? "text-primary font-semibold" : "text-gray-500"
             }`}
           >
-            Sign Up
+            S&apos;inscrire
             {page && (
               <motion.div
                 layoutId="tab-underline"
@@ -76,7 +76,7 @@ const SessionClient = ({ session }: { session: Session | null }) => {
         <div className="px-6 pb-6">
           <div className="flex items-center my-4">
             <div className="flex-grow border-t border-gray-300"></div>
-            <span className="mx-4 text-gray-500">or</span>
+            <span className="mx-4 text-gray-500">ou</span>
             <div className="flex-grow border-t border-gray-300"></div>
           </div>
           <AuthButtons />
