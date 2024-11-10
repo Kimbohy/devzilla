@@ -1,8 +1,11 @@
 // app/(root)/profile/page.tsx
 "use client";
-import ProfileUser from "@/components/ProfileUser";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import ProfileUser from "@/components/ProfileUser"; // Adjust the path as necessary
 
+// Define interfaces for publication and profile data
 interface PublicationProps {
   data: {
     id: string;
@@ -18,9 +21,6 @@ interface PublicationProps {
     domain: string;
   };
 }
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-// import { getUser } from "@/app/utils";
 
 export interface SocialMedia {
   lien: string;
@@ -47,6 +47,7 @@ export interface ProfileProps {
   apprenti: MentorApprenticeRelation[];
 }
 
+// Sample publications data
 const _publications: PublicationProps[] = [
   {
     data: {
@@ -167,124 +168,59 @@ const Page = () => {
   const [user, setUser] = useState<ProfileProps | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const { userId } = useParams() as { userId: string };
-  /*
-  console.log(
-    "userId",
-    `https://ta-lenta.onrender.com/users?user-id=${userId}`
-  );
-  */
 
   const fetchProfile = async () => {
-    /*
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
+      console.log("Session:", session);
+      console.log("User  ID from Params:", userId);
 
-      const response = await fetch(
-        `https://ta-lenta.onrender.com/users?user-id=${userId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      clearTimeout(timeoutId);
-
-      const userData: { success: boolean; data: ProfileProps } =
-        await response.json();
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${userData.success}`);
-      }
-
-      if (!userData || !userData.data._id) {
-        throw new Error("Invalid user data received");
-      }*/
-    /**
-  _id: string;
-  nom: string;
-  email: string;
-  type: string;
-  photoProfil: string;
-  description: string;
-  competence: string[];
-  reseauxSociaux: SocialMedia[];
-  domaines: string[];
-  mentor: MentorApprenticeRelation[];
-  apprenti: MentorApprenticeRelation[];
-       
-       */
-    /*
+      // If there's a session, we can use the session data
       if (session && session.user) {
-        const actualUserId = await getUser(session.user.email || "");
-        if (userData.data.photoProfil === "") {
-          if (userData.data._id === actualUserId) {
-            userData.data.photoProfil = session.user.image || "";
-          } else {
-            userData.data.photoProfil = "/avatar.png";
-          }
+        const currentUserEmail = session.user.email;
+
+        // Find the user in the publications data
+        const userFromPublications = _publications.find(
+          (publication) => publication.data.user.id === userId
+        );
+
+        if (userFromPublications) {
+          setUser({
+            _id: userFromPublications.data.user.id,
+            nom: userFromPublications.data.user.name,
+            email: currentUserEmail || "",
+            type: "User ", // You can customize this based on your logic
+            photoProfil: userFromPublications.data.user.avatar || "/avatar.png",
+            description:
+              "Je suis un jeune artiste qui cherche à améliorer ses compétences",
+            competence: ["Chant", "Musique"],
+            reseauxSociaux: [
+              { lien: "https://facebook.com", nom: "Facebook" },
+              { lien: "https://twitter.com", nom: "Twitter" },
+            ],
+            domaines: ["Chant", "Musique"],
+            mentor: [],
+            apprenti: [],
+          });
+        } else {
+          console.log("No user found in publications for userId:", userId);
+          setUser(null); // No user found
         }
+      } else {
+        console.error("User  session not found");
+        setError(new Error("User  session not found"));
       }
-      setUser(userData.data);
     } catch (err) {
       console.error("Profile fetch error:", err);
       setError(
         err instanceof Error ? err : new Error("An unexpected error occurred")
       );
     }
-    */
-    if (userId === "15") {
-      const user = {} as ProfileProps;
-      user._id = "15";
-      user.nom = session?.user?.name || "";
-      user.email = session?.user?.email || "";
-      user.type = "Apprenti";
-      user.photoProfil = session?.user?.image || "";
-      user.description = "";
-      user.competence = [];
-      user.reseauxSociaux = [];
-      user.domaines = ["Chant", "Musique"];
-    } else {
-      // get the user info based on the _publications data
-      const user = _publications.find(
-        (publication) => publication.data.user.id === userId
-      );
-      if (user) {
-        setUser({
-          _id: user.data.user.id,
-          nom: user.data.user.name,
-          email: "",
-          type: "",
-          photoProfil: user.data.user.avatar,
-          description:
-            "Je suis un jeune artiste qui cherche à améliorer ses compétences",
-          competence: ["Chant", "Musique"],
-          reseauxSociaux: [
-            {
-              lien: "https://facebook.com",
-              nom: "Facebook",
-            },
-            {
-              lien: "https://twitter.com",
-              nom: "Twitter",
-            },
-          ],
-          domaines: ["Chant", "Musique"],
-          mentor: [],
-          apprenti: [],
-        });
-      } else {
-        setUser(null);
-      }
-    }
   };
+
   useEffect(() => {
-    if (session) {
-      fetchProfile();
-      setError(null);
-    }
-  }, []);
+    fetchProfile();
+    // No need to setError here, it's handled in fetchProfile
+  }, [session, userId]); // Added dependencies to useEffect
 
   if (error) {
     return (
@@ -295,7 +231,7 @@ const Page = () => {
         >
           <div className="flex items-center">
             <svg
-              className="w-6 h-6 mr-4"
+              className="w- 6 h-6 mr-4"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -337,7 +273,10 @@ const Page = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <ProfileUser profile={user} connectedUserId={session?.user?.id || ""} />
+      <ProfileUser
+        profile={user}
+        connectedUseName={session?.user?.name || ""}
+      />
     </div>
   );
 };

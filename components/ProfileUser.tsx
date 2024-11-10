@@ -8,10 +8,10 @@ import { ProfileProps } from "@/app/(root)/profile/[userId]/page";
 
 interface ProfileUserProps {
   profile: ProfileProps;
-  connectedUserId: string; // Add connectedUserId prop
+  connectedUseName: string; // Add connectedUseName prop
 }
 
-const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
+const ProfileUser = ({ profile, connectedUseName }: ProfileUserProps) => {
   // console.log(profile);
 
   const socialMediaIcons: { [key: string]: string } = {
@@ -77,7 +77,7 @@ const ProfileUser = ({ profile, connectedUserId }: ProfileUserProps) => {
 
         {/* Profile Actions */}
         <div className="flex justify-center space-x-4 p-4 bg-gray-50">
-          {profile._id === connectedUserId && (
+          {profile.nom === connectedUseName && (
             <Link href="/editProfile" className="w-full max-w-xs">
               <button className="flex items-center justify-center w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors space-x-2">
                 <FaEdit className="w-5 h-5" />
