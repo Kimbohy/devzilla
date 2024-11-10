@@ -116,7 +116,7 @@ export default function LandingPage() {
       {/* Features Section */}
       <section id="features" className="container mx-auto px-4 py-16 md:py-24">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text -gray-900 mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Pourquoi Ta Lenta ?
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -151,8 +151,42 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Domains Section */}
+      {/* Mentorship Program Section */}
       <section className="bg-gray-50 py-16 md:py-24">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+          <div className="md:w-1/2 mb-8 md:mb-0 text-center md:text-left">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Programme de Mentorat
+            </h2>
+            <p className="text-xl text-gray-600 mb-6">
+              Rejoignez notre programme de mentorat pour bénéficier de
+              l&apos;accompagnement de professionnels expérimentés. Que vous
+              soyez débutant ou que vous souhaitiez perfectionner vos
+              compétences, nos mentors sont là pour vous guider.
+            </p>
+            <Link href="/mentorship">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="bg-primary text-white px-8 py-3 rounded-lg shadow-lg hover:bg-primary-dark transition-colors text-lg font-semibold"
+              >
+                En savoir plus sur le mentorat
+              </motion.button>
+            </Link>
+          </div>
+          <div className="md:w-1/2 flex justify-center">
+            <Image
+              src="/mentorship-illustration.svg" // Remplacez par le chemin de votre illustration
+              alt="Illustration du programme de mentorat"
+              width={500}
+              height={500}
+              className="object-contain" // Assurez-vous que l'image s'adapte bien
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Domains Section */}
+      <section className="bg-white py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
