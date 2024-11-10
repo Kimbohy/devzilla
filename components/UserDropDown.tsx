@@ -75,7 +75,7 @@ export default function UserDropDown({ session }: { session: Session }) {
             </div>
             <div className="py-1">
               <Link
-                href={`/profile/${session.user?.id}`}
+                href={`/profile/15`}
                 className="group flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               >
                 <svg

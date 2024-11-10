@@ -62,7 +62,7 @@ export default function Publier() {
     try {
       // Prepare form data
       const formData = new FormData();
-      formData.append("utilisateurId", userId); // Add user ID to form data
+      formData.append("utilisateurId", "25"); // Add user ID to form data
       formData.append("type", selectedType);
       formData.append("contenu", content);
       formData.append("nomDomaine", domaineName);
