@@ -5,6 +5,11 @@ import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
 
+const sectionVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export default function MentorshipPage() {
   return (
     <div className="bg-white">
@@ -14,7 +19,13 @@ export default function MentorshipPage() {
       </div>
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 py-16">
+      <motion.div
+        className="relative bg-gradient-to-br from-primary/10 to-primary/5 py-16"
+        initial="hidden"
+        animate="visible"
+        variants={sectionVariants}
+        transition={{ duration: 0.5 }}
+      >
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight mb-4">
             Développez Votre Talent
@@ -32,85 +43,119 @@ export default function MentorshipPage() {
             </motion.button>
           </Link>
         </div>
-      </div>
+      </motion.div>
 
       {/* Benefits Section */}
-      <section className="container mx-auto px-4 py-16">
+      <motion.section
+        className="container mx-auto px-4 py-16"
+        initial="hidden"
+        animate="visible"
+        variants={sectionVariants}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
         <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">
-          Pourquoi Développer Votre Talent ?
+          Comment Développer Votre Talent ?
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-            <Image
-              src="/icon-experience.svg" // Remplacez par votre icône
-              alt="Experience"
-              width={100}
-              height={100}
-              className="mx-auto mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">Expérience</h3>
-            <p className="text-gray-600">
-              Apprenez des experts qui vous aideront à développer vos
-              compétences.
-            </p>
-          </div>
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-            <Image
-              src="/icon-guidance.svg" // Remplacez par votre icône
-              alt="Guidance"
-              width={100}
-              height={100}
-              className="mx-auto mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">Accompagnement</h3>
-            <p className="text-gray-600">
-              Recevez des conseils personnalisés pour maximiser votre potentiel.
-            </p>
-          </div>
-          <div className="bg-gray-100 p-6 rounded-lg shadow-md text-center">
-            <Image
-              src="/icon-network.svg" // Remplacez par votre icône
-              alt="Networking"
-              width={100}
-              height={100}
-              className="mx-auto mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">Réseautage</h3>
-            <p className="text-gray-600">
-              Connectez-vous avec d&apos;autres talents et élargissez votre
-              réseau.
-            </p>
-          </div>
+          {[
+            {
+              icon: "/icon-experience.svg",
+              title: "Expérience",
+              description:
+                "Apprenez des experts qui vous aideront à développer vos compétences.",
+            },
+            {
+              icon: "/icon-guidance.svg",
+              title: "Accompagnement",
+              description:
+                "Recevez des conseils personnalisés pour maximiser votre potentiel.",
+            },
+            {
+              icon: "/icon-network.svg",
+              title: "Réseautage",
+              description:
+                "Connectez-vous avec d'autres talents et élargissez votre réseau.",
+            },
+          ].map((benefit, index) => (
+            <motion.div
+              key={index}
+              className="bg-gray-100 p-6 rounded-lg shadow-md text-center"
+              initial="hidden"
+              animate="visible"
+              variants={sectionVariants}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+            >
+              <Image
+                src={benefit.icon}
+                alt={benefit.title}
+                width={100}
+                height={100}
+                className="mx-auto mb-4"
+              />
+              <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
+              <p className="text-gray-600">{benefit.description}</p>
+            </motion.div>
+          ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* Testimonials Section */}
-      <section className="bg-gray-50 py-16">
+      <motion.section
+        className="bg-gray-50 py-16"
+        initial="hidden"
+        animate="visible"
+        variants={sectionVariants}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-8">
             Ce que nos mentees disent
           </h2>
           <div className="flex flex-col items-center">
             <div className="flex flex-col mb-6">
-              <blockquote className="italic text-gray-600 mb-4">
+              <motion.blockquote
+                className="italic text-gray-600 mb-4"
+                initial="hidden"
+                animate="visible"
+                variants={sectionVariants}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
                 &quot;Le programme de mentorat m&apos;a permis de découvrir et
                 de développer mes talents cachés.&quot;
-              </blockquote>
-              <blockquote className="italic text-gray-600">
+              </motion.blockquote>
+              <motion.blockquote
+                className="italic text-gray-600"
+                initial="hidden"
+                animate="visible"
+                variants={sectionVariants}
+                transition={{ duration: 0.5, delay: 0.8 }}
+              >
                 &quot;Avec le soutien de mon mentor, j&apos;ai pu transformer
                 mes compétences en véritables atouts.&quot;
-              </blockquote>
+              </motion.blockquote>
             </div>
-            <blockquote className="italic text-gray-600">
+            <motion.blockquote
+              className="italic text-gray-600"
+              initial="hidden"
+              animate="visible"
+              variants={sectionVariants}
+              transition={{ duration: 0.5, delay: 1 }}
+            >
               &quot;Ce programme m&apos;a aidé à réaliser mon potentiel et à me
               lancer dans ma carrière.&quot;
-            </blockquote>
+            </motion.blockquote>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Call to Action */}
-      <section className="bg-primary text-white py-16 text-center">
+      <motion.section
+        className="bg-primary text-white py-16 text-center"
+        initial="hidden"
+        animate="visible"
+        variants={sectionVariants}
+        transition={{ duration: 0.5, delay: 1.2 }}
+      >
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold mb-4">
             Prêt à développer votre talent ?
@@ -128,7 +173,7 @@ export default function MentorshipPage() {
             </motion.button>
           </Link>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
