@@ -201,6 +201,25 @@ const Page = () => {
             mentor: [],
             apprenti: [],
           });
+        } else if (decodeURI(userId) === session.user.name) {
+          // If the user is the same as the current user, we can use the session data
+          setUser({
+            _id: userId,
+            nom: session.user.name || "",
+            email: currentUserEmail || "",
+            type: "User ", // You can customize this based on your logic
+            photoProfil: session.user.image || "/avatar.png",
+            description:
+              "Je suis un jeune artiste qui cherche à améliorer ses compétences",
+            competence: [],
+            reseauxSociaux: [
+              { lien: "https://facebook.com", nom: "Facebook" },
+              { lien: "https://twitter.com", nom: "Twitter" },
+            ],
+            domaines: [],
+            mentor: [],
+            apprenti: [],
+          });
         } else {
           console.log("No user found in publications for userId:", userId);
           setUser(null); // No user found
