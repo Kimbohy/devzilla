@@ -4,9 +4,12 @@ import { FaArrowLeft, FaSave, FaPlus, FaTimes, FaCamera } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 
 const EditProfileUser = () => {
   const { data: session } = useSession();
+  const path = usePathname();
+  console.log(path);
 
   const [formData, setFormData] = useState({
     nom: "",
@@ -26,6 +29,7 @@ const EditProfileUser = () => {
   useEffect(() => {
     const fetchData = async () => {
       // Simulated fetch for user data
+      /*
       const fakeData = {
         nom: session?.user?.name || "John Doe",
         photoProfil: session?.user?.image || "/avatar.png",
@@ -40,10 +44,10 @@ const EditProfileUser = () => {
         ],
         domaines: ["Musique", "Chant"],
       };
+      */
 
-      /*
       const response = await fetch(
-        `http://localhost:3000/users?user-id=${session?.user?.id}`
+        `https://ta-lenta.onrender.com/users?userEmail=${session?.user?.email}&status=1`
       );
       const userData = await response.json();
       if (userData.success === true) {
@@ -52,21 +56,20 @@ const EditProfileUser = () => {
       } else {
         console.log("Error fetching user data");
       }
-        */
 
       setFormData((prev) => ({
         ...prev,
-        nom: fakeData.nom,
-        description: fakeData.description,
-        competence: fakeData.competence,
-        reseauxSociaux: fakeData.reseauxSociaux,
-        domaines: fakeData.domaines,
+        nom: formData.nom,
+        description: formData.description,
+        competence: formData.competence,
+        reseauxSociaux: formData.reseauxSociaux,
+        domaines: formData.domaines,
       }));
-      setImagePreview(fakeData.photoProfil);
+      setImagePreview(formData.photoProfil);
     };
 
     fetchData();
-  }, [session]);
+  }, [formData, session]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

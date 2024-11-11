@@ -78,7 +78,10 @@ const ProfileUser = ({ profile, connectedUseName }: ProfileUserProps) => {
         {/* Profile Actions */}
         <div className="flex justify-center space-x-4 p-4 bg-gray-50">
           {profile.nom === connectedUseName && (
-            <Link href="/editProfile" className="w-full max-w-xs">
+            <Link
+              href={`/profile/${profile._id}/edit`}
+              className="w-full max-w-xs"
+            >
               <button className="flex items-center justify-center w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors space-x-2">
                 <FaEdit className="w-5 h-5" />
                 <span className="hidden md:block">Edit Profile</span>
