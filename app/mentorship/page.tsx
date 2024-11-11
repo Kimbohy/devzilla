@@ -111,7 +111,7 @@ export default function MentorshipPage() {
       >
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-8">
-            Ce que nos mentees disent
+            Ce que nos talents disent
           </h2>
           <div className="flex flex-col items-center">
             <div className="flex flex-col mb-6">
