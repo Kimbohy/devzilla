@@ -171,8 +171,8 @@ const Page = () => {
 
   const fetchProfile = async () => {
     try {
-      console.log("Session:", session);
-      console.log("User  ID from Params:", userId);
+      // console.log("Session:", session);
+      // console.log("User  ID from Params:", userId);
 
       // If there's a session, we can use the session data
       if (session && session.user) {

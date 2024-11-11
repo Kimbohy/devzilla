@@ -9,7 +9,8 @@ import { usePathname } from "next/navigation";
 const EditProfileUser = () => {
   const { data: session } = useSession();
   const path = usePathname();
-  console.log(path);
+  const prevPath = path.split("/").slice(0, -1).join("/") || "/";
+  // console.log("path ", prevPath);
 
   const [formData, setFormData] = useState({
     nom: "",
@@ -185,7 +186,7 @@ const EditProfileUser = () => {
         {/* Header */}
         <div className="bg-gradient-to-r from-primary/10 to-primary/20 p-6 flex items-center justify-between">
           <div className="flex items-center">
-            <Link href="/profile" className="mr-4">
+            <Link href={prevPath} className="mr-4">
               <FaArrowLeft className="text-2xl text-gray-700 hover:text-primary transition-colors" />
             </Link>
             <h1 className="text-2xl font-bold text-gray-800">
